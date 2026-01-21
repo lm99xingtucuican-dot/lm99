@@ -7,45 +7,167 @@
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
-      background: #f7f7f7;
+      background: #f5f5f5;
       margin: 0;
       padding: 0;
     }
-    .container {
-      max-width: 800px;
-      margin: 80px auto;
-      background: white;
-      padding: 40px;
-      border-radius: 10px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+
+    .layout {
+      max-width: 1100px;
+      margin: 60px auto;
+      display: flex;
+      gap: 30px;
+      padding: 0 20px;
     }
-    h1 {
-      text-align: center;
+
+    /* 左侧目录 */
+    .sidebar {
+      width: 220px;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+      height: fit-content;
     }
-    p {
-      line-height: 1.8;
+
+    .sidebar h2 {
       font-size: 16px;
+      margin-top: 0;
+      margin-bottom: 15px;
     }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .sidebar li {
+      margin-bottom: 10px;
+    }
+
+    .sidebar a {
+      text-decoration: none;
+      color: #333;
+      font-size: 14px;
+    }
+
+    .sidebar a:hover {
+      color: #888;
+    }
+
+    /* 右侧内容 */
+    .container {
+      flex: 1;
+      background: #fff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+
+    .date {
+      color: #999;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      margin-top: 0;
+    }
+
+    .content {
+      line-height: 1.9;
+      font-size: 16px;
+      white-space: pre-line;
+    }
+
+    .divider {
+      margin: 40px 0;
+      border-top: 1px dashed #ddd;
+    }
+
     footer {
       text-align: center;
-      color: #888;
+      color: #aaa;
+      font-size: 13px;
       margin-top: 40px;
-      font-size: 14px;
+    }
+
+    /* 手机适配 */
+    @media (max-width: 768px) {
+      .layout {
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>一觉醒来是清晨</h1>
-    <p>
-      你好，我是YSLNS
-      这是我为了橹穆做的网站。  
-      以后会在这里记录他们带给我们以及我的生活激励。
-    </p >
 
-    <footer>
-      © 2026 LM99
-    </footer>
+  <div class="layout">
+
+    <!-- 左侧日期目录 -->
+    <aside class="sidebar">
+      <h2>日记目录</h2>
+      <ul>
+        <li><a href=" ">2026-01-21</a ></li>
+        <li><a href="#">2026-01-20</a ></li>
+        <li><a href="#">2026-01-19</a ></li>
+      </ul>
+    </aside>
+
+    <!-- 右侧日记内容 -->
+    <main class="container">
+      <div class="date">2026-01-21</div>
+      <h1>一觉醒来是清晨（星途璀璨版）</h1>
+
+      <div class="content">
+       <p> 大家好，我是YSLNS</p >
+
+       <p> 这是我为了橹穆做的一个同好们分享的网站。</p >
+
+       <p> 想给喜欢的事物留一个安静的角落。</p >
+
+       <p> 这里会慢慢记录下他们带给我们以及我的感动、陪伴，生活激励，</p >
+
+       <p> 以及那些让我们继续向前的小小光亮。</p >
+
+       <p> 愿幸福降临在我们每一个人的手心🖤</p >
+
+
+
+      </div>
+
+      <div class="divider"></div>
+      <!-- 留言区 -->
+<section class="comments">
+  <h2>留言</h2>
+
+  <!-- giscus -->
+<script src="https://giscus.app/client.js"
+        data-repo="lm99xingtucuican-dot/lm99"
+        data-repo-id="R_kgDOQ995bw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOQ995b84C1OC7"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>  
+</section>
+      <footer>
+        © 2026 LM99
+      </footer>
+    </main>
+
   </div>
+
 </body>
 </html>
