@@ -40,6 +40,16 @@
       gap: 30px;
       padding: 0 20px;
     }
+.sidebar-comment {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px dashed #ddd;
+}
+
+.sidebar-comment h2 {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
 
     /* 🩵🩷 左侧目录 */
     .sidebar {
@@ -166,9 +176,14 @@
 
   <!-- 🩵🩷 左侧目录 -->
   <aside class="sidebar">
-    <h2>日记目录</h2>
-    <div id="diary-menu"></div>
-  </aside>
+  <h2>日记目录</h2>
+  <div id="diary-menu"></div>
+
+  <div class="sidebar-comment">
+    <h2>留言</h2>
+    <div id="comment-form-placeholder"></div>
+  </div>
+</aside>
 
   <!-- 🩵🩷 正文 -->
   <main class="container">
@@ -259,6 +274,29 @@
     menu.appendChild(div);
   });
 </script>
+<script>
+  function moveCusdisForm() {
+    const observer = new MutationObserver(() => {
+      const cusdis = document.querySelector('#comments iframe');
+      if (!cusdis) return;
 
+      const iframeDoc = cusdis.contentDocument || cusdis.contentWindow.document;
+      if (!iframeDoc) return;
+
+      const form = iframeDoc.querySelector('form');
+      if (!form) return;
+
+      const placeholder = document.getElementById('comment-form-placeholder');
+      if (!placeholder || placeholder.children.length > 0) return;
+
+      placeholder.appendChild(form);
+      observer.disconnect();
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
+
+  moveCusdisForm();
+</script>
 </body>
 </html>
