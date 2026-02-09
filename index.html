@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8" />
-<title>Happy Everyday</title>
+<title>🩵🩷 LM星途璀璨 🩷🩵</title>
 
 <!-- 你原来的 style，原样保留 -->
 <style>
@@ -112,282 +112,118 @@ footer { text-align: center; font-size: 13px; color: #aaa; }
 
 <div class="layout">
 
-  <!-- 左侧目录 -->
-  <aside class="sidebar">
-    <h2>📅 日记目录</h2>
-    <div id="toc"></div>
+ <!-- 左侧 -->
+<div class="left">
 
-    <div class="sidebar-comment">
-      <h2>💙 幸福时刻</h2>
-      <p>记录生活中的微光。</p >
-    </div>
-  </aside>
+  <!-- 公示板 -->
+  <div class="block">
+    <h3>🩵🩷一切的开始🩷🩵</h3>
+    <p>
+      大家好，我是 YSLNS。<br>
+      这是一个为喜欢而留下的角落。<br>
+      在这里希望可以慢慢记录，<br>
+      记录他们带给我们以及我的感动、陪伴，生活激励，<br>
+      以及那些让我们继续向前的小小光亮。<br>
+      愿幸福降临在我们每一个人的手心。
+    </p >
+  </div>
 
-  <!-- 右侧正文 -->
-  <main class="container">
+  <!-- NEW -->
+  <div class="block">
+    <h3>🩵🩷NEW🩷🩵</h3>
+    <p>站点更新与通知。</p >
+    <a href=" ">璀璨之路 →</a >
+  </div>
 
-    <!-- ✅ 首页原文：你现在写好的内容，全部放这里 -->
-    <div id="static-entry">
-      <!-- ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ -->
-      <!-- <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<title>🩵🩷 星途璀璨 🩵🩷</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 幸福时刻 -->
+  <div class="block">
+    <h3>🩵🩷幸福时刻</h3>
+    <p>
+      祝你们星途璀璨，<br>
+      也祝愿幸福降临我们的手心
+    </p >
+    <a href="happiness.html">前往幸福 →</a >
+  </div>
 
-<style>
-@font-face {
-  font-family: "Smiley Sans";
-  src: url("https://cdn.jsdelivr.net/gh/atelier-anchor/smiley-sans@latest/SmileySans-Oblique.otf")
-       format("opentype");
-}
-
-* { box-sizing: border-box; }
-
-body {
-  font-family: "Smiley Sans",-apple-system,BlinkMacSystemFont,
-               "PingFang SC","Microsoft YaHei",sans-serif;
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(135deg,#4ab7cc 0%,#f2b3c6 100%);
-  min-height: 100vh;
-}
-
-/* 布局 */
-.layout {
-  max-width: 1100px;
-  margin: 60px auto;
-  padding: 0 20px;
-  display: flex;
-  gap: 28px;
-}
-
-/* 左侧卡片 */
-.sidebar {
-  width: 240px;
-  background: #fff;
-  border-radius: 18px;
-  padding: 22px;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.15);
-}
-
-.sidebar h2 {
-  font-size: 15px;
-  margin: 0 0 14px;
-  color: #333;
-}
-
-/* 目录 */
-.month-title {
-  font-size: 13px;
-  color: #666;
-  cursor: pointer;
-  margin: 6px 0;
-}
-
-.month ul {
-  list-style: none;
-  padding-left: 12px;
-  margin: 6px 0 10px;
-  display: none;
-}
-
-.month.open ul { display: block; }
-
-.month li { margin: 6px 0; }
-
-.month a {
-  text-decoration: none;
-  font-size: 13px;
-  color: #999;
-}
-
-.month a.active {
-  color: #4ab7cc;
-  font-weight: 600;
-}
-
-/* 幸福卡片 */
-.sidebar-comment {
-  margin-top: 26px;
-  padding: 16px;
-  border-radius: 14px;
-  background: linear-gradient(
-    135deg,
-    rgba(74,183,204,0.18),
-    rgba(242,179,198,0.18)
-  );
-}
-
-.sidebar-comment h2 {
-  font-size: 14px;
-  margin: 0 0 8px;
-}
-
-.sidebar-comment p {
-  font-size: 13px;
-  color: #555;
-  line-height: 1.7;
-}
-
-.sidebar-comment a {
-  font-size: 13px;
-  color: #4ab7cc;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-/* 右侧正文卡片 */
-.container {
-  flex: 1;
-  background: #fff;
-  border-radius: 20px;
-  padding: 42px;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.18);
-}
-
-.date {
-  font-size: 13px;
-  color: #aaa;
-  margin-bottom: 10px;
-}
-
-h1 {
-  font-size: 28px;
-  text-align: center;
-  margin: 0 0 26px;
-  background: linear-gradient(90deg,#4ab7cc,#f2b3c6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.content {
-  font-size: 16px;
-  line-height: 2;
-  color: #333;
-}
-
-.divider {
-  margin: 40px 0;
-  border-top: 1px dashed #e0e0e0;
-}
-
-footer {
-  text-align: center;
-  font-size: 13px;
-  color: #aaa;
-  margin-top: 40px;
-}
-
-/* 手机 */
-@media (max-width: 768px) {
-  .layout { flex-direction: column; }
-  .sidebar { width: 100%; }
-}
-</style>
-</head>
-
-<body>
-
-<div class="layout">
-
-  <!-- 左侧 -->
-  <aside class="sidebar">
-    <h2>🩵🩷 穆橹</h2>
-    <div id="diary-menu"></div>
-
-    <div class="sidebar-comment">
-      <h2>🩵🩷 幸福时刻</h2>
-      <p>
-        祝你们星途璀璨，<br>
-        也祝愿幸福降临我们的手心
-      </p >
-      <a href=" ">前往幸福 →</a >
-    </div>
-  </aside>
-
-  <!-- 右侧正文 -->
-  <main class="container">
-    <div class="date">2026-01-21</div>
-    <h1>🩵🩷 一觉醒来是清晨 🩵🩷</h1>
-
-    <div class="content">
-      <p>
-        大家好，我是 YSLNS。<br>
-        这是一个为喜欢而留下的角落。<br>
-        在这里希望可以慢慢记录，<br>
-        记录他们带给我们以及我的感动、陪伴、生活激励，<br>
-        以及那些让我们继续向前的小小光亮。<br>
-        愿幸福降临在我们每一个人的手心。
-      </p >
-    </div>
-
-    <div class="divider"></div>
-
-    <!-- 留言 -->
-    <section id="comments">
-      <div id="cusdis_thread"
-        data-host="https://cusdis.com"
-        data-app-id="6bd954b7-e2b4-4206-a1c3-3072cecfc326"
-        data-page-id="index"
-        data-page-title="一觉醒来是清晨"
-        data-theme="light">
-      </div>
-      <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
-    </section>
-
-    <footer>© 2026 LUMU</footer>
-  </main>
+  <!-- 自动目录 -->
+  <div class="block">
+    <h3>🩵🩷穆橹🩷🩵</h3>
+    <div id="auto-directory"></div>
+  </div>
 
 </div>
 
-<!-- 自动目录（读取 diary.json） -->
+<!-- 右侧内容 -->
+<div class="right">
+  <div class="notice">
+    <div class="notice-date">2026-02-09</div>
+    <div class="notice-title">🩵🩷 一觉醒来是清晨 🩷🩵</div>
+    <p>让我们一起成长，一起进步
+    记录每一个幸福时刻🩵🩷每一段璀璨星光
+</p >
+  </div>
+</div>
+
+</div>
+
+
+<!-- ================== 自动生成目录 JS ================== -->
 <script>
 fetch("diary.json")
-  .then(r => r.json())
-  .then(data => {
-    const menu = document.getElementById("diary-menu");
-    const current = location.pathname.split("/").pop() || "index.html";
-    const grouped = {};
+  .then(res => res.json())
+  .then(list => {
+    const container = document.getElementById("auto-directory");
+    const tree = {};
 
-    data.forEach(d => {
-      const m = d.date.slice(0,7);
-      (grouped[m] = grouped[m] || []).push(d);
+    list.forEach(d => {
+      const [y,m,day] = d.split("-");
+      tree[y] ??= {};
+      tree[y][m] ??= [];
+      tree[y][m].push(day);
     });
 
-    Object.keys(grouped).reverse().forEach(m => {
-      const div = document.createElement("div");
-      div.className = "month";
+    Object.keys(tree).sort().reverse().forEach(y=>{
+      const year = document.createElement("div");
+      year.className = "year";
+      year.textContent = y;
+      year.onclick = ()=>year.classList.toggle("open");
 
-      const title = document.createElement("div");
-      title.className = "month-title";
-      title.textContent = m;
-      title.onclick = () => div.classList.toggle("open");
+      const months = document.createElement("div");
+      months.className = "month";
 
-      const ul = document.createElement("ul");
-      grouped[m].forEach(d => {
-        const li = document.createElement("li");
-        const a = document.createElement("a");
-        a.href = d.file;
-        a.textContent = d.date.slice(8);
-        if (d.file === current) {
-          a.classList.add("active");
-          div.classList.add("open");
-        }
-        li.appendChild(a);
-        ul.appendChild(li);
+      Object.keys(tree[y]).sort().reverse().forEach(m=>{
+        const month = document.createElement("div");
+        month.className = "month-title";
+        month.textContent = m;
+        month.onclick = e=>{
+          e.stopPropagation();
+          month.classList.toggle("open");
+        };
+
+        const days = document.createElement("div");
+        days.className = "day";
+
+        tree[y][m].sort((a,b)=>b-a).forEach(d=>{
+          const aTag = document.createElement("a");
+          aTag.href = `diary/${y}/${m}/${y}-${m}-${d}.html`;
+          aTag.textContent = d;
+          const div = document.createElement("div");
+          div.appendChild(aTag);
+          days.appendChild(div);
+        });
+
+        month.appendChild(days);
+        months.appendChild(month);
       });
 
-      div.appendChild(title);
-      div.appendChild(ul);
-      menu.appendChild(div);
+      year.appendChild(months);
+      container.appendChild(year);
     });
   });
 </script>
 
 </body>
-</html -->
+</html> -->
       <!-- 不要改字，不要删标签 -->
       <!-- ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ -->
     </div>
