@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<title>🩵🩷 LM星途璀璨 🩷🩵</title>
+<title>🩵🩷 星途璀璨 🩵🩷</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -12,9 +12,7 @@
        format("opentype");
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   font-family: "Smiley Sans",-apple-system,BlinkMacSystemFont,
@@ -25,7 +23,7 @@ body {
   min-height: 100vh;
 }
 
-/* 整体布局 */
+/* 布局 */
 .layout {
   max-width: 1100px;
   margin: 60px auto;
@@ -64,13 +62,9 @@ body {
   display: none;
 }
 
-.month.open ul {
-  display: block;
-}
+.month.open ul { display: block; }
 
-.month li {
-  margin: 6px 0;
-}
+.month li { margin: 6px 0; }
 
 .month a {
   text-decoration: none;
@@ -83,7 +77,7 @@ body {
   font-weight: 600;
 }
 
-/* 左侧幸福卡片 */
+/* 幸福卡片 */
 .sidebar-comment {
   margin-top: 26px;
   padding: 16px;
@@ -122,14 +116,12 @@ body {
   box-shadow: 0 12px 40px rgba(0,0,0,0.18);
 }
 
-/* 日期 */
 .date {
   font-size: 13px;
   color: #aaa;
   margin-bottom: 10px;
 }
 
-/* 标题 */
 h1 {
   font-size: 28px;
   text-align: center;
@@ -139,14 +131,12 @@ h1 {
   -webkit-text-fill-color: transparent;
 }
 
-/* 正文 */
 .content {
   font-size: 16px;
   line-height: 2;
   color: #333;
 }
 
-/* 分割线 */
 .divider {
   margin: 40px 0;
   border-top: 1px dashed #e0e0e0;
@@ -161,132 +151,109 @@ footer {
 
 /* 手机 */
 @media (max-width: 768px) {
-  .layout {
-    flex-direction: column;
-  }
-  .sidebar {
-    width: 100%;
-  }
+  .layout { flex-direction: column; }
+  .sidebar { width: 100%; }
 }
 </style>
 </head>
 
 <body>
 
-<div class="wrapper">
+<div class="layout">
 
-<!-- 左侧 -->
-<div class="left">
+  <!-- 左侧 -->
+  <aside class="sidebar">
+    <h2>🩵🩷 穆橹</h2>
+    <div id="diary-menu"></div>
 
-  <!-- 公示板 -->
-  <div class="block">
-    <h3>🩵🩷一切的开始🩷🩵</h3>
-    <p>
-      大家好，我是 YSLNS。<br>
-      这是一个为喜欢而留下的角落。<br>
-      在这里希望可以慢慢记录，<br>
-      记录他们带给我们以及我的感动、陪伴，生活激励，<br>
-      以及那些让我们继续向前的小小光亮。<br>
-      愿幸福降临在我们每一个人的手心。
-    </p >
-  </div>
+    <div class="sidebar-comment">
+      <h2>🩵🩷 幸福时刻</h2>
+      <p>
+        祝你们星途璀璨，<br>
+        也祝愿幸福降临我们的手心
+      </p >
+      <a href=" ">前往幸福 →</a >
+    </div>
+  </aside>
 
-  <!-- NEW -->
-  <div class="block">
-    <h3>🩵🩷NEW🩷🩵</h3>
-    <p>站点更新与通知。</p >
-    <a href=" ">璀璨之路 →</a >
-  </div>
+  <!-- 右侧正文 -->
+  <main class="container">
+    <div class="date">2026-01-21</div>
+    <h1>🩵🩷 一觉醒来是清晨 🩵🩷</h1>
 
-  <!-- 幸福时刻 -->
-  <div class="block">
-    <h3>🩵🩷幸福时刻</h3>
-    <p>
-      祝你们星途璀璨，<br>
-      也祝愿幸福降临我们的手心
-    </p >
-    <a href="happiness.html">前往幸福 →</a >
-  </div>
+    <div class="content">
+      <p>
+        大家好，我是 YSLNS。<br>
+        这是一个为喜欢而留下的角落。<br>
+        在这里希望可以慢慢记录，<br>
+        记录他们带给我们以及我的感动、陪伴、生活激励，<br>
+        以及那些让我们继续向前的小小光亮。<br>
+        愿幸福降临在我们每一个人的手心。
+      </p >
+    </div>
 
-  <!-- 自动目录 -->
-  <div class="block">
-    <h3>🩵🩷穆橹🩷🩵</h3>
-    <div id="auto-directory"></div>
-  </div>
+    <div class="divider"></div>
 
-</div>
+    <!-- 留言 -->
+    <section id="comments">
+      <div id="cusdis_thread"
+        data-host="https://cusdis.com"
+        data-app-id="6bd954b7-e2b4-4206-a1c3-3072cecfc326"
+        data-page-id="index"
+        data-page-title="一觉醒来是清晨"
+        data-theme="light">
+      </div>
+      <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
+    </section>
 
-<!-- 右侧内容 -->
-<div class="right">
-  <div class="notice">
-    <div class="notice-date">2026-02-09</div>
-    <div class="notice-title">🩵🩷 一觉醒来是清晨 🩷🩵</div>
-    <p>让我们一起成长，一起进步
-    记录每一个幸福时刻🩵🩷每一段璀璨星光
-</p >
-  </div>
-</div>
+    <footer>© 2026 LUMU</footer>
+  </main>
 
 </div>
 
-<!-- ================== 自动生成目录 JS ================== -->
+<!-- 自动目录（读取 diary.json） -->
 <script>
 fetch("diary.json")
-  .then(res => res.json())
+  .then(r => r.json())
   .then(data => {
     const menu = document.getElementById("diary-menu");
+    const current = location.pathname.split("/").pop() || "index.html";
+    const grouped = {};
 
-    const tree = {};
     data.forEach(d => {
-      if (!tree[d.year]) tree[d.year] = {};
-      if (!tree[d.year][d.month]) tree[d.year][d.month] = [];
-      tree[d.year][d.month].push(d);
+      const m = d.date.slice(0,7);
+      (grouped[m] = grouped[m] || []).push(d);
     });
 
-    Object.keys(tree).sort((a,b)=>b-a).forEach(year => {
-      const yDiv = document.createElement("div");
-      yDiv.className = "month";
+    Object.keys(grouped).reverse().forEach(m => {
+      const div = document.createElement("div");
+      div.className = "month";
 
-      const yTitle = document.createElement("div");
-      yTitle.className = "month-title";
-      yTitle.textContent = year + " 年";
-      yTitle.onclick = () => yDiv.classList.toggle("open");
+      const title = document.createElement("div");
+      title.className = "month-title";
+      title.textContent = m;
+      title.onclick = () => div.classList.toggle("open");
 
-      yDiv.appendChild(yTitle);
-
-      Object.keys(tree[year]).sort((a,b)=>b-a).forEach(month => {
-        const mDiv = document.createElement("div");
-        mDiv.style.marginLeft = "10px";
-
-        const mTitle = document.createElement("div");
-        mTitle.className = "month-title";
-        mTitle.textContent = month + " 月";
-        mTitle.onclick = () => mDiv.classList.toggle("open");
-
-        const ul = document.createElement("ul");
-
-        tree[year][month]
-          .sort((a,b)=>b.day-a.day)
-          .forEach(d => {
-            const li = document.createElement("li");
-            const a = document.createElement("a");
-            a.href = d.file;
-            a.textContent = d.day + " 日";
-            li.appendChild(a);
-            ul.appendChild(li);
-          });
-
-        mDiv.appendChild(mTitle);
-        mDiv.appendChild(ul);
-        yDiv.appendChild(mDiv);
+      const ul = document.createElement("ul");
+      grouped[m].forEach(d => {
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = d.file;
+        a.textContent = d.date.slice(8);
+        if (d.file === current) {
+          a.classList.add("active");
+          div.classList.add("open");
+        }
+        li.appendChild(a);
+        ul.appendChild(li);
       });
 
-      menu.appendChild(yDiv);
+      div.appendChild(title);
+      div.appendChild(ul);
+      menu.appendChild(div);
     });
   });
 </script>
-<footer>© 2026 LUMU</footer>
-
 
 </body>
-</html>
+</html
