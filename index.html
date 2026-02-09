@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8" />
-<title>🩵🩷 星途璀璨 🩷🩵<br>🩵🩷 天天开心🩷🩵</title>
+<title>🩵🩷 星途璀璨 🩷🩵</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -29,6 +29,7 @@ body {
   padding: 0 20px;
   display: flex;
   gap: 28px;
+  align-items: stretch; /* ⭐关键：左右同高 */
 }
 
 /* ===== 左侧 ===== */
@@ -90,6 +91,8 @@ body {
 /* ===== 右侧 ===== */
 .right {
   flex: 1;
+  display: flex;              /* ⭐关键 */
+  flex-direction: column;     /* ⭐纵向排列 */
 }
 
 /* 右侧卡片 */
@@ -99,6 +102,13 @@ body {
   padding: 26px 28px;
   margin-bottom: 26px;
   box-shadow: 0 10px 30px rgba(0,0,0,.12);
+}
+
+/* ⭐让留言板吃掉剩余高度 */
+.notice.message {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .notice-date {
@@ -147,7 +157,7 @@ body {
     <div class="block">
       <h3>🩵🩷NEW🩷🩵</h3>
       <p>站点更新与通知。</p >
-      <a href=" ">璀璨之路 →</a >
+      <a href="">璀璨之路 →</a >
     </div>
 
     <div class="block">
@@ -156,7 +166,7 @@ body {
         祝你们星途璀璨，<br>
         也祝愿幸福降临我们的手心
       </p >
-      <a href="happiness.html">前往幸福 →</a >
+      <a href=" ">前往幸福 →</a >
     </div>
 
     <div class="block">
@@ -169,7 +179,6 @@ body {
   <!-- 右侧 -->
   <div class="right">
 
-    <!-- 日记卡片 -->
     <div class="notice">
       <div class="notice-date">2026-02-09</div>
       <div class="notice-title">🩵🩷 一觉醒来是清晨 🩷🩵</div>
@@ -179,8 +188,8 @@ body {
       </p >
     </div>
 
-    <!-- 留言板卡片 -->
-    <div class="notice">
+    <!-- 留言板 -->
+    <div class="notice message">
       <div class="notice-title">留言板</div>
 
       <div
