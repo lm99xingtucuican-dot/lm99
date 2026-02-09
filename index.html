@@ -11,6 +11,8 @@ body{
   background:#f5f6f8;
   font-family:"PingFang SC","Microsoft YaHei",sans-serif;
 }
+
+/* 整体布局 */
 .wrapper{
   max-width:1200px;
   margin:50px auto;
@@ -27,15 +29,45 @@ body{
   box-shadow:0 10px 30px rgba(0,0,0,.12);
 }
 .block{margin-bottom:28px;}
-.block h3{font-size:15px;margin-bottom:10px;}
-.block p{font-size:13px;line-height:1.8;color:#555;}
-.block a{font-size:13px;color:#4ab7cc;text-decoration:none;}
+.block h3{
+  font-size:15px;
+  margin-bottom:10px;
+}
+.block p{
+  font-size:13px;
+  line-height:1.8;
+  color:#555;
+}
+.block a{
+  font-size:13px;
+  color:#4ab7cc;
+  text-decoration:none;
+}
 
-/* 目录 */
-.year,.month-title{cursor:pointer;font-weight:600;margin-top:8px;}
-.month,.day{display:none;margin-left:12px;}
-.open>.month,.open>.day{display:block;}
-.day a{font-size:13px;color:#666;text-decoration:none;}
+/* 目录样式 */
+.year,
+.month-title{
+  cursor:pointer;
+  margin-top:6px;
+  font-weight:600;
+}
+
+.month,
+.day{
+  display:none;
+  margin-left:12px;
+}
+
+.open > .month,
+.open > .day{
+  display:block;
+}
+
+.day a{
+  font-size:13px;
+  color:#666;
+  text-decoration:none;
+}
 
 /* 右栏 */
 .right{
@@ -49,8 +81,14 @@ body{
   padding:20px 0;
 }
 .notice:last-child{border:none;}
-.notice-date{font-size:12px;color:#999;}
-.notice-title{font-size:16px;margin:6px 0;}
+.notice-date{
+  font-size:12px;
+  color:#999;
+}
+.notice-title{
+  font-size:16px;
+  margin:6px 0;
+}
 </style>
 </head>
 
@@ -87,22 +125,12 @@ body{
     <a href="happiness.html">前往幸福 →</a >
   </div>
 
-  <!-- 目录 -->
+  <!-- 自动目录 -->
   <div class="block">
     <h3>目录（日期索引）</h3>
-
-    <div class="year" onclick="this.classList.toggle('open')">2026
-      <div class="month">
-        <div class="month-title" onclick="this.classList.toggle('open')">01
-          <div class="day">
-            <div><a href="diary/2026/01/2026-01-21.html">21</a ></div>
-            <div><a href="diary/2026/01/2026-01-20.html">20</a ></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
+    <div id="auto-directory"></div>
   </div>
+
 </div>
 
 <!-- 右侧内容 -->
@@ -115,6 +143,61 @@ body{
 </div>
 
 </div>
+
+<!-- ================== 自动生成目录 JS ================== -->
+<script>
+fetch("diary.json")
+  .then(res => res.json())
+  .then(list => {
+    const container = document.getElementById("auto-directory");
+    const tree = {};
+
+    list.forEach(d => {
+      const [y,m,day] = d.split("-");
+      tree[y] ??= {};
+      tree[y][m] ??= [];
+      tree[y][m].push(day);
+    });
+
+    Object.keys(tree).sort().reverse().forEach(y=>{
+      const year = document.createElement("div");
+      year.className = "year";
+      year.textContent = y;
+      year.onclick = ()=>year.classList.toggle("open");
+
+      const months = document.createElement("div");
+      months.className = "month";
+
+      Object.keys(tree[y]).sort().reverse().forEach(m=>{
+        const month = document.createElement("div");
+        month.className = "month-title";
+        month.textContent = m;
+        month.onclick = e=>{
+          e.stopPropagation();
+          month.classList.toggle("open");
+        };
+
+        const days = document.createElement("div");
+        days.className = "day";
+
+        tree[y][m].sort((a,b)=>b-a).forEach(d=>{
+          const aTag = document.createElement("a");
+          aTag.href = `diary/${y}/${m}/${y}-${m}-${d}.html`;
+          aTag.textContent = d;
+          const div = document.createElement("div");
+          div.appendChild(aTag);
+          days.appendChild(div);
+        });
+
+        month.appendChild(days);
+        months.appendChild(month);
+      });
+
+      year.appendChild(months);
+      container.appendChild(year);
+    });
+  });
+</script>
 
 </body>
 </html>
