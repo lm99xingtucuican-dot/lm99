@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <title>🩵🩷 LM星途璀璨 🩷🩵</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- 你原来的 style，原样保留 -->
 <style>
 @font-face {
   font-family: "Smiley Sans";
@@ -18,11 +18,11 @@ body {
   font-family: "Smiley Sans",-apple-system,BlinkMacSystemFont,
                "PingFang SC","Microsoft YaHei",sans-serif;
   margin: 0;
-  padding: 0;
   background: linear-gradient(135deg,#4ab7cc 0%,#f2b3c6 100%);
   min-height: 100vh;
 }
 
+/* ===== 布局 ===== */
 .layout {
   max-width: 1100px;
   margin: 60px auto;
@@ -31,101 +31,23 @@ body {
   gap: 28px;
 }
 
-.sidebar {
-  width: 240px;
-  background: #fff;
-  border-radius: 18px;
-  padding: 22px;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+/* ===== 左侧 ===== */
+.left {
+  width: 260px;
 }
 
-.sidebar h2 {
-  font-size: 15px;
-  margin: 0 0 14px;
-}
-
-.month-title {
-  font-size: 13px;
-  color: #666;
-  cursor: pointer;
-  margin: 6px 0;
-}
-
-.month ul {
-  list-style: none;
-  padding-left: 12px;
-  display: none;
-}
-
-.month.open ul { display: block; }
-
-.month a {
-  font-size: 13px;
-  color: #999;
-  text-decoration: none;
-}
-
-.month a.active {
-  color: #4ab7cc;
-  font-weight: 600;
-}
-
-.sidebar-comment {
-  margin-top: 26px;
-  padding: 16px;
-  border-radius: 14px;
-  background: linear-gradient(
-    135deg,
-    rgba(74,183,204,0.18),
-    rgba(242,179,198,0.18)
-  );
-}
-
-.container {
-  flex: 1;
-  background: #fff;
-  border-radius: 20px;
-  padding: 42px;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.18);
-}
-
-.date { font-size: 13px; color: #aaa; }
-h1 {
-  font-size: 28px;
-  text-align: center;
-  background: linear-gradient(90deg,#4ab7cc,#f2b3c6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.content { font-size: 16px; line-height: 2; }
-.divider { margin: 40px 0; border-top: 1px dashed #e0e0e0; }
-footer { text-align: center; font-size: 13px; color: #aaa; }
-
-@media (max-width:768px){
-  .layout{ flex-direction:column; }
-  .sidebar{ width:100%; }
-}
-/* ================= 小卡片模式 ================= */
-
-/* 左侧每个模块 = 一张卡片 */
+/* 左侧卡片 */
 .block {
   background: #fff;
-  border-radius: 14px;
-  padding: 18px 18px 20px;
+  border-radius: 16px;
+  padding: 18px 20px;
   margin-bottom: 22px;
   box-shadow: 0 8px 24px rgba(0,0,0,.08);
-  transition: transform .2s ease, box-shadow .2s ease;
-}
-
-.block:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(0,0,0,.12);
 }
 
 .block h3 {
   font-size: 14px;
   margin: 0 0 10px;
-  color: #333;
 }
 
 .block p {
@@ -134,41 +56,29 @@ footer { text-align: center; font-size: 13px; color: #aaa; }
   color: #555;
 }
 
-/* 链接更像“按钮感” */
 .block a {
-  display: inline-block;
-  margin-top: 6px;
   font-size: 13px;
   color: #4ab7cc;
   text-decoration: none;
   font-weight: 600;
 }
 
-/* ================= 目录卡片细化 ================= */
-
-#auto-directory .year {
-  margin-top: 10px;
-  padding: 6px 8px;
-  border-radius: 8px;
-}
-
-#auto-directory .year:hover {
-  background: rgba(74,183,204,.08);
-}
+/* 目录 */
+.year { cursor:pointer; margin-top:8px; }
+.month { display:none; margin-left:10px; }
+.year.open .month { display:block; }
 
 .month-title {
   font-size: 13px;
-  color: #666;
-  padding: 4px 8px;
-  border-radius: 6px;
-}
-
-.month-title:hover {
-  background: rgba(242,179,198,.12);
+  cursor: pointer;
+  margin: 6px 0;
 }
 
 .day a {
-  display: inline-block;
+  font-size: 13px;
+  color: #666;
+  text-decoration: none;
+  display:inline-block;
   padding: 3px 8px;
   border-radius: 6px;
 }
@@ -177,19 +87,17 @@ footer { text-align: center; font-size: 13px; color: #aaa; }
   background: rgba(74,183,204,.15);
 }
 
-/* ================= 右侧内容卡片 ================= */
-
+/* ===== 右侧 ===== */
 .right {
-  background: transparent; /* 外层不抢戏 */
-  padding: 0;
-  box-shadow: none;
+  flex: 1;
 }
 
+/* 右侧卡片 */
 .notice {
   background: #fff;
-  border-radius: 16px;
-  padding: 24px 26px;
-  margin-bottom: 22px;
+  border-radius: 18px;
+  padding: 26px 28px;
+  margin-bottom: 26px;
   box-shadow: 0 10px 30px rgba(0,0,0,.12);
 }
 
@@ -199,15 +107,20 @@ footer { text-align: center; font-size: 13px; color: #aaa; }
 }
 
 .notice-title {
-  font-size: 17px;
-  margin: 6px 0 8px;
-  color: #333;
+  font-size: 18px;
+  margin: 6px 0 10px;
 }
 
 .notice p {
   font-size: 14px;
-  line-height: 1.8;
+  line-height: 1.9;
   color: #555;
+}
+
+/* 手机 */
+@media (max-width:768px){
+  .layout{ flex-direction:column; }
+  .left{ width:100%; }
 }
 </style>
 </head>
@@ -216,62 +129,76 @@ footer { text-align: center; font-size: 13px; color: #aaa; }
 
 <div class="layout">
 
- <!-- 左侧 -->
-<div class="left">
+  <!-- 左侧 -->
+  <div class="left">
 
-  <!-- 公示板 -->
-  <div class="block">
-    <h3>🩵🩷一切的开始🩷🩵</h3>
-    <p>
-      大家好，我是 YSLNS。<br>
-      这是一个为喜欢而留下的角落。<br>
-      在这里希望可以慢慢记录，<br>
-      记录他们带给我们以及我的感动、陪伴，生活激励，<br>
-      以及那些让我们继续向前的小小光亮。<br>
-      愿幸福降临在我们每一个人的手心。
-    </p >
+    <div class="block">
+      <h3>🩵🩷一切的开始🩷🩵</h3>
+      <p>
+        大家好，我是 YSLNS。<br>
+        这是一个为喜欢而留下的角落。<br>
+        在这里希望可以慢慢记录，<br>
+        记录他们带给我们以及我的感动、陪伴，生活激励，<br>
+        以及那些让我们继续向前的小小光亮。<br>
+        愿幸福降临在我们每一个人的手心。
+      </p >
+    </div>
+
+    <div class="block">
+      <h3>🩵🩷NEW🩷🩵</h3>
+      <p>站点更新与通知。</p >
+      <a href=" ">璀璨之路 →</a >
+    </div>
+
+    <div class="block">
+      <h3>🩵🩷幸福时刻</h3>
+      <p>
+        祝你们星途璀璨，<br>
+        也祝愿幸福降临我们的手心
+      </p >
+      <a href="happiness.html">前往幸福 →</a >
+    </div>
+
+    <div class="block">
+      <h3>🩵🩷穆橹🩷🩵</h3>
+      <div id="auto-directory"></div>
+    </div>
+
   </div>
 
-  <!-- NEW -->
-  <div class="block">
-    <h3>🩵🩷NEW🩷🩵</h3>
-    <p>站点更新与通知。</p >
-    <a href=" ">璀璨之路 →</a >
-  </div>
+  <!-- 右侧 -->
+  <div class="right">
 
-  <!-- 幸福时刻 -->
-  <div class="block">
-    <h3>🩵🩷幸福时刻</h3>
-    <p>
-      祝你们星途璀璨，<br>
-      也祝愿幸福降临我们的手心
-    </p >
-    <a href="happiness.html">前往幸福 →</a >
-  </div>
+    <!-- 日记卡片 -->
+    <div class="notice">
+      <div class="notice-date">2026-02-09</div>
+      <div class="notice-title">🩵🩷 一觉醒来是清晨 🩷🩵</div>
+      <p>
+        让我们一起成长，一起进步，<br>
+        记录每一个幸福时刻🩵🩷每一段璀璨星光
+      </p >
+    </div>
 
-  <!-- 自动目录 -->
-  <div class="block">
-    <h3>🩵🩷穆橹🩷🩵</h3>
-    <div id="auto-directory"></div>
+    <!-- 留言板卡片（你红框要的就是它） -->
+    <div class="notice">
+      <div class="notice-title">留言板</div>
+
+      <div
+        id="cusdis_thread"
+        data-host="https://cusdis.com"
+        data-app-id="YOUR_CUSDIS_APP_ID"
+        data-page-id="index"
+        data-page-title="LM星途璀璨">
+      </div>
+
+      <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
+    </div>
+
   </div>
 
 </div>
 
-<!-- 右侧内容 -->
-<div class="right">
-  <div class="notice">
-    <div class="notice-date">2026-02-09</div>
-    <div class="notice-title">🩵🩷 一觉醒来是清晨 🩷🩵</div>
-    <p>让我们一起成长，一起进步
-    记录每一个幸福时刻🩵🩷每一段璀璨星光
-</p >
-  </div>
-</div>
-
-</div>
-
-
-<!-- ================== 自动生成目录 JS ================== -->
+<!-- 自动目录 -->
 <script>
 fetch("diary.json")
   .then(res => res.json())
@@ -279,114 +206,47 @@ fetch("diary.json")
     const container = document.getElementById("auto-directory");
     const tree = {};
 
-    list.forEach(d => {
-      const [y,m,day] = d.split("-");
-      tree[y] ??= {};
-      tree[y][m] ??= [];
+    list.forEach(d=>{
+      const [y,m,day]=d.split("-");
+      tree[y]??={};
+      tree[y][m]??=[];
       tree[y][m].push(day);
     });
 
     Object.keys(tree).sort().reverse().forEach(y=>{
-      const year = document.createElement("div");
-      year.className = "year";
-      year.textContent = y;
-      year.onclick = ()=>year.classList.toggle("open");
+      const year=document.createElement("div");
+      year.className="year";
+      year.textContent=y;
+      year.onclick=()=>year.classList.toggle("open");
 
-      const months = document.createElement("div");
-      months.className = "month";
+      const months=document.createElement("div");
+      months.className="month";
 
       Object.keys(tree[y]).sort().reverse().forEach(m=>{
-        const month = document.createElement("div");
-        month.className = "month-title";
-        month.textContent = m;
-        month.onclick = e=>{
-          e.stopPropagation();
-          month.classList.toggle("open");
-        };
+        const mt=document.createElement("div");
+        mt.className="month-title";
+        mt.textContent=m;
 
-        const days = document.createElement("div");
-        days.className = "day";
+        const days=document.createElement("div");
+        days.className="day";
 
         tree[y][m].sort((a,b)=>b-a).forEach(d=>{
-          const aTag = document.createElement("a");
-          aTag.href = `diary/${y}/${m}/${y}-${m}-${d}.html`;
-          aTag.textContent = d;
-          const div = document.createElement("div");
-          div.appendChild(aTag);
-          days.appendChild(div);
+          const a=document.createElement("a");
+          a.href=`diary/${y}/${m}/${y}-${m}-${d}.html`;
+          a.textContent=d;
+          days.appendChild(a);
         });
 
-        month.appendChild(days);
-        months.appendChild(month);
+        mt.onclick=e=>{
+          e.stopPropagation();
+          days.style.display=days.style.display==="block"?"none":"block";
+        };
+
+        months.append(mt,days);
       });
 
       year.appendChild(months);
       container.appendChild(year);
-    });
-  });
-</script>
-
-</body>
-</html> -->
-      <!-- 不要改字，不要删标签 -->
-      <!-- ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ -->
-    </div>
-
-    <!-- ✅ 动态日记显示区（默认隐藏） -->
-    <div id="dynamic-entry" style="display:none;">
-      <div class="date" id="entry-date"></div>
-      <h1 id="entry-title"></h1>
-      <div class="content" id="entry-content"></div>
-    </div>
-
-    <div class="divider"></div>
-    <footer>© 2026 LUMU</footer>
-
-  </main>
-</div>
-
-<!-- JS：只在点目录时才切换 -->
-<script>
-fetch("diary.json")
-  .then(res => res.json())
-  .then(data => {
-    const toc = document.getElementById("toc");
-    const staticEntry = document.getElementById("static-entry");
-    const dynamicEntry = document.getElementById("dynamic-entry");
-
-    const title = document.getElementById("entry-title");
-    const date = document.getElementById("entry-date");
-    const content = document.getElementById("entry-content");
-
-    data.forEach(month => {
-      const m = document.createElement("div");
-      m.className = "month";
-
-      const mt = document.createElement("div");
-      mt.className = "month-title";
-      mt.textContent = month.month;
-      mt.onclick = () => m.classList.toggle("open");
-
-      const ul = document.createElement("ul");
-
-      month.entries.forEach(e => {
-        const li = document.createElement("li");
-        const a = document.createElement("a");
-        a.textContent = e.date.slice(-2);
-        a.href = "javascript:void(0)";
-        a.onclick = () => {
-          staticEntry.style.display = "none";
-          dynamicEntry.style.display = "block";
-          title.textContent = e.title;
-          date.textContent = e.date;
-          content.innerHTML = e.content.replace(/\n/g,"<br>");
-        };
-        li.appendChild(a);
-        ul.appendChild(li);
-      });
-
-      m.append(mt, ul);
-      toc.appendChild(m);
     });
   });
 </script>
