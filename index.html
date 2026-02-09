@@ -5,276 +5,116 @@
 <title>🩵🩷 LM星途璀璨 🩵🩷</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- 得意黑 -->
 <style>
-@font-face {
-  font-family: "Smiley Sans";
-  src: url("https://cdn.jsdelivr.net/gh/atelier-anchor/smiley-sans@latest/SmileySans-Oblique.otf")
-       format("opentype");
+body{
+  margin:0;
+  background:#f5f6f8;
+  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
 }
-</style>
-
-<style>
-body {
-  font-family: "Smiley Sans",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
-  background: linear-gradient(135deg,#4ab7cc 0%,#f2b3c6 100%);
-  margin: 0;
-  padding: 0;
+.wrapper{
+  max-width:1200px;
+  margin:50px auto;
+  display:grid;
+  grid-template-columns:260px 1fr;
+  gap:30px;
 }
 
-/* 布局 */
-.layout {
-  max-width: 1100px;
-  margin: 60px auto;
-  display: flex;
-  gap: 30px;
-  padding: 0 20px;
+/* 左栏 */
+.left{
+  background:#fff;
+  border-radius:16px;
+  padding:24px;
+  box-shadow:0 10px 30px rgba(0,0,0,.12);
 }
+.block{margin-bottom:28px;}
+.block h3{font-size:15px;margin-bottom:10px;}
+.block p{font-size:13px;line-height:1.8;color:#555;}
+.block a{font-size:13px;color:#4ab7cc;text-decoration:none;}
 
-/* 左侧栏 */
-.sidebar {
-  width: 240px;
-  background: #fff;
-  padding: 20px;
-  border-radius: 14px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
-}
+/* 目录 */
+.year,.month-title{cursor:pointer;font-weight:600;margin-top:8px;}
+.month,.day{display:none;margin-left:12px;}
+.open>.month,.open>.day{display:block;}
+.day a{font-size:13px;color:#666;text-decoration:none;}
 
-.sidebar h2 {
-  font-size: 16px;
-  margin: 0 0 16px;
+/* 右栏 */
+.right{
+  background:#fff;
+  border-radius:16px;
+  padding:40px;
+  box-shadow:0 10px 30px rgba(0,0,0,.15);
 }
-
-/* 月份目录 */
-.month-title {
-  cursor: pointer;
-  font-size: 14px;
-  color: #555;
-  margin-bottom: 6px;
+.notice{
+  border-bottom:1px dashed #ddd;
+  padding:20px 0;
 }
-.month ul {
-  list-style: none;
-  padding-left: 10px;
-  margin: 0;
-  display: none;
-}
-.month.open ul { display:block; }
-.month li { margin: 6px 0; }
-.month a {
-  font-size: 13px;
-  color: #777;
-  text-decoration: none;
-}
-.month a.active {
-  color: #000;
-  font-weight: 600;
-}
-
-/* 侧栏留言提示卡片 */
-.sidebar-comment {
-  margin-top: 28px;
-  padding: 16px;
-  border-radius: 14px;
-  background: linear-gradient(
-    135deg,
-    rgba(74,183,204,0.18),
-    rgba(242,179,198,0.18)
-  );
-}
-
-.sidebar-comment h2 {
-  font-size: 15px;
-  margin: 0 0 8px;
-}
-
-.sidebar-comment p {
-  font-size: 13px;
-  color: #555;
-  line-height: 1.7;
-}
-
-.sidebar-comment a {
-  font-size: 13px;
-  color: #4ab7cc;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-/* 正文 */
-.container {
-  flex: 1;
-  background: #fff;
-  padding: 40px;
-  border-radius: 16px;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.18);
-}
-
-.date {
-  font-size: 13px;
-  color: #999;
-  margin-bottom: 12px;
-}
-
-h1 {
-  font-size: 28px;
-  text-align: center;
-  margin: 0 0 24px;
-  background: linear-gradient(90deg,#4ab7cc,#f2b3c6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.content {
-  font-size: 16px;
-  line-height: 2;
-  color: #333;
-}
-
-.divider {
-  margin: 40px 0;
-  border-top: 1px dashed #ddd;
-}
-
-footer {
-  text-align: center;
-  font-size: 13px;
-  color: #aaa;
-  margin-top: 40px;
-}
-
-/* 手机端 */
-@media (max-width:768px) {
-  .layout { flex-direction: column; }
-  .sidebar { width:100%; }
-}
+.notice:last-child{border:none;}
+.notice-date{font-size:12px;color:#999;}
+.notice-title{font-size:16px;margin:6px 0;}
 </style>
 </head>
 
 <body>
 
-<div class="layout">
+<div class="wrapper">
 
 <!-- 左侧 -->
-<aside class="sidebar">
-  <h2>🩵🩷穆橹</h2>
-  <div id="diary-menu"></div>
+<div class="left">
 
-  <div class="sidebar-comment">
-    <h2>🩵🩷幸福时刻</h2>
+  <!-- 公示板 -->
+  <div class="block">
+    <h3>（公示板）</h3>
+    <p>
+      这里的文字是固定的，永不变动。<br>
+      记录喜欢、祝福与陪伴。
+    </p >
+  </div>
+
+  <!-- NEW -->
+  <div class="block">
+    <h3>NEW（一些更新）</h3>
+    <p>站点更新与通知。</p >
+    <a href=" ">璀璨之路 →</a >
+  </div>
+
+  <!-- 幸福时刻 -->
+  <div class="block">
+    <h3>幸福时刻</h3>
     <p>
       祝你们星途璀璨，<br>
       也祝愿幸福降临我们的手心
     </p >
-    <a href=" ">前往幸福 →</a >
-  </div>
-</aside>
-
-<!-- 正文 -->
-<main class="container">
-  <div class="date">2026-01-21</div>
-  <h1>🩵🩷 一觉醒来是清晨 🩵🩷</h1>
-
-  <div class="content">
-    <p>大家好，我是 YSLNS。<br>
-       这是一个为喜欢而留下的角落。<br>
-       在这里希望可以慢慢记录，<br>
-       记录他们带给我们以及我的感动、陪伴，生活激励，<br>
-       以及那些让我们继续向前的小小光亮。<br>
-       愿幸福降临在我们每一个人的手心。
-
+    <a href="happiness.html">前往幸福 →</a >
   </div>
 
-  <div class="divider"></div>
+  <!-- 目录 -->
+  <div class="block">
+    <h3>目录（日期索引）</h3>
 
-  <!-- 留言区 -->
-  <section id="comments">
-
-    <p id="readonly-tip" style="
-      text-align:center;
-      font-size:13px;
-      color:#aaa;
-      margin-bottom:14px;
-      display:none;">
-      这里记录着<br>
-           每一个幸福时刻🩵🩷每一段璀璨星光
-    </p >
-
-    <div id="cusdis_thread"
-      data-host="https://cusdis.com"
-      data-app-id="6bd954b7-e2b4-4206-a1c3-3072cecfc326"
-      data-page-id="index"
-      data-page-title="一觉醒来是清晨"
-      data-theme="light">
+    <div class="year" onclick="this.classList.toggle('open')">2026
+      <div class="month">
+        <div class="month-title" onclick="this.classList.toggle('open')">01
+          <div class="day">
+            <div><a href="diary/2026/01/2026-01-21.html">21</a ></div>
+            <div><a href="diary/2026/01/2026-01-20.html">20</a ></div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
-  </section>
-
-  <footer>© 2026 LM99</footer>
-</main>
+  </div>
 </div>
 
-<!-- 自动目录 -->
-<script>
-const diaries=[
-{date:"2026-01-21",file:"index.html"},
-{date:"2026-01-20",file:"2026-01-20.html"}
-];
-const menu=document.getElementById("diary-menu");
-const current=location.pathname.split("/").pop()||"index.html";
-const grouped={};
-diaries.forEach(d=>{
-const m=d.date.slice(0,7);
-(grouped[m]=grouped[m]||[]).push(d);
-});
-Object.keys(grouped).reverse().forEach(m=>{
-const div=document.createElement("div");
-div.className="month";
-const t=document.createElement("div");
-t.className="month-title";
-t.textContent=m;
-t.onclick=()=>div.classList.toggle("open");
-const ul=document.createElement("ul");
-grouped[m].forEach(d=>{
-const a=document.createElement("a");
-a.href=d.file;
-a.textContent=d.date.slice(8);
-if(d.file===current){a.classList.add("active");div.classList.add("open");}
-const li=document.createElement("li");
-li.appendChild(a);
-ul.appendChild(li);
-});
-div.appendChild(t);div.appendChild(ul);menu.appendChild(div);
-});
-</script>
+<!-- 右侧内容 -->
+<div class="right">
+  <div class="notice">
+    <div class="notice-date">2026-01-21</div>
+    <div class="notice-title">一觉醒来是清晨</div>
+    <p>新的记录已经写下。</p >
+  </div>
+</div>
 
-<!-- 🕊 只读模式控制 -->
-<script>
-const READ_ONLY = false; // ← 改成ture/ false 即可开放留言
-
-function applyReadOnlyMode() {
-  if (!READ_ONLY) return;
-
-  document.getElementById("readonly-tip").style.display = "block";
-
-  const observer = new MutationObserver(() => {
-    const iframe = document.querySelector('#cusdis_thread iframe');
-    if (!iframe) return;
-    try {
-      const doc = iframe.contentDocument || iframe.contentWindow.document;
-      const form = doc.querySelector('form');
-      if (form) {
-        form.style.display = "none";
-        observer.disconnect();
-      }
-    } catch(e){}
-  });
-
-  observer.observe(document.body,{childList:true,subtree:true});
-}
-
-applyReadOnlyMode();
-</script>
+</div>
 
 </body>
 </html>
