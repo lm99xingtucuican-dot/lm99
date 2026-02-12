@@ -46,22 +46,29 @@ body{
 
 .month{
   margin-left:15px;
-  cursor:pointer;
-  color:#666;
   display:none;
-  transition:all .3s ease;
 }
 
-.month:hover{color:#4ab7cc;}
+.month-title{
+  cursor:pointer;
+  margin-top:6px;
+  color:#666;
+}
 
 .day{
-  margin-left:30px;
-  font-size:14px;
-  cursor:pointer;
+  margin-left:20px;
   display:none;
 }
 
-.day:hover{color:#f2b3c6;}
+.day-item{
+  cursor:pointer;
+  font-size:14px;
+  margin:4px 0;
+}
+
+.day-item:hover{
+  color:#f2b3c6;
+}
 
 /* 右侧 */
 .main{
@@ -78,7 +85,7 @@ body{
   border-radius:20px;
   margin-bottom:40px;
   box-shadow:0 12px 35px rgba(0,0,0,.1);
-  animation:fadeIn .6s ease;
+  animation:fadeIn .5s ease;
 }
 
 .section h3{
@@ -93,6 +100,7 @@ body{
   text-decoration:none;
   color:#ff8fa3;
   font-weight:bold;
+  font-size:15px;
 }
 
 .back:hover{opacity:.7;}
@@ -122,7 +130,7 @@ body{
   </div>
 
   <!-- 右侧 -->
-  <div class="main" id="content">
+  <div class="main">
     <a href=" " class="back">← 返回首页</a >
     <div id="posts"></div>
   </div>
@@ -131,100 +139,108 @@ body{
 
 <script>
 fetch("./diary.json")
-  .then(res => res.json())
-  .then(list => {
+.then(res=>res.json())
+.then(list=>{
 
-    const treeDiv = document.getElementById("tree");
-    const postsDiv = document.getElementById("posts");
+  const treeDiv=document.getElementById("tree");
+  const postsDiv=document.getElementById("posts");
 
-    if(!treeDiv || !postsDiv){
-      console.error("缺少 tree 或 posts 容器");
-      return;
-    }
+  // 默认显示留言板
+  postsDiv.innerHTML = `
+    <div class="section">
+      <h3>留言板</h3>
+      <div id="cusdis_thread"
+        data-host="https://cusdis.com"
+        data-app-id="6bd954b7-e2b4-4206-a1c3-3072cecfc326"
+        data-page-id="happiness"
+        data-page-title="幸福时刻">
+      </div>
+    </div>
+  `;
 
-    const tree = {};
+  const script=document.createElement("script");
+  script.src="https://cusdis.com/js/cusdis.es.js";
+  script.async=true;
+  script.defer=true;
+  document.body.appendChild(script);
 
-    list.forEach(item=>{
-      const y = item.year;
-      const m = item.month;
-      const d = item.day;
+  const tree={};
 
-      if(!tree[y]) tree[y] = {};
-      if(!tree[y][m]) tree[y][m] = [];
-      tree[y][m].push(item);
-    });
+  list.forEach(item=>{
+    const y=item.year;
+    const m=item.month;
 
-    Object.keys(tree).sort().reverse().forEach(y=>{
+    if(!tree[y]) tree[y]={};
+    if(!tree[y][m]) tree[y][m]=[];
+    tree[y][m].push(item);
+  });
 
-      const yearDiv = document.createElement("div");
-      yearDiv.className="year";
-      yearDiv.innerHTML = "📂 " + y;
-      yearDiv.style.cursor="pointer";
+  Object.keys(tree).sort().reverse().forEach(y=>{
 
-      const monthWrap = document.createElement("div");
-      monthWrap.style.display="none";
+    const yearDiv=document.createElement("div");
+    yearDiv.className="year";
+    yearDiv.textContent="📂 "+y;
 
-      yearDiv.onclick=()=>{
-        monthWrap.style.display =
-          monthWrap.style.display==="block"?"none":"block";
+    const monthWrap=document.createElement("div");
+    monthWrap.className="month";
+
+    yearDiv.onclick=()=>{
+      monthWrap.style.display=
+        monthWrap.style.display==="block"?"none":"block";
+    };
+
+    Object.keys(tree[y]).sort().reverse().forEach(m=>{
+
+      const monthTitle=document.createElement("div");
+      monthTitle.className="month-title";
+      monthTitle.textContent="📁 "+m;
+
+      const dayWrap=document.createElement("div");
+      dayWrap.className="day";
+
+      monthTitle.onclick=(e)=>{
+        e.stopPropagation();
+        dayWrap.style.display=
+          dayWrap.style.display==="block"?"none":"block";
       };
 
-      Object.keys(tree[y]).sort().reverse().forEach(m=>{
+      tree[y][m]
+      .sort((a,b)=>b.day-a.day)
+      .forEach(item=>{
 
-        const monthDiv=document.createElement("div");
-        monthDiv.innerHTML="📁 "+m;
-        monthDiv.style.marginLeft="10px";
-        monthDiv.style.cursor="pointer";
+        const dayDiv=document.createElement("div");
+        dayDiv.className="day-item";
+        dayDiv.textContent=item.day;
 
-        const dayWrap=document.createElement("div");
-        dayWrap.style.display="none";
-
-        monthDiv.onclick=(e)=>{
+        dayDiv.onclick=(e)=>{
           e.stopPropagation();
-          dayWrap.style.display =
-            dayWrap.style.display==="block"?"none":"block";
+
+          fetch("./"+item.file)
+          .then(res=>res.text())
+          .then(html=>{
+            postsDiv.innerHTML=`
+              <div class="section">
+                <h3>${item.year}-${item.month}-${item.day}</h3>
+                ${html}
+              </div>
+            `;
+          });
         };
 
-        tree[y][m]
-          .sort((a,b)=>b.day-a.day)
-          .forEach(item=>{
-
-            const a=document.createElement("div");
-            a.textContent=item.day;
-            a.style.marginLeft="20px";
-            a.style.cursor="pointer";
-
-            a.onclick=(e)=>{
-              e.stopPropagation();
-
-              fetch("./"+item.file)
-                .then(res=>res.text())
-                .then(html=>{
-                  postsDiv.innerHTML = `
-                    <div style="background:#fff;padding:20px;border-radius:16px">
-                      <h3>${item.year}-${item.month}-${item.day}</h3>
-                      ${html}
-                    </div>
-                  `;
-                });
-            };
-
-            dayWrap.appendChild(a);
-          });
-
-        monthWrap.appendChild(monthDiv);
-        monthWrap.appendChild(dayWrap);
+        dayWrap.appendChild(dayDiv);
       });
 
-      treeDiv.appendChild(yearDiv);
-      treeDiv.appendChild(monthWrap);
+      monthWrap.appendChild(monthTitle);
+      monthWrap.appendChild(dayWrap);
     });
 
-  })
-  .catch(err=>{
-    console.error("读取 diary.json 失败",err);
+    treeDiv.appendChild(yearDiv);
+    treeDiv.appendChild(monthWrap);
   });
+
+});
 </script>
+
 <footer style="text-align:center;font-size:12px;color:#eee;margin:30px 0;">
   © 2026 LUMU
 </footer>
