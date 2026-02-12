@@ -1,3 +1,5 @@
+先是主页，这个是我的主页程序：
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -7,30 +9,19 @@
 
 <style>
 @font-face {
-  font-family: "DeYiHei";
+  font-family: "Smiley Sans";
   src: url("https://cdn.jsdelivr.net/gh/atelier-anchor/smiley-sans@latest/SmileySans-Oblique.otf")
        format("opentype");
 }
 
-/* ===== 全局字体 ===== */
-* {
-  box-sizing: border-box;
-  font-family: "DeYiHei",-apple-system,BlinkMacSystemFont,
-               "PingFang SC","Microsoft YaHei",sans-serif;
-}
+* { box-sizing: border-box; }
 
 body {
+  font-family: "Smiley Sans",-apple-system,BlinkMacSystemFont,
+               "PingFang SC","Microsoft YaHei",sans-serif;
   margin: 0;
   background: linear-gradient(135deg,#4ab7cc 0%,#f2b3c6 100%);
   min-height: 100vh;
-}
-
-/* ===== 渐变文字通用类 ===== */
-.gradient-text {
-  font-weight: 800;
-  background: linear-gradient(90deg,#4ab7cc,#f2b3c6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
 }
 
 /* ===== 布局 ===== */
@@ -55,7 +46,7 @@ body {
 }
 
 .block h3 {
-  font-size: 15px;
+  font-size: 14px;
   margin: 0 0 10px;
 }
 
@@ -72,7 +63,7 @@ body {
   font-weight: 600;
 }
 
-/* ===== 目录 ===== */
+/* 目录 */
 .year { cursor:pointer; margin-top:8px; }
 .month { display:none; margin-left:10px; }
 .year.open .month { display:block; }
@@ -111,28 +102,26 @@ body {
   box-shadow: 0 10px 30px rgba(0,0,0,.12);
 }
 
-/* ===== 留言板卡片 ===== */
 .notice.message {
   flex: 1;
   display: flex;
   flex-direction: column;
 }
 
-/* 留言板标题 */
-.message-title {
-  text-align: center;
-  font-size: 20px;
-  margin-bottom: 18px;
-  font-weight: 800;
-  background: linear-gradient(90deg,#4ab7cc,#f2b3c6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.notice-date {
+  font-size: 12px;
+  color: #999;
 }
 
-/* 让留言内容填满卡片 */
-#cusdis_thread {
-  flex: 1;
-  min-height: 500px;
+.notice-title {
+  font-size: 18px;
+  margin: 6px 0 10px;
+}
+
+.notice p {
+  font-size: 14px;
+  line-height: 1.9;
+  color: #555;
 }
 
 /* 手机 */
@@ -151,7 +140,7 @@ body {
   <div class="left">
 
     <div class="block">
-      <h3 class="gradient-text">🩵🩷一切的开始🩷🩵</h3>
+      <h3>🩵🩷一切的开始🩷🩵</h3>
       <p>
         大家好<br>
         这是一个为喜欢而留下的角落<br>
@@ -163,13 +152,13 @@ body {
     </div>
 
     <div class="block">
-      <h3 class="gradient-text">🩵🩷NEW🩷🩵</h3>
+      <h3>🩵🩷NEW🩷🩵</h3>
       <p>站点更新与通知。</p >
-      <a href=" ">璀璨之路 →</a >
+      <a href="notices.html ">璀璨之路 →</a >
     </div>
 
     <div class="block">
-      <h3 class="gradient-text">🩵🩷幸福时刻🩷🩵</h3>
+      <h3>🩵🩷幸福时刻🩷🩵</h3>
       <p>
         祝你们星途璀璨，<br>
         也祝愿幸福降临我们的手心
@@ -178,8 +167,8 @@ body {
     </div>
 
     <div class="block">
-      <h3 class="gradient-text">🩵🩷穆橹🩷🩵</h3>
-      <div id="auto-directory">
+      <h3>🩵🩷穆橹🩷🩵</h3>
+      <div id="diary.json">
         <p style="font-size:12px;color:#aaa">📭 正在加载…</p >
       </div>
     </div>
@@ -189,11 +178,10 @@ body {
   <!-- 右侧 -->
   <div class="right">
 
-    <div class="notice">
-      <div style="font-size:12px;color:#999;">2026-02-09</div>
-      <div style="font-size:18px;margin:6px 0 10px;">
-        🩵🩷 一觉醒来是清晨 🩷🩵
-      </div>
+    <!-- 站点更新 -->
+    <div class="notice" id="news">
+      <div class="notice-date">2026-02-09</div>
+      <div class="notice-title">🩵🩷 一觉醒来是清晨 🩷🩵</div>
       <p>
         让我们一起成长，一起进步<br>
         记录每一个幸福时刻<br>
@@ -202,8 +190,8 @@ body {
     </div>
 
     <!-- 留言板 -->
-    <div class="notice message">
-      <div class="message-title">留言板</div>
+    <div class="notice message" id="message">
+      <div class="notice-title">留言板</div>
 
       <div
         id="cusdis_thread"
@@ -219,6 +207,70 @@ body {
   </div>
 
 </div>
+
+<!-- 自动目录 -->
+<script>
+fetch("diary.json")
+  .then(res => {
+    if (!res.ok) throw new Error("diary.json 加载失败");
+    return res.json();
+  })
+  .then(list => {
+    if (!Array.isArray(list)) throw new Error("diary.json 不是数组");
+
+    const container = document.getElementById("auto-directory");
+    container.innerHTML = "";
+
+    const tree = {};
+    list.forEach(d=>{
+      const [y,m,day]=d.split("-");
+      tree[y]??={};
+      tree[y][m]??=[];
+      tree[y][m].push(day);
+    });
+
+    Object.keys(tree).sort().reverse().forEach(y=>{
+      const year=document.createElement("div");
+      year.className="year";
+      year.textContent=y;
+      year.onclick=()=>year.classList.toggle("open");
+
+      const months=document.createElement("div");
+      months.className="month";
+
+      Object.keys(tree[y]).sort().reverse().forEach(m=>{
+        const mt=document.createElement("div");
+        mt.className="month-title";
+        mt.textContent=m;
+
+        const days=document.createElement("div");
+        days.className="day";
+
+        tree[y][m].sort((a,b)=>b-a).forEach(d=>{
+          const a=document.createElement("a");
+          a.href=`diary/${y}/${m}/${y}-${m}-${d}.html`;
+          a.textContent=d;
+          days.appendChild(a);
+        });
+
+        mt.onclick=e=>{
+          e.stopPropagation();
+          days.style.display = days.style.display==="block"?"none":"block";
+        };
+
+        months.append(mt,days);
+      });
+
+      year.appendChild(months);
+      container.appendChild(year);
+    });
+  })
+  .catch(err => {
+    document.getElementById("auto-directory").innerHTML =
+      "<p style='font-size:12px;color:#aaa'>📭 暂无日记索引</p >";
+    console.error(err);
+  });
+</script>
 
 <footer style="text-align:center;font-size:12px;color:#eee;margin:30px 0;">
   © 2026 LUMU
