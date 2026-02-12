@@ -2,14 +2,14 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<title>🩵🩷6璀璨之路🩷🩵</title>
+<title>🩵🩷璀璨之路🩷🩵</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-@font-face{
-  font-family:"Smiley Sans";
-  src:url("https://cdn.jsdelivr.net/gh/atelier-anchor/smiley-sans@latest/SmileySans-Regular.otf")
-  format("opentype");
+@font-face {
+  font-family: "Smiley Sans";
+  src: url("https://cdn.jsdelivr.net/gh/atelier-anchor/smiley-sans@latest/SmileySans-Regular.otf")
+       format("opentype");
 }
 
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -18,54 +18,53 @@ body{
   font-family:"Smiley Sans",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
   min-height:100vh;
   overflow-x:hidden;
+
+  background:linear-gradient(
+    135deg,
+    #4ab7cc 0%,
+    #79cbd8 25%,
+    #b7dbe3 50%,
+    #e4cddc 75%,
+    #f2b3c6 100%
+  );
+  background-attachment:fixed;
   padding:100px 20px;
-  transition:background 1.5s ease, filter .6s;
 }
 
-/* 默认渐变 */
-body.default{
-  background:linear-gradient(135deg,#4ab7cc 0%,#79cbd8 50%,#f2b3c6 100%);
-}
-
-/* 情人节主题 */
-body.theme-love{
-  background:linear-gradient(135deg,#ff6fa5 0%,#ff9ecf 40%,#ffd6ec 100%);
-}
-
-/* 冬日主题 */
-body.theme-winter{
-  background:linear-gradient(135deg,#6ec6ff 0%,#aee1ff 50%,#e0f7ff 100%);
-}
-
-/* 星光主题 */
-body.theme-star{
-  background:linear-gradient(135deg,#6a5acd 0%,#9370db 50%,#e6e6fa 100%);
-}
-
-/* 慢速镜头 */
-body.slow{
-  filter:brightness(1.15) saturate(1.15);
-}
-
-/* 羽毛层 */
-.feather{
+/* ✨ 粒子层 */
+.particles{
   position:fixed;
-  top:-20px;
-  width:14px;
-  height:20px;
-  background:radial-gradient(circle at 30% 30%,#fff,rgba(255,255,255,0.2));
-  border-radius:50% 50% 50% 50%;
-  opacity:.7;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
   pointer-events:none;
-  animation:fall linear forwards;
+  overflow:hidden;
   z-index:0;
 }
 
-@keyframes fall{
-  to{
-    transform:translateY(110vh) rotate(360deg);
-    opacity:0;
-  }
+.particle{
+  position:absolute;
+  border-radius:50%;
+  opacity:0.4;
+  animation:float linear infinite;
+}
+
+@keyframes float{
+  from{transform:translateY(100vh) scale(1);}
+  to{transform:translateY(-10vh) scale(1.2);}
+}
+
+/* 页面标题 */
+.page-title{
+  text-align:center;
+  font-size:30px;
+  color:#fff;
+  letter-spacing:3px;
+  margin-bottom:80px;
+  font-weight:700;
+  position:relative;
+  z-index:1;
 }
 
 /* 时间线 */
@@ -84,7 +83,8 @@ body.slow{
   transform:translateX(-50%);
   width:4px;
   height:100%;
-  background:rgba(255,255,255,0.6);
+  background:rgba(255,255,255,0.5);
+  border-radius:10px;
 }
 
 .item{
@@ -92,7 +92,6 @@ body.slow{
   width:50%;
   padding:20px 40px;
   margin-bottom:60px;
-  cursor:pointer;
 }
 
 .item.left{left:0;text-align:right;}
@@ -105,126 +104,165 @@ body.slow{
   width:18px;
   height:18px;
   background:#fff;
-  border:4px solid #ff99dd;
+  border:4px solid #f2b3c6;
   border-radius:50%;
+  z-index:2;
 }
 
 .item.left::before{right:-9px;}
 .item.right::before{left:-9px;}
 
-.item.special::before{
-  box-shadow:0 0 20px #fff,0 0 40px #ff99dd;
-  animation:pulse 2s infinite;
-}
-
-@keyframes pulse{
-  0%{transform:scale(1);}
-  50%{transform:scale(1.5);}
-  100%{transform:scale(1);}
-}
-
 .card{
-  background:rgba(255,255,255,0.9);
+  background:rgba(255,255,255,0.85);
   backdrop-filter:blur(12px);
-  border-radius:20px;
-  padding:28px;
-  box-shadow:0 20px 40px rgba(0,0,0,.12);
+  border-radius:22px;
+  padding:28px 30px;
+  box-shadow:0 20px 45px rgba(0,0,0,.12);
+  transition:.35s;
 }
 
-.date{font-size:13px;color:#888;margin-bottom:8px;}
-.title{font-size:18px;font-weight:700;margin-bottom:8px;}
-.content{font-size:14px;color:#555;line-height:1.8;}
+.card:hover{
+  transform:translateY(-8px);
+  box-shadow:0 30px 60px rgba(0,0,0,.2);
+}
 
-.page-title{
-  text-align:center;
-  font-size:30px;
-  color:#fff;
-  margin-bottom:80px;
+.date{
+  font-size:13px;
+  color:#888;
+  margin-bottom:10px;
+}
+
+.title{
+  font-size:18px;
   font-weight:700;
-  z-index:1;
+  margin-bottom:10px;
+}
+
+.content{
+  font-size:14px;
+  line-height:1.9;
+  color:#555;
+}
+
+.back{
+  text-align:center;
+  margin-top:80px;
   position:relative;
+  z-index:1;
+}
+
+.back a{
+  color:#fff;
+  text-decoration:none;
+  font-size:16px;
+  font-weight:600;
+}
+
+/* 手机 */
+@media(max-width:900px){
+
+  .timeline::before{left:10px;}
+
+  .item{
+    width:100%;
+    padding-left:40px;
+    padding-right:20px;
+  }
+
+  .item.left,.item.right{
+    left:0;
+    text-align:left;
+  }
+
+  .item::before{left:1px;}
 }
 
 footer{
   text-align:center;
-  color:#fff;
+  font-size:13px;
+  color:#eee;
   margin-top:60px;
-  z-index:1;
   position:relative;
+  z-index:1;
 }
 </style>
 </head>
 
-<body class="default">
+<body>
+
+<div class="particles" id="particles"></div>
 
 <div class="page-title">🩵🩷 璀璨之路 🩷🩵</div>
+
 <div class="timeline" id="timeline"></div>
-<footer>© 2026 LUMU</footer>
+
+<div class="back">
+  <a href=" ">← 返回首页</a >
+</div>
+
+<footer>
+© 2026 LUMU
+</footer>
 
 <script>
-/* ===== 数据 ===== */
-const newsData=[
-{date:"2026-02-14",title:"情人节",content:"专属主题模式"},
-{date:"2026-01-08",title:"纪念日",content:"星光主题"},
-{date:"2025-11-16",title:"冬日节点",content:"冬日主题"}
+/* 🌸 自动更新数据 */
+const newsData = [
+  {
+    date:"2026-02-12",
+    title:"结构调试完成",
+    content:"首页结构优化完成。<br>留言板视觉增强。<br>手机版优化完成。"
+  },
+  {
+    date:"2026-02-10",
+    title:"留言系统升级",
+    content:"新增留言数统计。<br>烟花触发功能上线。<br>纪念模式开启。"
+  },
+  {
+    date:"2026-02-08",
+    title:"幸福时刻上线",
+    content:"自动归档系统搭建完成。<br>粉蓝渐变统一风格。"
+  }
 ];
 
-const specialDays=["02-14","11-16","01-08","09-13"];
+/* 🌸 自动倒序排序 */
+newsData.sort((a,b)=> new Date(b.date)-new Date(a.date));
 
-newsData.sort((a,b)=>new Date(b.date)-new Date(a.date));
-const timeline=document.getElementById("timeline");
+const timeline = document.getElementById("timeline");
 
-newsData.forEach((item,i)=>{
-  const side=i%2===0?"right":"left";
-  const md=item.date.slice(5);
-  const div=document.createElement("div");
-  div.className="item "+side;
-  if(specialDays.includes(md)) div.classList.add("special");
+newsData.forEach((item,index)=>{
+  const side = index % 2 === 0 ? "right":"left";
 
-  div.innerHTML=`
-  <div class="card">
-    <div class="date">${item.date}</div>
-    <div class="title">${item.title}</div>
-    <div class="content">${item.content}</div>
-  </div>`;
+  const div = document.createElement("div");
+  div.className = "item " + side;
+
+  div.innerHTML = `
+    <div class="card">
+      <div class="date">${item.date}</div>
+      <div class="title">${item.title}</div>
+      <div class="content">${item.content}</div>
+    </div>
+  `;
+
   timeline.appendChild(div);
 });
 
-/* ===== 今日主题模式 ===== */
-const today=new Date();
-const md=(today.getMonth()+1+"").padStart(2,"0")+"-"+(today.getDate()+"").padStart(2,"0");
+/* 🌸 粒子生成 */
+const particleContainer = document.getElementById("particles");
 
-if(md==="02-14") document.body.className="theme-love";
-else if(md==="11-16") document.body.className="theme-winter";
-else if(md==="01-08") document.body.className="theme-star";
-else if(md==="09-13") document.body.className="theme-love";
+for(let i=0;i<25;i++){
+  const p = document.createElement("div");
+  p.className="particle";
 
-/* ===== 光羽飘落 ===== */
-function createFeather(){
-  const f=document.createElement("div");
-  f.className="feather";
-  f.style.left=Math.random()*100+"vw";
-  f.style.animationDuration=(Math.random()*5+5)+"s";
-  document.body.appendChild(f);
-  setTimeout(()=>f.remove(),8000);
+  const size = Math.random()*8+4;
+  p.style.width=size+"px";
+  p.style.height=size+"px";
+  p.style.left=Math.random()*100+"%";
+  p.style.background = Math.random()>0.5 ? "#ffffff" : "#ffd1ec";
+  p.style.animationDuration = (Math.random()*15+10)+"s";
+  p.style.animationDelay = Math.random()*10+"s";
+
+  particleContainer.appendChild(p);
 }
-
-/* 纪念日才飘落 */
-if(specialDays.includes(md)){
-  setInterval(createFeather,400);
-}
-
-/* ===== 慢速镜头 ===== */
-window.addEventListener("scroll",()=>{
-  document.querySelectorAll(".item.special").forEach(el=>{
-    const rect=el.getBoundingClientRect();
-    if(rect.top<window.innerHeight*0.6 && rect.bottom>window.innerHeight*0.4){
-      document.body.classList.add("slow");
-    }else{
-      document.body.classList.remove("slow");
-    }
-  });
-});
 </script>
 
 </body>
