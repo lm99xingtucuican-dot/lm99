@@ -130,7 +130,7 @@ body{
 <div class="block">
 <h3>🩵🩷NEWS🩷🩵</h3>
 <p>站点更新与通知。</p >
-<a href=" ">璀璨之路 →</a >
+<a href="news.html">璀璨之路 →</a >
 </div>
 
 <div class="block">
@@ -256,14 +256,10 @@ function draw(){
       if(p.life<=0) {particles.splice(i,1); continue;}
     }
 
-    // 绘制粒子
-    const gradient=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.size*6);
-    gradient.addColorStop(0,"#fff");
-    gradient.addColorStop(0.5,p.color);
-    gradient.addColorStop(1,"rgba(255,255,255,0)");
-    ctx.fillStyle = gradient;
+    // 绘制粒子（纯色，无中心白光）
+    ctx.fillStyle = p.color;
     ctx.beginPath();
-    ctx.arc(p.x,p.y,p.size*6,0,Math.PI*2);
+    ctx.arc(p.x,p.y,p.size*4,0,Math.PI*2);
     ctx.fill();
   }
 
