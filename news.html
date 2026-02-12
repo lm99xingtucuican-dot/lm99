@@ -64,7 +64,7 @@ body{
   font-weight:700;
   position:relative;
   z-index:1;
-  background: linear-gradient(135deg,#4ab7cc 0%,#79cbd8 25%,#b7dbe3 50%,#e4cddc 75%,#f2b3c6 100%);
+  background: linear-gradient(135deg,#f2b3c6 0%,#e4cddc 25%,#b7dbe3 50%,#79cbd8 75%,#4ab7cc 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -134,7 +134,7 @@ body{
   margin-bottom:10px;
 }
 
-/* 标题改成每个字粉蓝渐变 */
+/* 标题每个字粉蓝渐变 */
 .title{
   font-size:18px;
   font-weight:700;
@@ -211,49 +211,32 @@ footer{
 </footer>
 
 <script>
-/* 🌸 自动更新数据 */
-const newsData = [
-  {
-    date:"2026-02-12",
-    title:"结构调试完成",
-    content:"首页结构优化完成。<br>留言板视觉增强。<br>手机版优化完成。"
-  },
-  {
-    date:"2026-02-10",
-    title:"留言系统升级",
-    content:"新增留言数统计。<br>烟花触发功能上线。<br>纪念模式开启。"
-  },
-  {
-    date:"2026-02-08",
-    title:"幸福时刻上线",
-    content:"自动归档系统搭建完成。<br>粉蓝渐变统一风格。"
-  }
-];
+/* 🌸 从 news.json 获取新闻 */
+fetch('news.json')
+  .then(res => res.json())
+  .then(newsData => {
+    newsData.sort((a,b)=> new Date(b.date)-new Date(a.date)); // 倒序
+    const timeline = document.getElementById("timeline");
 
-/* 🌸 自动倒序排序 */
-newsData.sort((a,b)=> new Date(b.date)-new Date(a.date));
+    newsData.forEach((item,index)=>{
+      const side = index % 2 === 0 ? "right":"left";
+      const div = document.createElement("div");
+      div.className = "item " + side;
 
-const timeline = document.getElementById("timeline");
+      // 每个字独立粉蓝渐变
+      const titleChars = item.title.split('').map(c=>`<span>${c}</span>`).join('');
 
-newsData.forEach((item,index)=>{
-  const side = index % 2 === 0 ? "right":"left";
-
-  const div = document.createElement("div");
-  div.className = "item " + side;
-
-  // 标题每个字单独粉蓝渐变
-  const titleChars = item.title.split('').map(c=>`<span>${c}</span>`).join('');
-
-  div.innerHTML = `
-    <div class="card">
-      <div class="date">${item.date}</div>
-      <div class="title">${titleChars}</div>
-      <div class="content">${item.content}</div>
-    </div>
-  `;
-
-  timeline.appendChild(div);
-});
+      div.innerHTML = `
+        <div class="card">
+          <div class="date">${item.date}</div>
+          <div class="title">${titleChars}</div>
+          <div class="content">${item.content}</div>
+        </div>
+      `;
+      timeline.appendChild(div);
+    });
+  })
+  .catch(err=>console.error("读取 news.json 失败：", err));
 
 /* 🌸 粒子生成 */
 const particleContainer = document.getElementById("particles");
