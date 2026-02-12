@@ -2,38 +2,47 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8" />
-<title>🩵🩷00星途璀璨🩷🩵</title>
+<title>🩵🩷01星途璀璨🩷🩵</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- 得意黑 -->
 <style>
 @font-face {
   font-family: "Smiley Sans";
   src: url("https://cdn.jsdelivr.net/gh/atelier-anchor/smiley-sans@latest/SmileySans-Regular.otf")
        format("opentype");
 }
-</style>
 
-<style>
-*{box-sizing:border-box;}
+*{box-sizing:border-box;margin:0;padding:0;}
+
+html,body{
+  height:100%;
+}
 
 body{
   font-family:"Smiley Sans",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
-  margin:0;
   background:linear-gradient(135deg,#4ab7cc 0%,#f2b3c6 100%);
-  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+
+/* ===== 主体容器锁死高度 ===== */
+.main-wrapper{
+  flex:1;
+  display:flex;
+  justify-content:center;
+  padding:80px 30px;
 }
 
 /* ===== 黄金比例布局 ===== */
 .layout{
+  width:100%;
   max-width:1200px;
-  margin:80px auto;
-  padding:0 30px;
   display:flex;
   gap:50px;
+  align-items:stretch;
 }
 
-/* ===== 左侧 30% ===== */
+/* ===== 左右比例 ===== */
 .left{
   flex:3;
   display:flex;
@@ -41,7 +50,6 @@ body{
   gap:30px;
 }
 
-/* ===== 右侧 70% ===== */
 .right{
   flex:7;
   display:flex;
@@ -49,7 +57,7 @@ body{
   gap:40px;
 }
 
-/* ===== 卡片通用 ===== */
+/* ===== 卡片 ===== */
 .block,
 .notice{
   background:#fff;
@@ -65,10 +73,25 @@ body{
   box-shadow:0 25px 55px rgba(0,0,0,.15);
 }
 
-/* ===== 左侧样式 ===== */
+/* ===== 关键：自动对齐核心 ===== */
+.left{
+  min-height:100%;
+}
+
+.right{
+  min-height:100%;
+}
+
+.notice.message{
+  flex:1;            /* 留言板自动撑满右侧 */
+  display:flex;
+  flex-direction:column;
+}
+
+/* ===== 文字样式 ===== */
 .block h3{
   font-size:18px;
-  margin:0 0 18px;
+  margin-bottom:18px;
 }
 
 .block p{
@@ -84,7 +107,6 @@ body{
   font-weight:600;
 }
 
-/* ===== 右侧样式 ===== */
 .notice-date{
   font-size:14px;
   color:#999;
@@ -102,12 +124,7 @@ body{
   color:#555;
 }
 
-/* 留言板拉高 */
-.notice.message{
-  min-height:550px;
-}
-
-/* 手机适配 */
+/* ===== 手机 ===== */
 @media(max-width:900px){
   .layout{
     flex-direction:column;
@@ -119,72 +136,74 @@ body{
 
 <body>
 
-<div class="layout">
+<div class="main-wrapper">
+  <div class="layout">
 
-  <!-- 左侧 -->
-  <div class="left">
+    <!-- 左侧 -->
+    <div class="left">
 
-    <div class="block">
-      <h3>🩵🩷一切的开始🩷🩵</h3>
-      <p>
-        大家好<br>
-        这是一个为喜欢而留下的角落<br>
-        在这里希望可以慢慢记录<br>
-        那些感动、陪伴与激励<br>
-        以及让我们继续向前的小小光亮<br>
-        愿幸福降临在我们每一个人的手心
-      </p >
-    </div>
-
-    <div class="block">
-      <h3>🩵🩷NEW🩷🩵</h3>
-      <p>站点更新与通知。</p >
-      <a href=" ">璀璨之路 →</a >
-    </div>
-
-    <div class="block">
-      <h3>🩵🩷幸福时刻🩷🩵</h3>
-      <p>
-        祝你们星途璀璨，<br>
-        也祝愿幸福降临我们的手心
-      </p >
-      <a href="happiness.html">前往幸福 →</a >
-    </div>
-
-  </div>
-
-  <!-- 右侧 -->
-  <div class="right">
-
-    <div class="notice">
-      <div class="notice-date">2026-02-09</div>
-      <div class="notice-title">🩵🩷 一觉醒来是清晨 🩷🩵</div>
-      <p>
-        让我们一起成长，一起进步<br>
-        记录每一个幸福时刻<br>
-        每一段璀璨星光
-      </p >
-    </div>
-
-    <div class="notice message">
-      <div class="notice-title">留言板</div>
-
-      <div
-        id="cusdis_thread"
-        data-host="https://cusdis.com"
-        data-app-id="6bd954b7-e2b4-4206-a1c3-3072cecfc326"
-        data-page-id="global-board"
-        data-page-title="星途璀璨">
+      <div class="block">
+        <h3>🩵🩷一切的开始🩷🩵</h3>
+        <p>
+          大家好<br>
+          这是一个为喜欢而留下的角落<br>
+          在这里希望可以慢慢记录<br>
+          那些感动、陪伴与激励<br>
+          以及让我们继续向前的小小光亮<br>
+          愿幸福降临在我们每一个人的手心
+        </p >
       </div>
 
-      <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
+      <div class="block">
+        <h3>🩵🩷NEW🩷🩵</h3>
+        <p>站点更新与通知。</p >
+        <a href=" ">璀璨之路 →</a >
+      </div>
+
+      <div class="block">
+        <h3>🩵🩷幸福时刻🩷🩵</h3>
+        <p>
+          祝你们星途璀璨，<br>
+          也祝愿幸福降临我们的手心
+        </p >
+        <a href="happiness.html">前往幸福 →</a >
+      </div>
+
+    </div>
+
+    <!-- 右侧 -->
+    <div class="right">
+
+      <div class="notice">
+        <div class="notice-date">2026-02-09</div>
+        <div class="notice-title">🩵🩷 一觉醒来是清晨 🩷🩵</div>
+        <p>
+          让我们一起成长，一起进步<br>
+          记录每一个幸福时刻<br>
+          每一段璀璨星光
+        </p >
+      </div>
+
+      <div class="notice message">
+        <div class="notice-title">留言板</div>
+
+        <div
+          id="cusdis_thread"
+          data-host="https://cusdis.com"
+          data-app-id="6bd954b7-e2b4-4206-a1c3-3072cecfc326"
+          data-page-id="global-board"
+          data-page-title="星途璀璨">
+        </div>
+
+        <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
+      </div>
+
     </div>
 
   </div>
-
 </div>
 
-<footer style="text-align:center;font-size:13px;color:#eee;margin:40px 0;">
+<footer style="text-align:center;font-size:13px;color:#eee;padding:30px 0;">
   © 2026 LUMU
 </footer>
 
