@@ -6,29 +6,54 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-*{box-sizing:border-box;}
-
+*{box-sizing:border-box;margin:0;padding:0;}
 body{
-  margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
-  background:linear-gradient(135deg,#4ab7cc 0%,#f2b3c6 100%);
+  font-family:"Smiley Sans",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  min-height:100vh;
+  background: linear-gradient(135deg,#4ab7cc 0%,#79cbd8 25%,#b7dbe3 50%,#e4cddc 75%,#f2b3c6 100%);
+  overflow-x:hidden;
+  position:relative;
 }
 
+/* 粒子 */
+#particles{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  z-index:0;
+}
+
+.particle{
+  position:absolute;
+  border-radius:50%;
+  opacity:0.4;
+  animation:float linear infinite;
+}
+
+@keyframes float{
+  from{transform:translateY(100vh) scale(1);}
+  to{transform:translateY(-10vh) scale(1.2);}
+}
+
+/* 布局 */
 .wrapper{
   display:flex;
   height:100vh;
+  position:relative;
+  z-index:1;
 }
 
 .sidebar{
   width:260px;
-  background:#fff;
   padding:20px;
   overflow-y:auto;
   position:fixed;
   left:0;
   top:0;
   bottom:0;
-  box-shadow:3px 0 15px rgba(0,0,0,.08);
 }
 
 .main{
@@ -38,44 +63,57 @@ body{
   padding:40px;
 }
 
-.year{
-  font-weight:bold;
-  cursor:pointer;
-  margin-top:10px;
+/* 日期索引小卡片 */
+.sidebar h2{
+  margin-bottom:20px;
+  font-size:18px;
+  color:#fff;
 }
-
-.month{
-  margin-left:15px;
-  display:none;
+.year, .month, .day{
+  background:rgba(255,255,255,0.9);
+  border-radius:12px;
+  margin:8px 0;
+  padding:8px 12px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
   cursor:pointer;
-  color:#666;
 }
+.month{margin-left:15px;}
+.day{margin-left:30px;font-size:14px;}
 
-.day{
-  margin-left:30px;
-  font-size:14px;
-  cursor:pointer;
-  display:none;
-}
-
+/* 留言板树状小卡片 */
 .section{
-  background:#fff;
-  padding:30px;
-  border-radius:20px;
-  margin-bottom:40px;
-  box-shadow:0 12px 35px rgba(0,0,0,.1);
+  background:rgba(255,255,255,0.9);
+  padding:20px 25px;
+  border-radius:18px;
+  margin-bottom:20px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.08);
+}
+.section h3{
+  margin-bottom:10px;
+}
+.section p{
+  font-size:14px;
+  line-height:1.8;
+  color:#555;
+}
+.section small{
+  display:block;
+  margin-top:6px;
+  color:#4ab7cc; /* 粉蓝色 */
+  font-weight:600;
 }
 
+/* 返回首页按钮 */
 .back{
   display:inline-block;
   margin-bottom:20px;
   text-decoration:none;
-  color:#ff8fa3;
+  color:#fff;
   font-weight:bold;
 }
+.back:hover{opacity:.8;}
 
-.back:hover{opacity:.7;}
-
+/* 手机适配 */
 @media(max-width:768px){
   .sidebar{position:relative;width:100%;height:auto;}
   .main{margin-left:0;}
@@ -86,8 +124,9 @@ body{
 
 <body>
 
-<div class="wrapper">
+<div id="particles"></div>
 
+<div class="wrapper">
   <div class="sidebar">
     <h2>🩵 日期索引 🩷</h2>
     <div id="tree"></div>
@@ -102,15 +141,30 @@ body{
       data-host="https://cusdis.com"
       data-app-id="6bd954b7-e2b4-4206-a1c3-3072cecfc326"
       data-page-id="global-board"
-      data-page-title="璀璨之路">
+      data-page-title="星途璀璨">
     </div>
   </div>
-
 </div>
 
 <script src="https://cusdis.com/js/cusdis.es.js"></script>
 
 <script>
+/* 🌸 粒子生成 */
+const particleContainer = document.getElementById("particles");
+for(let i=0;i<50;i++){
+  const p = document.createElement("div");
+  p.className="particle";
+  const size = Math.random()*6+3;
+  p.style.width=size+"px";
+  p.style.height=size+"px";
+  p.style.left=Math.random()*100+"%";
+  p.style.background = Math.random()>0.5 ? "#ffffff" : "#ffd1ec";
+  p.style.animationDuration = (Math.random()*15+10)+"s";
+  p.style.animationDelay = Math.random()*10+"s";
+  particleContainer.appendChild(p);
+}
+
+/* 🌸 获取留言并生成树状结构 */
 const APP_ID = "6bd954b7-e2b4-4206-a1c3-3072cecfc326";
 
 fetch(`https://cusdis.com/api/open/comments?appId=${APP_ID}&page=1`)
@@ -118,7 +172,6 @@ fetch(`https://cusdis.com/api/open/comments?appId=${APP_ID}&page=1`)
   .then(data=>{
 
     const comments = data.data;
-
     const tree = {};
     const postsDiv = document.getElementById("posts");
     const treeDiv = document.getElementById("tree");
@@ -132,7 +185,6 @@ fetch(`https://cusdis.com/api/open/comments?appId=${APP_ID}&page=1`)
       if(!tree[y]) tree[y]={};
       if(!tree[y][m]) tree[y][m]={};
       if(!tree[y][m][d]) tree[y][m][d]=[];
-
       tree[y][m][d].push(c);
     });
 
@@ -145,10 +197,7 @@ fetch(`https://cusdis.com/api/open/comments?appId=${APP_ID}&page=1`)
 
       const monthWrap=document.createElement("div");
 
-      yearDiv.onclick=()=>{
-        monthWrap.style.display=
-          monthWrap.style.display==="block"?"none":"block";
-      };
+      yearDiv.onclick=()=>{ monthWrap.style.display = monthWrap.style.display==="block"?"none":"block"; };
 
       Object.keys(tree[y]).sort().reverse().forEach(m=>{
         const monthDiv=document.createElement("div");
@@ -159,8 +208,7 @@ fetch(`https://cusdis.com/api/open/comments?appId=${APP_ID}&page=1`)
 
         monthDiv.onclick=(e)=>{
           e.stopPropagation();
-          dayWrap.style.display=
-            dayWrap.style.display==="block"?"none":"block";
+          dayWrap.style.display = dayWrap.style.display==="block"?"none":"block";
         };
 
         Object.keys(tree[y][m]).sort().reverse().forEach(d=>{
@@ -205,6 +253,7 @@ fetch(`https://cusdis.com/api/open/comments?appId=${APP_ID}&page=1`)
 
   });
 </script>
+
 <footer style="text-align:center;font-size:12px;color:#eee;margin:30px 0;">
   © 2026 LUMU
 </footer>
