@@ -2,13 +2,14 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8" />
-<title>🩵🩷66星途璀璨🩷🩵</title>
+<title>🩵🩷666星途璀璨🩷🩵</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 @font-face {
   font-family: "Smiley Sans";
-  src: url("https://cdn.jsdelivr.net/gh/atelier-anchor/smiley-sans@latest/SmileySans-Regular.otf") format("opentype");
+  src: url("https://cdn.jsdelivr.net/gh/atelier-anchor/smiley-sans@latest/SmileySans-Regular.otf")
+       format("opentype");
 }
 
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -94,35 +95,33 @@ body{
   border:none!important;
 }
 
-/* 原本文字样式 */
 .block h3{font-size:18px;margin-bottom:18px;}
 .block p{font-size:15px;line-height:2;color:#555;}
 .block a{font-size:15px;color:#4ab7cc;text-decoration:none;font-weight:600;}
 
-/* NEWS 栏统一字体样式 */
-.news-item-title{
-  font-family:"Smiley Sans",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:24px;
-  font-weight:600;
-  margin:10px 0 20px;
-
-  /* 蓝粉渐变文字 */
-  background: linear-gradient(90deg,#4ab7cc,#f2b3c6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.news-item-date{
-  font-family:"Smiley Sans",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
-  font-size:14px;
-  color:#999;
-  margin-bottom:6px;
-}
-
-/* 右侧公告和留言 */
 .notice-date{font-size:14px;color:#999;}
 .notice-title{font-size:24px;margin:10px 0 20px;font-weight:600;}
 .notice p{font-size:16px;line-height:2.1;color:#555;}
+
+/* ===== 新增 NEWS 栏标题蓝粉渐变 ===== */
+.news-item-title{
+  font-family:"Smiley Sans",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  font-size:18px;
+  font-weight:600;
+  margin:10px 0 10px;
+
+  background: linear-gradient(90deg,#4ab7cc,#f2b3c6,#4ab7cc);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  animation: gradientMove 3s linear infinite;
+}
+
+@keyframes gradientMove{
+  0%{background-position:0% 0%;}
+  100%{background-position:-100% 0%;}
+}
 
 @media(max-width:900px){
   .layout{flex-direction:column;}
@@ -150,9 +149,8 @@ body{
 
 <div class="block">
 <h3>🩵🩷NEWS🩷🩵</h3>
-<div id="news-list">
-  <!-- 最新三条新闻会自动插入这里 -->
-</div>
+<p>站点更新与通知：</p >
+<div id="news-list"></div>
 <a href="news.html">璀璨之路 →</a >
 </div>
 
@@ -197,7 +195,10 @@ data-page-title="星途璀璨">
 const canvas = document.getElementById("particle-canvas");
 const ctx = canvas.getContext("2d");
 
-function resize() {canvas.width = window.innerWidth; canvas.height = window.innerHeight;}
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
 resize();
 window.addEventListener("resize", resize);
 
@@ -209,7 +210,6 @@ const colors = ["rgba(255,182,210,0.9)", "rgba(173,216,230,0.7)"];
 const particles = [];
 const baseCount = 70;
 
-// 初始漂浮粒子
 for(let i=0;i<baseCount;i++){
   particles.push({
     x: Math.random()*canvas.width,
@@ -222,7 +222,6 @@ for(let i=0;i<baseCount;i++){
   });
 }
 
-// 点击生成星尘爆炸粒子
 window.addEventListener("click", e=>{
   const ripple = document.createElement("div");
   ripple.className = "ripple";
@@ -254,7 +253,10 @@ function draw(){
       let dx = mouse.x - p.x;
       let dy = mouse.y - p.y;
       let dist = Math.sqrt(dx*dx+dy*dy);
-      if(dist < 120){ p.x += dx*0.02; p.y += dy*0.02; }
+      if(dist < 120){
+        p.x += dx*0.02;
+        p.y += dy*0.02;
+      }
     }
 
     p.x += p.vx;
@@ -283,24 +285,28 @@ function draw(){
 }
 draw();
 
-// ================== NEWS 模块自动拉取最新三条 ==================
-const newsList = document.getElementById("news-list");
+/* 🌸 NEWS 栏内容显示最新三条 */
+fetch("news.html")
+.then(res => res.text())
+.then(html=>{
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, "text/html");
+  const newsData = Array.from(doc.querySelectorAll(".timeline .item")).map(item=>{
+    return {
+      date: item.querySelector(".date").innerText,
+      title: item.querySelector(".title").innerText
+    };
+  }).slice(0,3);
 
-fetch('news.json')
-  .then(res=>res.json())
-  .then(data=>{
-    data.sort((a,b)=> new Date(b.date)-new Date(a.date));
-    const latestThree = data.slice(0,3); // 取最新三条
-    latestThree.forEach(item=>{
-      const div = document.createElement("div");
-      div.innerHTML = `
-        <div class="news-item-date">${item.date}</div>
-        <div class="news-item-title">${item.title}</div>
-      `;
-      newsList.appendChild(div);
-    });
-  })
-  .catch(err=>console.error(err));
+  const newsList = document.getElementById("news-list");
+  newsData.forEach(n=>{
+    const div = document.createElement("div");
+    div.innerHTML = `
+      <div class="news-item-title">${n.date} - ${n.title}</div>
+    `;
+    newsList.appendChild(div);
+  });
+});
 </script>
 
 </body>
