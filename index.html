@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8" />
-<title>🩵🩷 星途璀璨 🩷🩵</title>
+<title>🩵🩷 星途璀璨 99🩷🩵</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -59,30 +59,6 @@ body {
   color: #4ab7cc;
   text-decoration: none;
   font-weight: 600;
-}
-
-/* 目录 */
-.year { cursor:pointer; margin-top:8px; }
-.month { display:none; margin-left:10px; }
-.year.open .month { display:block; }
-
-.month-title {
-  font-size: 13px;
-  cursor: pointer;
-  margin: 6px 0;
-}
-
-.day a {
-  font-size: 13px;
-  color: #666;
-  text-decoration: none;
-  display:inline-block;
-  padding: 3px 8px;
-  border-radius: 6px;
-}
-
-.day a:hover {
-  background: rgba(74,183,204,.15);
 }
 
 /* ===== 右侧 ===== */
@@ -152,7 +128,7 @@ body {
     <div class="block">
       <h3>🩵🩷NEW🩷🩵</h3>
       <p>站点更新与通知。</p >
-      <a href="notices.html ">璀璨之路 →</a >
+      <a href=" ">璀璨之路 →</a >
     </div>
 
     <div class="block">
@@ -162,13 +138,6 @@ body {
         也祝愿幸福降临我们的手心
       </p >
       <a href="happiness.html">前往幸福 →</a >
-    </div>
-
-    <div class="block">
-      <h3>🩵🩷穆橹🩷🩵</h3>
-      <div id="diary.json">
-        <p style="font-size:12px;color:#aaa">📭 正在加载…</p >
-      </div>
     </div>
 
   </div>
@@ -205,70 +174,6 @@ body {
   </div>
 
 </div>
-
-<!-- 自动目录 -->
-<script>
-fetch("diary.json")
-  .then(res => {
-    if (!res.ok) throw new Error("diary.json 加载失败");
-    return res.json();
-  })
-  .then(list => {
-    if (!Array.isArray(list)) throw new Error("diary.json 不是数组");
-
-    const container = document.getElementById("auto-directory");
-    container.innerHTML = "";
-
-    const tree = {};
-    list.forEach(d=>{
-      const [y,m,day]=d.split("-");
-      tree[y]??={};
-      tree[y][m]??=[];
-      tree[y][m].push(day);
-    });
-
-    Object.keys(tree).sort().reverse().forEach(y=>{
-      const year=document.createElement("div");
-      year.className="year";
-      year.textContent=y;
-      year.onclick=()=>year.classList.toggle("open");
-
-      const months=document.createElement("div");
-      months.className="month";
-
-      Object.keys(tree[y]).sort().reverse().forEach(m=>{
-        const mt=document.createElement("div");
-        mt.className="month-title";
-        mt.textContent=m;
-
-        const days=document.createElement("div");
-        days.className="day";
-
-        tree[y][m].sort((a,b)=>b-a).forEach(d=>{
-          const a=document.createElement("a");
-          a.href=`diary/${y}/${m}/${y}-${m}-${d}.html`;
-          a.textContent=d;
-          days.appendChild(a);
-        });
-
-        mt.onclick=e=>{
-          e.stopPropagation();
-          days.style.display = days.style.display==="block"?"none":"block";
-        };
-
-        months.append(mt,days);
-      });
-
-      year.appendChild(months);
-      container.appendChild(year);
-    });
-  })
-  .catch(err => {
-    document.getElementById("auto-directory").innerHTML =
-      "<p style='font-size:12px;color:#aaa'>📭 暂无日记索引</p >";
-    console.error(err);
-  });
-</script>
 
 <footer style="text-align:center;font-size:12px;color:#eee;margin:30px 0;">
   © 2026 LUMU
