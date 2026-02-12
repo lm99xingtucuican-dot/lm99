@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8" />
-<title>🩵🩷99星途璀璨🩷🩵</title>
+<title>🩵🩷06星途璀璨🩷🩵</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -235,80 +235,40 @@ body{
 
     </div>
 
-   <!-- 右侧 -->
-<div class="right">
+    <!-- 右侧 -->
+    <div class="right">
 
-<div class="notice">
-<div class="notice-date">2026-02-09</div>
-<div class="notice-title">🩵🩷 一觉醒来是清晨 🩷🩵</div>
-<p>记录每一个幸福时刻</p >
-</div>
+      <div class="notice">
+        <div class="notice-date">2026-02-09</div>
+        <div class="notice-title">🩵🩷 一觉醒来是清晨 🩷🩵</div>
+        <p>
+          让我们一起成长，一起进步<br>
+          记录每一个幸福时刻<br>
+          每一段璀璨星光
+        </p >
+      </div>
 
-<div class="notice message">
-<div class="notice-title">
-留言板（<span id="comment-count">0</span>）
-</div>
+      <div class="notice message">
+        <div class="notice-title">留言板</div>
 
-<div
-id="cusdis_thread"
-data-host="https://cusdis.com"
-data-app-id="6bd954b7-e2b4-4206-a1c3-3072cecfc326"
-data-page-id="global-board"
-data-page-title="星途璀璨"
-data-page-size="20">
-</div>
+        <div
+          id="cusdis_thread"
+          data-host="https://cusdis.com"
+          data-app-id="6bd954b7-e2b4-4206-a1c3-3072cecfc326"
+          data-page-id="global-board"
+          data-page-title="星途璀璨">
+        </div>
 
-<script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
+        <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
+      </div>
 
-<script>
-let lastCount=0;
+    </div>
 
-async function loadCommentCount(){
-  try{
-    const res=await fetch(
-      "https://cusdis.com/api/open/comments/count?appId=6bd954b7-e2b4-4206-a1c3-3072cecfc326&pageId=global-board"
-    );
-    const data=await res.json();
-    if(data.data){
-      const count=data.data.count;
-      const el=document.getElementById("comment-count");
-
-      if(count!==lastCount){
-        animateNumber(el,lastCount,count,400);
-        lastCount=count;
-      }
-    }
-  }catch(e){}
-}
-
-/* 数字滚动动画 */
-function animateNumber(el,start,end,duration){
-  const range=end-start;
-  const stepTime=Math.abs(Math.floor(duration/(range||1)));
-  let current=start;
-  const increment=end>start?1:-1;
-
-  const timer=setInterval(()=>{
-    current+=increment;
-    el.textContent=current;
-    if(current==end){
-      clearInterval(timer);
-    }
-  },stepTime>10?stepTime:10);
-}
-
-loadCommentCount();
-setInterval(loadCommentCount,30000);
-</script>
-
-</div>
-
-</div>
-</div>
+  </div>
 </div>
 
 <footer style="text-align:center;font-size:13px;color:#eee;padding:30px 0;">
-© 2026 LUMU
+  © 2026 LUMU
 </footer>
 
 </body>
