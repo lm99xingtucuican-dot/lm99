@@ -1,27 +1,209 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<title>🩵🩷 幸福时刻 🩵🩷</title>
+<meta charset="UTF-8" />
+<title>🩵🩷 幸福时刻 🩷🩵</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{box-sizing:border-box;}
+
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:linear-gradient(135deg,#4ab7cc 0%,#f2b3c6 100%);
+}
+
+/* 整体布局 */
+.wrapper{
+  display:flex;
+  height:100vh;
+}
+
+/* 左侧 */
+.sidebar{
+  width:260px;
+  background:#fff;
+  padding:20px;
+  overflow-y:auto;
+  box-shadow:3px 0 15px rgba(0,0,0,.08);
+  position:fixed;
+  left:0;
+  top:0;
+  bottom:0;
+}
+
+.sidebar h2{
+  margin:0 0 20px;
+  font-size:18px;
+}
+
+.year{
+  font-weight:bold;
+  cursor:pointer;
+  margin-top:10px;
+}
+
+.month{
+  margin-left:15px;
+  cursor:pointer;
+  color:#666;
+  display:none;
+  transition:all .3s ease;
+}
+
+.month:hover{color:#4ab7cc;}
+
+.day{
+  margin-left:30px;
+  font-size:14px;
+  cursor:pointer;
+  display:none;
+}
+
+.day:hover{color:#f2b3c6;}
+
+/* 右侧 */
+.main{
+  margin-left:260px;
+  flex:1;
+  overflow-y:auto;
+  padding:40px;
+  scroll-behavior:smooth;
+}
+
+.section{
+  background:#fff;
+  padding:30px;
+  border-radius:20px;
+  margin-bottom:40px;
+  box-shadow:0 12px 35px rgba(0,0,0,.1);
+  animation:fadeIn .6s ease;
+}
+
+.section h3{
+  margin-top:0;
+  text-align:center;
+}
+
+/* 返回首页 */
+.back{
+  display:inline-block;
+  margin-bottom:20px;
+  text-decoration:none;
+  color:#4ab7cc;
+}
+
+.back:hover{opacity:.7;}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(10px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* 手机 */
+@media(max-width:768px){
+  .sidebar{position:relative;width:100%;height:auto;}
+  .main{margin-left:0;}
+  .wrapper{flex-direction:column;}
+}
+</style>
 </head>
+
 <body>
 
-<h1 style="text-align:center">🩵🩷 幸福时刻 🩵🩷</h1>
+<div class="wrapper">
 
-<p style="text-align:center;color:#666">
-写在留言前的话（固定不变）<br>
-愿幸福降临在我们每一个人的手心
-</p >
+  <!-- 左侧 -->
+  <div class="sidebar">
+    <h2>🩵 日期索引 🩷</h2>
+    <div id="tree"></div>
+  </div>
 
-<div id="cusdis_thread"
- data-host="https://cusdis.com"
- data-app-id="6bd954b7-e2b4-4206-a1c3-3072cecfc326"
- data-page-id="all-happiness"
- data-page-title="幸福时刻">
+  <!-- 右侧 -->
+  <div class="main" id="content">
+    <a href=" " class="back">← 返回首页</a >
+    <div id="posts"></div>
+  </div>
+
 </div>
 
-<script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
+<script>
+fetch("diary.json")
+.then(res=>res.json())
+.then(list=>{
+  list.sort().reverse();
+
+  const tree={};
+
+  list.forEach(date=>{
+    const [y,m,d]=date.split("-");
+    if(!tree[y]) tree[y]={};
+    if(!tree[y][m]) tree[y][m]=[];
+    tree[y][m].push(date);
+  });
+
+  const treeDiv=document.getElementById("tree");
+  const postsDiv=document.getElementById("posts");
+
+  Object.keys(tree).sort().reverse().forEach(year=>{
+    const yDiv=document.createElement("div");
+    yDiv.className="year";
+    yDiv.textContent=year;
+    treeDiv.appendChild(yDiv);
+
+    Object.keys(tree[year]).sort().reverse().forEach(month=>{
+      const mDiv=document.createElement("div");
+      mDiv.className="month";
+      mDiv.textContent=month+"月";
+      treeDiv.appendChild(mDiv);
+
+      yDiv.onclick=()=>{
+        document.querySelectorAll(".month").forEach(el=>el.style.display="none");
+        document.querySelectorAll(".day").forEach(el=>el.style.display="none");
+        mDiv.style.display="block";
+      };
+
+      tree[year][month].forEach(date=>{
+        const dDiv=document.createElement("div");
+        dDiv.className="day";
+        dDiv.textContent=date;
+        treeDiv.appendChild(dDiv);
+
+        mDiv.onclick=()=>{
+          document.querySelectorAll(".day").forEach(el=>el.style.display="none");
+          dDiv.style.display="block";
+        };
+
+        dDiv.onclick=()=>{
+          postsDiv.innerHTML="";
+          loadPost(date);
+        };
+      });
+    });
+  });
+
+  function loadPost(date){
+    fetch(`diary/${date.slice(0,4)}/${date.slice(5,7)}/${date}.html`)
+    .then(res=>res.text())
+    .then(html=>{
+      const section=document.createElement("div");
+      section.className="section";
+      section.innerHTML=`<h3>${date}</h3>`+html;
+      postsDiv.appendChild(section);
+    });
+  }
+
+  /* 默认显示最新 */
+  if(list.length>0){
+    loadPost(list[0]);
+  }
+
+});
+</script>
+<footer style="text-align:center;font-size:12px;color:#eee;margin:30px 0;">
+  © 2026 LUMU
+</footer>
 
 </body>
 </html>
