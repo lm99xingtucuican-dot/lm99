@@ -9,11 +9,11 @@
 body{
 margin:0;
 font-family:-apple-system,BlinkMacSystemFont;
-background:linear-gradient(135deg,#5f9cff,#7dbbff,#a8d4ff);
+background:linear-gradient(135deg,#89f7fe,#66a6ff,#ff9ad5);
 overflow:hidden;
 }
 
-/* 粒子 */
+/* 粒子层 */
 #particles{
 position:fixed;
 width:100%;
@@ -21,7 +21,7 @@ height:100%;
 z-index:0;
 }
 
-/* 布局 */
+/* 主布局 */
 .layout{
 position:relative;
 z-index:2;
@@ -29,29 +29,33 @@ display:flex;
 height:100vh;
 }
 
-/* 左侧日期索引卡片 */
+/* 左侧导航 */
 .sidebar{
-width:260px;
+width:240px;
 padding:20px;
+background:rgba(255,255,255,0.15);
+backdrop-filter:blur(12px);
+border-radius:20px;
+margin:20px;
 overflow-y:auto;
+color:white;
+font-size:14px;
 }
 
-.index-card{
-background:rgba(255,255,255,0.25);
-backdrop-filter:blur(20px);
-border-radius:18px;
-padding:15px;
-margin-bottom:15px;
+.sidebar div{
+margin:6px 0;
+padding:6px 10px;
+border-radius:12px;
 cursor:pointer;
-transition:0.3s;
+transition:all 0.3s;
 }
 
-.index-card:hover{
-background:rgba(255,255,255,0.35);
-transform:translateY(-2px);
+.sidebar div:hover{
+background:rgba(255,255,255,0.25);
+transform:translateX(4px);
 }
 
-/* 右侧留言区 */
+/* 右侧留言区域 */
 .main{
 flex:1;
 padding:30px;
@@ -60,24 +64,33 @@ overflow-y:auto;
 
 /* 留言卡片 */
 .card{
-background:rgba(255,255,255,0.28);
-padding:18px;
+background:rgba(255,255,255,0.25);
+backdrop-filter:blur(15px);
+padding:20px;
 border-radius:20px;
-margin-bottom:18px;
-backdrop-filter:blur(25px);
-transition:0.3s;
+margin-bottom:20px;
+color:white;
+box-shadow:0 8px 25px rgba(0,0,0,0.15);
+transition:all 0.3s;
 }
 
 .card:hover{
-background:rgba(255,255,255,0.38);
+transform:translateY(-4px);
+box-shadow:0 15px 35px rgba(0,0,0,0.2);
 }
 
-/* 昵称粉蓝色 */
 .nickname{
-color:#6ecbff;
+color:#ffb6e6;
 font-weight:bold;
+margin-bottom:8px;
+}
+
+.date{
+opacity:0.8;
+font-size:13px;
 margin-bottom:6px;
 }
+
 </style>
 </head>
 
@@ -98,20 +111,26 @@ margin-bottom:6px;
 </div>
 
 <script>
-/* ================= 粒子背景 ================= */
+
+/* 粒子背景 */
 const canvas=document.getElementById("particles")
 const ctx=canvas.getContext("2d")
+
+function resizeCanvas(){
 canvas.width=window.innerWidth
 canvas.height=window.innerHeight
+}
+resizeCanvas()
+window.addEventListener("resize",resizeCanvas)
 
 let particles=[]
-for(let i=0;i<100;i++){
+for(let i=0;i<80;i++){
 particles.push({
 x:Math.random()*canvas.width,
 y:Math.random()*canvas.height,
 r:Math.random()*3+1,
-dx:(Math.random()-0.5)*0.6,
-dy:(Math.random()-0.5)*0.6
+dx:(Math.random()-0.5)*0.4,
+dy:(Math.random()-0.5)*0.4
 })
 }
 
@@ -120,7 +139,7 @@ ctx.clearRect(0,0,canvas.width,canvas.height)
 particles.forEach(p=>{
 ctx.beginPath()
 ctx.arc(p.x,p.y,p.r,0,Math.PI*2)
-ctx.fillStyle="rgba(255,255,255,0.7)"
+ctx.fillStyle="rgba(255,255,255,0.6)"
 ctx.fill()
 p.x+=p.dx
 p.y+=p.dy
@@ -131,86 +150,112 @@ requestAnimationFrame(draw)
 }
 draw()
 
-/* ================= 读取 diary.json ================= */
-
+/* 读取 diary.json */
 async function loadDiary(){
+try{
 const res=await fetch("diary.json?"+Date.now())
 const data=await res.json()
 render(data)
+}catch(e){
+document.getElementById("dateIndex").innerHTML="暂无留言数据"
+}
 }
 
 function render(data){
-
-renderTree(data)
-renderIndex(data)
-
-}
-
-/* ================= 树状留言渲染 ================= */
-
-function renderTree(data){
 const container=document.getElementById("commentsContainer")
-container.innerHTML=""
-
-const map={}
-data.forEach(item=>{
-item.children=[]
-map[item.id]=item
-})
-
-const roots=[]
-data.forEach(item=>{
-if(item.parentId && map[item.parentId]){
-map[item.parentId].children.push(item)
-}else{
-roots.push(item)
-}
-})
-
-function renderNode(node,level=0){
-const card=document.createElement("div")
-card.className="card"
-card.style.marginLeft=level*35+"px"
-
-card.innerHTML=`
-<div class="nickname">${node.nickname}</div>
-<div style="font-size:12px;opacity:0.7">${node.date}</div>
-<div>${node.content}</div>
-`
-
-container.appendChild(card)
-
-node.children.forEach(child=>{
-renderNode(child,level+1)
-})
-}
-
-roots.forEach(root=>renderNode(root))
-}
-
-/* ================= 左侧日期索引 ================= */
-
-function renderIndex(data){
 const index=document.getElementById("dateIndex")
+
+container.innerHTML=""
 index.innerHTML=""
 
-const dates=[...new Set(data.map(d=>d.date))]
+const grouped={}
 
-dates.forEach(date=>{
-const div=document.createElement("div")
-div.className="index-card"
-div.innerText=date
+data.forEach(item=>{
+const [year,month,day]=item.date.split("-")
 
-div.onclick=()=>{
-const filtered=data.filter(d=>d.date===date)
-renderTree(filtered)
+if(!grouped[year]) grouped[year]={}
+if(!grouped[year][month]) grouped[year][month]={}
+if(!grouped[year][month][day]) grouped[year][month][day]=[]
+
+grouped[year][month][day].push(item)
+})
+
+for(const y in grouped){
+
+const yDiv=document.createElement("div")
+yDiv.innerHTML="▶ "+y
+yDiv.style.fontWeight="bold"
+index.appendChild(yDiv)
+
+const yearBlock=document.createElement("div")
+yearBlock.style.display="none"
+yearBlock.style.marginLeft="10px"
+index.appendChild(yearBlock)
+
+yDiv.onclick=()=>{
+yearBlock.style.display=
+yearBlock.style.display==="none"?"block":"none"
 }
 
-index.appendChild(div)
+for(const m in grouped[y]){
+
+const mDiv=document.createElement("div")
+mDiv.innerHTML="▶ "+m
+yearBlock.appendChild(mDiv)
+
+const monthBlock=document.createElement("div")
+monthBlock.style.display="none"
+monthBlock.style.marginLeft="10px"
+yearBlock.appendChild(monthBlock)
+
+mDiv.onclick=()=>{
+monthBlock.style.display=
+monthBlock.style.display==="none"?"block":"none"
+}
+
+for(const d in grouped[y][m]){
+
+const dDiv=document.createElement("div")
+dDiv.innerHTML=d
+monthBlock.appendChild(dDiv)
+
+dDiv.onclick=()=>{
+container.innerHTML=""
+grouped[y][m][d].forEach(item=>{
+createCard(container,item)
+})
+}
+}
+}
+}
+
+renderAll(data)
+}
+
+function renderAll(data){
+const container=document.getElementById("commentsContainer")
+container.innerHTML=""
+data.forEach(item=>{
+createCard(container,item)
 })
 }
 
+function createCard(container,item){
+const card=document.createElement("div")
+card.className="card"
+card.innerHTML=`
+<div class="nickname">${item.nickname}</div>
+<div class="date">${item.date}</div>
+<div>${item.content}</div>
+`
+container.appendChild(card)
+}
+
+/* 自动刷新（30秒） */
+setInterval(loadDiary,30000)
+
 loadDiary()
+
 </script>
 
 </body>
