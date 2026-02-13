@@ -30,25 +30,12 @@ body{
   padding:120px 20px;
 }
 
-/* 🌸 原版漂浮粒子 */
-.particle{
-  position:absolute;
-  border-radius:50%;
-  opacity:0.5;
-  animation:float linear infinite;
-}
-
-.particle{
-  position:absolute;
-  border-radius:50%;
-  opacity:0.4;
-  animation:float linear infinite;
-  transition:all .3s ease;
-}
-
-@keyframes float{
-  from{transform:translateY(100vh) scale(1);}
-  to{transform:translateY(-10vh) scale(1.2);}
+/* 粒子层 */
+#particles{
+position:fixed;
+width:100%;
+height:100%;
+z-index:0;
 }
 
 /* 🌸 标题 */
@@ -202,29 +189,43 @@ body{
 
 <script>
 
-/* 🌸 生成原版粒子 */
-const container = document.getElementById("particles");
-const title = document.getElementById("mainTitle");
+/* 粒子背景 */
+const canvas=document.getElementById("particles")
+const ctx=canvas.getContext("2d")
 
-for(let i=0;i<30;i++){
-  const p = document.createElement("div");
-  p.className="particle";
-
-  const size = Math.random()*6+4;
-  p.style.width=size+"px";
-  p.style.height=size+"px";
-  p.style.left=Math.random()*100+"%";
-  p.style.top="100%";
-   // 🌸 蓝粉粒子
-  p.style.background = Math.random()>0.5 
-    ? "rgba(121,203,216,0.5)"   // 蓝
-    : "rgba(242,179,198,0.5)";  // 粉
-
-  p.style.animationDuration = (Math.random()*18+12)+"s";
-  p.style.animationDelay = Math.random()*12+"s";
-
-  container.appendChild(p);
+function resizeCanvas(){
+canvas.width=window.innerWidth
+canvas.height=window.innerHeight
 }
+resizeCanvas()
+window.addEventListener("resize",resizeCanvas)
+
+let particles=[]
+for(let i=0;i<80;i++){
+particles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*3+1,
+dx:(Math.random()-0.5)*0.4,
+dy:(Math.random()-0.5)*0.4
+})
+}
+
+function draw(){
+ctx.clearRect(0,0,canvas.width,canvas.height)
+particles.forEach(p=>{
+ctx.beginPath()
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2)
+ctx.fillStyle="rgba(255,255,255,0.6)"
+ctx.fill()
+p.x+=p.dx
+p.y+=p.dy
+if(p.x<0||p.x>canvas.width)p.dx*=-1
+if(p.y<0||p.y>canvas.height)p.dy*=-1
+})
+requestAnimationFrame(draw)
+}
+draw()
 
   /* 🌸 靠近标题时变亮 */
   setInterval(()=>{
