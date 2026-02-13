@@ -2,85 +2,140 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<title>🩵🩷 幸福时刻 🩷🩵</title>
+<title>🩵🩷 5幸福时刻 🩷🩵</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-html,body{height:100%;}
+html,body{height:100%;overflow:hidden;}
 
-/* 背景 */
 body{
-  font-family:"Smiley Sans",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
-  background:linear-gradient(135deg,#4ab7cc 0%,#79cbd8 25%,#b7dbe3 50%,#e4cddc 75%,#f2b3c6 100%);
-  display:flex;
-  overflow:hidden;
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:linear-gradient(135deg,#4ab7cc 0%,#79cbd8 40%,#b7dbe3 60%,#f2b3c6 100%);
 }
 
-/* 粒子 */
+/* 🌸 粒子 */
 #particles{
-  position:fixed; top:0; left:0; width:100%; height:100%;
-  pointer-events:none; z-index:0;
+  position:fixed;
+  width:100%;height:100%;
+  top:0;left:0;
+  pointer-events:none;
+  z-index:0;
 }
+
 .particle{
   position:absolute;
   border-radius:50%;
-  opacity:0.4;
+  opacity:.35;
   animation:float linear infinite;
 }
+
 @keyframes float{
-  from{transform:translateY(100vh) scale(1);}
-  to{transform:translateY(-10vh) scale(1.2);}
+  from{transform:translateY(100vh);}
+  to{transform:translateY(-10vh);}
 }
 
-/* 主体布局 */
+/* 主体 */
 .wrapper{
-  display:flex; flex:1; min-height:100vh; z-index:1; position:relative;
+  position:relative;
+  z-index:1;
+  display:flex;
+  height:100vh;
 }
 
-/* 左侧日期索引 */
+/* 左侧 */
 .sidebar{
   width:260px;
   padding:20px;
   overflow-y:auto;
 }
-.sidebar h2{color:#fff;margin-bottom:20px;font-size:18px;}
-.year, .month, .day{
-  background:rgba(255,255,255,0.9);
-  border-radius:12px;
-  margin:8px 0;
-  padding:8px 12px;
-  box-shadow:0 4px 12px rgba(0,0,0,0.08);
-  cursor:pointer;
-}
-.month{margin-left:15px;}
-.day{margin-left:30px;font-size:14px;}
 
-/* 右侧留言板 */
+.sidebar-title{
+  color:#fff;
+  font-weight:bold;
+  margin-bottom:15px;
+}
+
+.tree-item{
+  background:rgba(255,255,255,.85);
+  border-radius:12px;
+  padding:8px 12px;
+  margin:6px 0;
+  cursor:pointer;
+  box-shadow:0 4px 10px rgba(0,0,0,.08);
+  transition:.2s;
+}
+
+.tree-item:hover{
+  transform:translateX(4px);
+}
+
+.child{
+  margin-left:18px;
+  display:none;
+}
+
+/* 右侧 */
 .main{
   flex:1;
-  padding:30px;
-  overflow-y:auto;
+  padding:25px;
   display:flex;
   flex-direction:column;
 }
-.section{
-  background:rgba(255,255,255,0.9);
-  padding:20px 25px;
-  border-radius:18px;
-  margin-bottom:20px;
-  box-shadow:0 8px 20px rgba(0,0,0,0.08);
-  flex-shrink:0;
-}
-.section h3{margin-bottom:10px;}
-.section p{font-size:14px;line-height:1.8;color:#555;}
-.section small{display:block;margin-top:6px;color:#4ab7cc;font-weight:600;}
-.back{margin-bottom:20px;color:#fff;font-weight:bold;text-decoration:none;}
-.back:hover{opacity:.8;}
 
-@media(max-width:768px){
-  .wrapper{flex-direction:column;}
-  .sidebar{width:100%;height:auto;}
+/* 标题 */
+.title{
+  text-align:center;
+  font-size:22px;
+  font-weight:bold;
+  color:#fff;
+  margin-bottom:15px;
+}
+
+/* 留言框 */
+.comment-box{
+  background:rgba(255,255,255,.9);
+  border-radius:18px;
+  padding:15px;
+  box-shadow:0 8px 20px rgba(0,0,0,.08);
+  margin-bottom:20px;
+}
+
+/* 留言列表 */
+.comment-list{
+  flex:1;
+  background:rgba(255,255,255,.9);
+  border-radius:18px;
+  padding:20px;
+  overflow-y:auto;
+  box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+/* 单条卡片 */
+.comment-card{
+  background:#fff;
+  border-radius:14px;
+  padding:12px 16px;
+  margin-bottom:15px;
+  box-shadow:0 4px 12px rgba(0,0,0,.06);
+}
+
+.nickname{
+  font-weight:bold;
+  color:#4ab7cc;
+  margin-bottom:6px;
+}
+
+.date{
+  font-size:12px;
+  color:#999;
+  margin-bottom:6px;
+}
+
+.content{
+  font-size:14px;
+  line-height:1.6;
+  color:#444;
 }
 </style>
 </head>
@@ -90,110 +145,159 @@ body{
 <div id="particles"></div>
 
 <div class="wrapper">
+
+  <!-- 左侧 -->
   <div class="sidebar">
-    <h2>🩵 日期索引 🩷</h2>
-    <div id="tree"></div>
+    <div class="sidebar-title">🩵 日期索引 🩷</div>
+    <div id="dateTree"></div>
   </div>
 
+  <!-- 右侧 -->
   <div class="main">
-    <a href=" " class="back">← 返回首页</a >
-    <div id="posts"></div>
+
+    <div class="title">幸福时刻（留言板）</div>
+
+    <div class="comment-box">
+      <div id="cusdis_thread"
+        data-host="https://cusdis.com"
+        data-app-id="6bd954b7-e2b4-4206-a1c3-3072cecfc326"
+        data-page-id="happiness-page"
+        data-page-title="幸福时刻">
+      </div>
+    </div>
+
+    <div class="comment-list" id="commentList">
+      正在加载留言...
+    </div>
+
   </div>
 </div>
 
+<script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
+
 <script>
-/* 🌸 粒子生成 */
-const particleContainer = document.getElementById("particles");
+/* 🌸 粒子 */
+const particles=document.getElementById("particles");
 for(let i=0;i<50;i++){
   const p=document.createElement("div");
   p.className="particle";
   const size=Math.random()*6+3;
-  p.style.width=size+"px"; p.style.height=size+"px";
+  p.style.width=size+"px";
+  p.style.height=size+"px";
   p.style.left=Math.random()*100+"%";
-  p.style.background=Math.random()>0.5?"#ffffff":"#ffd1ec";
+  p.style.background=Math.random()>.5?"#fff":"#ffd1ec";
   p.style.animationDuration=(Math.random()*15+10)+"s";
-  p.style.animationDelay=Math.random()*10+"s";
-  particleContainer.appendChild(p);
+  particles.appendChild(p);
 }
 
-/* 🌸 Cusdis API 获取留言 */
-const APP_ID = "6bd954b7-e2b4-4206-a1c3-3072cecfc326";
-const PAGE_ID = "global-board"; 
-const postsDiv = document.getElementById("posts");
-const treeDiv = document.getElementById("tree");
+const APP_ID="6bd954b7-e2b4-4206-a1c3-3072cecfc326";
+let allComments=[];
+let currentFilter=null;
 
+/* 加载留言 */
 async function loadComments(){
-  const res = await fetch(`https://cusdis.com/api/open/comments?appId=${APP_ID}&page=1`);
-  const data = await res.json();
-  const comments = data.data;
+  const res=await fetch(`https://cusdis.com/api/open/comments?appId=${APP_ID}&page=1`);
+  const data=await res.json();
+  allComments=data.data;
+  buildTree();
+  renderComments();
+}
 
-  // 按日期分类
-  const tree = {};
-  comments.forEach(c=>{
-    const date = new Date(c.createdAt);
-    const y=date.getFullYear();
-    const m=String(date.getMonth()+1).padStart(2,'0');
-    const d=String(date.getDate()).padStart(2,'0');
+/* 构建日期树 */
+function buildTree(){
+  const treeDiv=document.getElementById("dateTree");
+  treeDiv.innerHTML="";
+  const tree={};
+
+  allComments.forEach(c=>{
+    const d=new Date(c.createdAt);
+    const y=d.getFullYear();
+    const m=String(d.getMonth()+1).padStart(2,'0');
+    const day=String(d.getDate()).padStart(2,'0');
     if(!tree[y]) tree[y]={};
     if(!tree[y][m]) tree[y][m]={};
-    if(!tree[y][m][d]) tree[y][m][d]=[];
-    tree[y][m][d].push({nickname:c.nickname, content:c.content, date:`${y}-${m}-${d}`});
+    if(!tree[y][m][day]) tree[y][m][day]=true;
   });
 
-  // 渲染树状索引
-  const sortedYears = Object.keys(tree).sort().reverse();
-  sortedYears.forEach(y=>{
-    const yearDiv = document.createElement("div");
-    yearDiv.className="year"; yearDiv.textContent=y;
+  Object.keys(tree).sort().reverse().forEach(y=>{
+    const year=document.createElement("div");
+    year.className="tree-item";
+    year.textContent=y+" ▼";
     const monthWrap=document.createElement("div");
+    monthWrap.className="child";
 
-    yearDiv.onclick=()=>{ monthWrap.style.display = monthWrap.style.display==="block"?"none":"block"; };
+    year.onclick=()=>monthWrap.style.display=
+      monthWrap.style.display==="block"?"none":"block";
 
     Object.keys(tree[y]).sort().reverse().forEach(m=>{
-      const monthDiv=document.createElement("div");
-      monthDiv.className="month"; monthDiv.textContent=m;
+      const month=document.createElement("div");
+      month.className="tree-item";
+      month.textContent=m+" ▼";
       const dayWrap=document.createElement("div");
+      dayWrap.className="child";
 
-      monthDiv.onclick=(e)=>{ e.stopPropagation(); dayWrap.style.display=dayWrap.style.display==="block"?"none":"block"; };
+      month.onclick=(e)=>{
+        e.stopPropagation();
+        dayWrap.style.display=
+          dayWrap.style.display==="block"?"none":"block";
+      };
 
       Object.keys(tree[y][m]).sort().reverse().forEach(d=>{
-        const dayDiv=document.createElement("div");
-        dayDiv.className="day"; dayDiv.textContent=d;
-        dayDiv.onclick=(e)=>{
+        const day=document.createElement("div");
+        day.className="tree-item";
+        day.textContent=d;
+        day.onclick=(e)=>{
           e.stopPropagation();
-          showPosts(y,m,d);
+          currentFilter=`${y}-${m}-${d}`;
+          renderComments();
         };
-        dayWrap.appendChild(dayDiv);
+        dayWrap.appendChild(day);
       });
 
-      monthWrap.appendChild(monthDiv);
+      monthWrap.appendChild(month);
       monthWrap.appendChild(dayWrap);
     });
 
-    treeDiv.appendChild(yearDiv);
+    treeDiv.appendChild(year);
     treeDiv.appendChild(monthWrap);
   });
+}
 
-  // 显示某天留言
-  function showPosts(y,m,d){
-    postsDiv.innerHTML="";
-    tree[y][m][d].forEach(item=>{
-      postsDiv.innerHTML+=`
-        <div class="section">
-          <h3>${item.date}</h3>
-          <p>${item.content}</p >
-          <small>${item.nickname}</small>
-        </div>
-      `;
+/* 渲染留言 */
+function renderComments(){
+  const list=document.getElementById("commentList");
+  list.innerHTML="";
+
+  let filtered=allComments;
+
+  if(currentFilter){
+    filtered=allComments.filter(c=>{
+      const d=new Date(c.createdAt);
+      const dateStr=d.toISOString().split("T")[0];
+      return dateStr===currentFilter;
     });
   }
 
-  // 默认显示最近一天
-  const latestY = sortedYears[0];
-  const latestM = Object.keys(tree[latestY]).sort().reverse()[0];
-  const latestD = Object.keys(tree[latestY][latestM]).sort().reverse()[0];
-  showPosts(latestY,latestM,latestD);
+  if(filtered.length===0){
+    list.innerHTML="这一天还没有留言 🌸";
+    return;
+  }
+
+  filtered.forEach(c=>{
+    const d=new Date(c.createdAt);
+    const card=document.createElement("div");
+    card.className="comment-card";
+    card.innerHTML=`
+      <div class="nickname">${c.nickname}</div>
+      <div class="date">${d.toLocaleString()}</div>
+      <div class="content">${c.content}</div>
+    `;
+    list.appendChild(card);
+  });
 }
+
+/* 自动刷新 */
+setInterval(loadComments,30000);
 
 loadComments();
 </script>
