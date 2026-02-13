@@ -125,23 +125,39 @@ const index=document.getElementById("dateIndex")
 container.innerHTML=""
 index.innerHTML=""
 
-data.forEach(item=>{
+let comments = data.data || data
+
+comments.forEach(item=>{
+
+const dateStr = item.createdAt
+  ? new Date(item.createdAt).toISOString().slice(0,10)
+  : item.date
+
+const nickname = item.nickname || "匿名"
+const content = item.content || ""
+
 const card=document.createElement("div")
 card.className="card"
 card.innerHTML=`
-<div class="nickname">${item.nickname}</div>
-<div>${item.date}</div>
-<div>${item.content}</div>
+<div class="nickname">${nickname}</div>
+<div>${dateStr}</div>
+<div>${content}</div>
 `
 container.appendChild(card)
 
 const dateDiv=document.createElement("div")
-dateDiv.innerText=item.date
+dateDiv.innerText=dateStr
 dateDiv.style.cursor="pointer"
 dateDiv.onclick=()=>{
-render(data.filter(d=>d.date===item.date))
+render(comments.filter(d=>{
+const dStr = d.createdAt
+? new Date(d.createdAt).toISOString().slice(0,10)
+: d.date
+return dStr===dateStr
+}))
 }
 index.appendChild(dateDiv)
+
 })
 }
 
