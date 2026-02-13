@@ -9,147 +9,169 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 
 body{
-margin:0;
-font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
-min-height:100vh;
-overflow-x:hidden;
-
-/* 🌸 和 news.html 完全一致的渐变 */
-background:linear-gradient(
-  135deg,
-  #4ab7cc 0%,
-  #79cbd8 25%,
-  #b7dbe3 50%,
-  #e4cddc 75%,
-  #f2b3c6 100%
-);
-background-attachment:fixed;
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+  background:linear-gradient(
+    135deg,
+    #4ab7cc 0%,
+    #79cbd8 25%,
+    #b7dbe3 50%,
+    #e4cddc 75%,
+    #f2b3c6 100%
+  );
+  background-attachment:fixed;
 }
 
-/* 🌸 粒子层（和 news 一样） */
+/* 粒子层 */
 .particles{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-pointer-events:none;
-overflow:hidden;
-z-index:0;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:0;
 }
 
 .particle{
-position:absolute;
-border-radius:50%;
-opacity:0.4;
-animation:float linear infinite;
+  position:absolute;
+  border-radius:50%;
+  opacity:0.4;
+  animation:float linear infinite;
 }
 
 @keyframes float{
-from{transform:translateY(100vh) scale(1);}
-to{transform:translateY(-10vh) scale(1.2);}
+  from{transform:translateY(100vh) scale(1);}
+  to{transform:translateY(-10vh) scale(1.2);}
 }
 
 /* 主布局 */
 .layout{
-position:relative;
-z-index:1;
-display:flex;
-height:100vh;
+  position:relative;
+  z-index:1;
+  display:flex;
+  flex-direction:row;
+  flex-wrap:nowrap;
+  height:100%;
 }
 
 /* 左侧导航 */
 .sidebar{
-width:240px;
-padding:20px;
-background:rgba(255,255,255,0.18);
-backdrop-filter:blur(12px);
-border-radius:20px;
-margin:20px;
-overflow-y:auto;
-color:white;
-font-size:14px;
+  width:240px;
+  padding:20px;
+  background:rgba(255,255,255,0.18);
+  backdrop-filter:blur(12px);
+  border-radius:20px;
+  margin:20px 10px 20px 20px;
+  overflow-y:auto;
+  color:white;
+  font-size:14px;
+  flex-shrink:0;
 }
 
 .sidebar div{
-margin:6px 0;
-padding:6px 10px;
-border-radius:12px;
-cursor:pointer;
-transition:all 0.3s;
+  margin:6px 0;
+  padding:6px 10px;
+  border-radius:12px;
+  cursor:pointer;
+  transition:all 0.3s;
 }
 
 .sidebar div:hover{
-background:rgba(255,255,255,0.3);
-transform:translateX(4px);
+  background:rgba(255,255,255,0.3);
+  transform:translateX(4px);
 }
 
 /* 右侧留言区域 */
 .main{
-flex:1;
-padding:30px;
-overflow-y:auto;
+  flex:1;
+  padding:20px;
+  overflow-y:auto;
+  min-width:0; /* 防止 flex overflow */
 }
 
 /* 留言卡片 */
 .card{
-background:rgba(255,255,255,0.28);
-backdrop-filter:blur(15px);
-padding:20px;
-border-radius:20px;
-margin-bottom:20px;
-color:white;
-box-shadow:0 8px 25px rgba(0,0,0,0.15);
-transition:all 0.3s;
+  background:rgba(255,255,255,0.28);
+  backdrop-filter:blur(15px);
+  padding:15px 20px;
+  border-radius:15px;
+  margin-bottom:15px;
+  color:white;
+  box-shadow:0 8px 20px rgba(0,0,0,0.15);
+  transition:all 0.3s;
 }
 
 .card:hover{
-transform:translateY(-4px);
-box-shadow:0 15px 35px rgba(0,0,0,0.2);
+  transform:translateY(-4px);
+  box-shadow:0 15px 35px rgba(0,0,0,0.2);
 }
 
 .nickname{
-color:#ffb6e6;
-font-weight:bold;
-margin-bottom:8px;
+  color:#ffb6e6;
+  font-weight:bold;
+  margin-bottom:6px;
+  font-size:14px;
 }
 
 .date{
-opacity:0.8;
-font-size:13px;
-margin-bottom:6px;
+  opacity:0.8;
+  font-size:12px;
+  margin-bottom:4px;
+}
+
+/* 手机端适配 */
+@media(max-width:900px){
+  .layout{
+    flex-direction:column;
+    height:auto;
+  }
+  .sidebar{
+    width:100%;
+    margin:10px 0;
+    padding:10px;
+    border-radius:12px;
+    font-size:12px;
+  }
+  .main{
+    padding:10px;
+  }
+  .card{
+    padding:12px 15px;
+    margin-bottom:12px;
+    border-radius:12px;
+  }
+  .nickname{font-size:13px;}
+  .date{font-size:11px;}
 }
 </style>
 </head>
 
 <body>
 
-<!-- 🌸 粒子容器 -->
+<!-- 粒子容器 -->
 <div class="particles" id="particles"></div>
 
 <div class="layout">
-
-<div class="sidebar" id="dateIndex">
-加载中...
+  <div class="sidebar" id="dateIndex">加载中...</div>
+  <div class="main">
+    <div id="commentsContainer"></div>
+  </div>
 </div>
 
-<div class="main">
-<div id="commentsContainer"></div>
-</div>
-
-</div>
 <footer style="text-align:center;font-size:13px;color:#eee;padding:30px 0;position:relative;z-index:1;">
 © 2026 LUMU
 </footer>
+
 <script>
-
-/* 🌸 生成和 news 一样的漂浮粒子 */
+/* 生成漂浮粒子 */
 const particleContainer = document.getElementById("particles");
-
 for(let i=0;i<25;i++){
   const p = document.createElement("div");
   p.className="particle";
-
   const size = Math.random()*8+4;
   p.style.width=size+"px";
   p.style.height=size+"px";
@@ -157,114 +179,94 @@ for(let i=0;i<25;i++){
   p.style.background = Math.random()>0.5 ? "#ffffff" : "#ffd1ec";
   p.style.animationDuration = (Math.random()*15+10)+"s";
   p.style.animationDelay = Math.random()*10+"s";
-
   particleContainer.appendChild(p);
 }
 
-/* 读取 diary.json */
+/* 读取 diary.json 并渲染 */
 async function loadDiary(){
-try{
-const res=await fetch("diary.json?"+Date.now())
-const data=await res.json()
-render(data)
-}catch(e){
-document.getElementById("dateIndex").innerHTML="暂无留言数据"
-}
+  try{
+    const res=await fetch("diary.json?"+Date.now());
+    const data=await res.json();
+    render(data);
+  }catch(e){
+    document.getElementById("dateIndex").innerHTML="暂无留言数据";
+  }
 }
 
 function render(data){
-const container=document.getElementById("commentsContainer")
-const index=document.getElementById("dateIndex")
+  const container=document.getElementById("commentsContainer");
+  const index=document.getElementById("dateIndex");
+  container.innerHTML="";
+  index.innerHTML="";
 
-container.innerHTML=""
-index.innerHTML=""
+  const grouped={};
+  data.forEach(item=>{
+    const [year,month,day]=item.date.split("-");
+    if(!grouped[year]) grouped[year]={};
+    if(!grouped[year][month]) grouped[year][month]={};
+    if(!grouped[year][month][day]) grouped[year][month][day]=[];
+    grouped[year][month][day].push(item);
+  });
 
-const grouped={}
+  for(const y in grouped){
+    const yDiv=document.createElement("div");
+    yDiv.innerHTML="▶ "+y;
+    yDiv.style.fontWeight="bold";
+    index.appendChild(yDiv);
 
-data.forEach(item=>{
-const [year,month,day]=item.date.split("-")
+    const yearBlock=document.createElement("div");
+    yearBlock.style.display="none";
+    yearBlock.style.marginLeft="10px";
+    index.appendChild(yearBlock);
 
-if(!grouped[year]) grouped[year]={}
-if(!grouped[year][month]) grouped[year][month]={}
-if(!grouped[year][month][day]) grouped[year][month][day]=[]
+    yDiv.onclick=()=>{yearBlock.style.display=yearBlock.style.display==="none"?"block":"none";}
 
-grouped[year][month][day].push(item)
-})
+    for(const m in grouped[y]){
+      const mDiv=document.createElement("div");
+      mDiv.innerHTML="▶ "+m;
+      yearBlock.appendChild(mDiv);
 
-for(const y in grouped){
+      const monthBlock=document.createElement("div");
+      monthBlock.style.display="none";
+      monthBlock.style.marginLeft="10px";
+      yearBlock.appendChild(monthBlock);
 
-const yDiv=document.createElement("div")
-yDiv.innerHTML="▶ "+y
-yDiv.style.fontWeight="bold"
-index.appendChild(yDiv)
+      mDiv.onclick=()=>{monthBlock.style.display=monthBlock.style.display==="none"?"block":"none";}
 
-const yearBlock=document.createElement("div")
-yearBlock.style.display="none"
-yearBlock.style.marginLeft="10px"
-index.appendChild(yearBlock)
+      for(const d in grouped[y][m]){
+        const dDiv=document.createElement("div");
+        dDiv.innerHTML=d;
+        monthBlock.appendChild(dDiv);
+        dDiv.onclick=()=>{
+          container.innerHTML="";
+          grouped[y][m][d].forEach(item=>createCard(container,item));
+        }
+      }
+    }
+  }
 
-yDiv.onclick=()=>{
-yearBlock.style.display=
-yearBlock.style.display==="none"?"block":"none"
-}
-
-for(const m in grouped[y]){
-
-const mDiv=document.createElement("div")
-mDiv.innerHTML="▶ "+m
-yearBlock.appendChild(mDiv)
-
-const monthBlock=document.createElement("div")
-monthBlock.style.display="none"
-monthBlock.style.marginLeft="10px"
-yearBlock.appendChild(monthBlock)
-
-mDiv.onclick=()=>{
-monthBlock.style.display=
-monthBlock.style.display==="none"?"block":"none"
-}
-
-for(const d in grouped[y][m]){
-
-const dDiv=document.createElement("div")
-dDiv.innerHTML=d
-monthBlock.appendChild(dDiv)
-
-dDiv.onclick=()=>{
-container.innerHTML=""
-grouped[y][m][d].forEach(item=>{
-createCard(container,item)
-})
-}
-}
-}
-}
-
-renderAll(data)
+  renderAll(data);
 }
 
 function renderAll(data){
-const container=document.getElementById("commentsContainer")
-container.innerHTML=""
-data.forEach(item=>{
-createCard(container,item)
-})
+  const container=document.getElementById("commentsContainer");
+  container.innerHTML="";
+  data.forEach(item=>createCard(container,item));
 }
 
 function createCard(container,item){
-const card=document.createElement("div")
-card.className="card"
-card.innerHTML=`
-<div class="nickname">${item.nickname}</div>
-<div class="date">${item.date}</div>
-<div>${item.content}</div>
-`
-container.appendChild(card)
+  const card=document.createElement("div");
+  card.className="card";
+  card.innerHTML=`
+    <div class="nickname">${item.nickname}</div>
+    <div class="date">${item.date}</div>
+    <div>${item.content}</div>
+  `;
+  container.appendChild(card);
 }
 
-setInterval(loadDiary,30000)
-loadDiary()
-
+setInterval(loadDiary,30000);
+loadDiary();
 </script>
 
 </body>
