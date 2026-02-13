@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<title>🩵🩷 幸福时刻 🩷🩵</title>
+<title>🩵🩷1幸福时刻🩷🩵</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -14,12 +14,10 @@
 *{box-sizing:border-box;margin:0;padding:0;}
 html, body{height:100%; font-family:"Smiley Sans",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;}
 
-/* 背景渐变 & 粒子 */
+/* 背景 & 粒子 */
 body{
   background:linear-gradient(135deg,#4ab7cc 0%,#79cbd8 25%,#b7dbe3 50%,#e4cddc 75%,#f2b3c6 100%);
-  background-attachment:fixed;
-  overflow:hidden;
-  position:relative;
+  overflow:hidden; position:relative;
 }
 #particles{
   position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0;
@@ -29,8 +27,9 @@ body{
 }
 @keyframes float{from{transform:translateY(100vh) scale(1);} to{transform:translateY(-10vh) scale(1.2);}}
 
+/* 左右布局 */
 .wrapper{
-  display:flex; height:100vh; position:relative; z-index:1; align-items:flex-start;
+  display:flex; height:100vh; position:relative; z-index:1; align-items:stretch;
 }
 
 /* 左侧日期索引 */
@@ -38,22 +37,28 @@ body{
   width:260px; position:fixed; left:0; top:0; bottom:0; overflow-y:auto; padding:20px;
 }
 .sidebar h2{margin-bottom:20px; font-size:18px; color:#fff;}
+
+/* 日期小卡片 */
 .year, .month, .day{
   background:rgba(255,255,255,0.9); border-radius:12px; margin:8px 0; padding:8px 12px; box-shadow:0 4px 12px rgba(0,0,0,0.08); cursor:pointer;
 }
 .month{margin-left:15px;}
 .day{margin-left:30px; font-size:14px;}
+.year, .month, .day{user-select:none;}
+.monthWrap, .dayWrap{display:none;}
 
 /* 右侧留言板 */
 .main{
-  margin-left:260px; flex:1; overflow-y:auto; padding:40px; display:flex; flex-direction:column;
+  margin-left:260px; flex:1; overflow-y:auto; padding:40px; display:flex; flex-direction:column; min-height:100vh;
 }
 .back{display:inline-block; margin-bottom:20px; text-decoration:none; color:#fff; font-weight:bold;}
 .back:hover{opacity:.8;}
+#posts{flex:1;}
 
+/* 留言卡片 */
 .section{
   background:rgba(255,255,255,0.85); padding:20px; border-radius:18px; margin-bottom:20px;
-  box-shadow:0 8px 20px rgba(0,0,0,0.08); flex-shrink:0;
+  box-shadow:0 8px 20px rgba(0,0,0,0.08);
 }
 .section h3{margin-bottom:10px;}
 .section p{font-size:14px; line-height:1.8; color:#555;}
@@ -65,7 +70,6 @@ body{
   .main{margin-left:0;}
   .wrapper{flex-direction:column;}
 }
-
 footer{text-align:center; font-size:12px; color:#eee; margin:30px 0;}
 </style>
 </head>
@@ -114,47 +118,60 @@ for(let i=0;i<25;i++){
   particleContainer.appendChild(p);
 }
 
-/* 🌸 获取留言并生成日期树 */
+/* 🌸 生成最近30天日期索引 + 留言树 */
 const APP_ID = "6bd954b7-e2b4-4206-a1c3-3072cecfc326";
+const treeDiv = document.getElementById("tree");
+const postsDiv = document.getElementById("posts");
 
 fetch(`https://cusdis.com/api/open/comments?appId=${APP_ID}&page=1`)
 .then(res=>res.json())
 .then(data=>{
   const comments = data.data;
-  const tree = {};
-  const postsDiv = document.getElementById("posts");
-  const treeDiv = document.getElementById("tree");
+  const tree = {}; // y->m->d->comments
 
+  // 整理留言
   comments.forEach(c=>{
     const date = new Date(c.createdAt);
     const y = date.getFullYear();
     const m = String(date.getMonth()+1).padStart(2,"0");
     const d = String(date.getDate()).padStart(2,"0");
-
     if(!tree[y]) tree[y]={};
     if(!tree[y][m]) tree[y][m]={};
     if(!tree[y][m][d]) tree[y][m][d]=[];
     tree[y][m][d].push(c);
   });
 
-  const sortedYears = Object.keys(tree).sort((a,b)=>b-a);
+  // 生成最近30天日期节点
+  const today = new Date();
+  for(let i=0;i<30;i++){
+    const dt = new Date(today.getFullYear(), today.getMonth(), today.getDate()-i);
+    const y = dt.getFullYear();
+    const m = String(dt.getMonth()+1).padStart(2,"0");
+    const d = String(dt.getDate()).padStart(2,"0");
 
+    if(!tree[y]) tree[y]={};
+    if(!tree[y][m]) tree[y][m]={};
+    if(!tree[y][m][d]) tree[y][m][d]=tree[y][m][d] || [];
+  }
+
+  const sortedYears = Object.keys(tree).sort((a,b)=>b-a);
   sortedYears.forEach(y=>{
     const yearDiv=document.createElement("div");
     yearDiv.className="year"; yearDiv.textContent=y;
-    const monthWrap=document.createElement("div");
+    const monthWrap=document.createElement("div"); monthWrap.className="monthWrap";
     yearDiv.onclick=()=>{ monthWrap.style.display = monthWrap.style.display==="block"?"none":"block"; };
 
     Object.keys(tree[y]).sort((a,b)=>b-a).forEach(m=>{
-      const monthDiv=document.createElement("div");
-      monthDiv.className="month"; monthDiv.textContent=m;
-      const dayWrap=document.createElement("div");
+      const monthDiv=document.createElement("div"); monthDiv.className="month"; monthDiv.textContent=m;
+      const dayWrap=document.createElement("div"); dayWrap.className="dayWrap";
       monthDiv.onclick=(e)=>{ e.stopPropagation(); dayWrap.style.display=dayWrap.style.display==="block"?"none":"block"; };
 
       Object.keys(tree[y][m]).sort((a,b)=>b-a).forEach(d=>{
-        const dayDiv=document.createElement("div");
-        dayDiv.className="day"; dayDiv.textContent=d;
-        dayDiv.onclick=(e)=>{ e.stopPropagation(); showPosts(y,m,d); };
+        const dayDiv=document.createElement("div"); dayDiv.className="day"; dayDiv.textContent=d;
+        dayDiv.onclick=(e)=>{
+          e.stopPropagation();
+          showPosts(y,m,d);
+        };
         dayWrap.appendChild(dayDiv);
       });
 
@@ -177,9 +194,10 @@ fetch(`https://cusdis.com/api/open/comments?appId=${APP_ID}&page=1`)
         </div>
       `;
     });
+    postsDiv.scrollTop = 0; // 点击日期滚动到顶部
   }
 
-  // 默认显示最新一天
+  // 默认显示最近一天
   const y0 = sortedYears[0];
   const m0 = Object.keys(tree[y0]).sort((a,b)=>b-a)[0];
   const d0 = Object.keys(tree[y0][m0]).sort((a,b)=>b-a)[0];
