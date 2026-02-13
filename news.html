@@ -227,23 +227,47 @@ const title = document.getElementById("mainTitle");
 
 let particles=[];
 
-for(let i=0;i<80;i++){
+for(let i=0;i<90;i++){
   particles.push({
     x:Math.random()*canvas.width,
     y:Math.random()*canvas.height,
-    r:Math.random()*4+3,
-    dx:(Math.random()-0.5)*0.4,
-    dy:(Math.random()-0.5)*0.4,
-    color: Math.random()>0.5 ? "blue" : "pink"
+    r:Math.random()*3+2,
+    baseR:Math.random()*3+2,
+    speedY:Math.random()*0.3+0.1,
+    driftX:(Math.random()-0.5)*0.3,
+    alpha:Math.random()*0.5+0.5,
+    phase:Math.random()*Math.PI*2,
+    color:Math.random()>0.5?"blue":"pink"
   });
 }
 
 function draw(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  // 🌸 微拖尾效果
+  ctx.fillStyle="rgba(0,0,0,0.08)";
+  ctx.globalCompositeOperation="destination-out";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.globalCompositeOperation="lighter";
 
   const rect = title.getBoundingClientRect();
 
   particles.forEach(p=>{
+
+    // 🌸 呼吸闪烁
+    p.phase+=0.02;
+    let breath = Math.sin(p.phase)*0.3+0.7;
+    p.r = p.baseR * breath;
+
+    // 🌸 上升 + 横向轻漂
+    p.y -= p.speedY;
+    p.x += p.driftX;
+
+    if(p.y < -10){
+      p.y = canvas.height + 10;
+      p.x = Math.random()*canvas.width;
+    }
+
+    if(p.x<0||p.x>canvas.width)p.driftX*=-1;
 
     let near =
       p.x > rect.left-120 &&
@@ -251,40 +275,34 @@ function draw(){
       p.y > rect.top-120 &&
       p.y < rect.bottom+120;
 
-    let radius = near ? p.r*1.8 : p.r;
+    let radius = near ? p.r*1.6 : p.r;
 
-    // 🌸 只做边缘发光（空心光环）
+    // 🌸 光晕渐变
     const gradient = ctx.createRadialGradient(
-      p.x, p.y, radius*0.6,  // 内圈透明
-      p.x, p.y, radius      // 外圈发光
+      p.x,p.y,0,
+      p.x,p.y,radius*3
     );
 
     if(p.color==="blue"){
-      gradient.addColorStop(0, "rgba(121,203,216,0)");
-      gradient.addColorStop(1, near
-        ? "rgba(121,203,216,0.8)"
-        : "rgba(121,203,216,0.4)");
+      gradient.addColorStop(0,"rgba(121,203,216,"+(near?0.9:0.7)+")");
+      gradient.addColorStop(0.3,"rgba(121,203,216,0.5)");
+      gradient.addColorStop(1,"rgba(121,203,216,0)");
     }else{
-      gradient.addColorStop(0, "rgba(242,179,198,0)");
-      gradient.addColorStop(1, near
-        ? "rgba(242,179,198,0.8)"
-        : "rgba(242,179,198,0.4)");
+      gradient.addColorStop(0,"rgba(242,179,198,"+(near?0.9:0.7)+")");
+      gradient.addColorStop(0.3,"rgba(242,179,198,0.5)");
+      gradient.addColorStop(1,"rgba(242,179,198,0)");
     }
 
     ctx.beginPath();
-    ctx.arc(p.x,p.y,radius,0,Math.PI*2);
-    ctx.fillStyle = gradient;
+    ctx.arc(p.x,p.y,radius*3,0,Math.PI*2);
+    ctx.fillStyle=gradient;
     ctx.fill();
 
-    p.x+=p.dx;
-    p.y+=p.dy;
-
-    if(p.x<0||p.x>canvas.width)p.dx*=-1;
-    if(p.y<0||p.y>canvas.height)p.dy*=-1;
   });
 
   requestAnimationFrame(draw);
 }
+
 draw();
 
 /* 读取 news.json */
