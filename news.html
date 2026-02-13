@@ -227,32 +227,29 @@ const title = document.getElementById("mainTitle");
 
 let particles=[];
 
-for(let i=0;i<100;i++){
+// 生成小粒子
+for(let i=0;i<120;i++){
   particles.push({
     x:Math.random()*canvas.width,
     y:Math.random()*canvas.height,
-    baseR:Math.random()*1.2+1.2,   // 稍微大一些
-    speedY:Math.random()*0.05+0.02,  // 更慢
-    driftX:(Math.random()-0.5)*0.03, // 几乎不横移
+    baseR:Math.random()*0.8+0.6,  // 更小
+    speedY:Math.random()*0.05+0.02,
+    driftX:(Math.random()-0.5)*0.02,
     phase:Math.random()*Math.PI*2,
     color:Math.random()>0.5?"blue":"pink"
   });
 }
 
 function draw(){
-
-  ctx.clearRect(0,0,canvas.width,canvas.height); // 完全清空，不拖尾
+  ctx.clearRect(0,0,canvas.width,canvas.height);
 
   const rect = title.getBoundingClientRect();
 
   particles.forEach(p=>{
-
-    // 极轻微呼吸
     p.phase+=0.008;
     let breath = Math.sin(p.phase)*0.05+0.95;
     let r = p.baseR * breath;
 
-    // 极慢上升
     p.y -= p.speedY;
     p.x += p.driftX;
 
@@ -261,36 +258,31 @@ function draw(){
       p.x = Math.random()*canvas.width;
     }
 
-    // 判断靠近标题
     let near =
       p.x > rect.left-100 &&
       p.x < rect.right+100 &&
       p.y > rect.top-100 &&
       p.y < rect.bottom+100;
 
-    let glowStrength = near ? 1 : 0.7;
+    let glowStrength = near ? 1 : 0.6;  // 更透明
 
-    // 🌸 外层发光
-    const gradient = ctx.createRadialGradient(
-      p.x,p.y,0,
-      p.x,p.y,r*4
-    );
+    // 🌸 渐变粒子：中心蓝粉→外围白色
+    const gradient = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,r*4);
 
-   if(p.color==="blue"){
-  gradient.addColorStop(0,"rgba(121,203,216,0.55)");   // 中心更透明
-  gradient.addColorStop(0.35,"rgba(121,203,216,"+(glowStrength*0.4)+")");
-  gradient.addColorStop(1,"rgba(121,203,216,0)");
-}else{
-  gradient.addColorStop(0,"rgba(242,179,198,0.55)");
-  gradient.addColorStop(0.35,"rgba(242,179,198,"+(glowStrength*0.4)+")");
-  gradient.addColorStop(1,"rgba(242,179,198,0)");
-}
+    if(p.color==="blue"){
+      gradient.addColorStop(0,"rgba(121,203,216,"+(0.3*glowStrength)+")");
+      gradient.addColorStop(0.5,"rgba(255,255,255,"+(0.15*glowStrength)+")");
+      gradient.addColorStop(1,"rgba(255,255,255,0)");
+    }else{
+      gradient.addColorStop(0,"rgba(242,179,198,"+(0.3*glowStrength)+")");
+      gradient.addColorStop(0.5,"rgba(255,255,255,"+(0.15*glowStrength)+")");
+      gradient.addColorStop(1,"rgba(255,255,255,0)");
+    }
 
     ctx.beginPath();
     ctx.arc(p.x,p.y,r*4,0,Math.PI*2);
     ctx.fillStyle=gradient;
     ctx.fill();
-
   });
 
   requestAnimationFrame(draw);
@@ -302,25 +294,25 @@ draw();
 fetch('news.json')
 .then(res=>res.json())
 .then(newsData=>{
-newsData.sort((a,b)=> new Date(b.date)-new Date(a.date));
-const timeline=document.getElementById("timeline");
+  newsData.sort((a,b)=> new Date(b.date)-new Date(a.date));
+  const timeline=document.getElementById("timeline");
 
-newsData.forEach((item,index)=>{
-const side=index%2===0?"right":"left";
-const div=document.createElement("div");
-div.className="item "+side;
+  newsData.forEach((item,index)=>{
+    const side=index%2===0?"right":"left";
+    const div=document.createElement("div");
+    div.className="item "+side;
 
-const titleChars=item.title.split('').map(c=>`<span>${c}</span>`).join('');
+    const titleChars=item.title.split('').map(c=>`<span>${c}</span>`).join('');
 
-div.innerHTML=`
-<div class="card">
-<div class="date">${item.date}</div>
-<div class="title">${titleChars}</div>
-<div class="content">${item.content}</div>
-</div>
-`;
-timeline.appendChild(div);
-});
+    div.innerHTML=`
+      <div class="card">
+        <div class="date">${item.date}</div>
+        <div class="title">${titleChars}</div>
+        <div class="content">${item.content}</div>
+      </div>
+    `;
+    timeline.appendChild(div);
+  });
 });
 </script>
 
