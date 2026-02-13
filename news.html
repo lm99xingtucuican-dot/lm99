@@ -30,7 +30,7 @@ body{
   padding:100px 20px;
 }
 
-/* 粒子层 */
+/* 🌸 粒子层 */
 .particles{
   position:fixed;
   top:0;
@@ -54,7 +54,7 @@ body{
   to{transform:translateY(-10vh) scale(1.2);}
 }
 
-/* 🌸 深粉蓝渐变标题 + 星点闪烁 */
+/* 🌸 粉蓝渐变标题 + 星点闪烁 */
 .page-title{
   text-align:center;
   font-size:32px;
@@ -66,17 +66,17 @@ body{
 
   background: linear-gradient(
     135deg,
-    #162447 0%,
-    #1f4068 30%,
-    #6a0572 60%,
-    #b91372 100%
+    #79cbd8 0%,
+    #b7dbe3 30%,
+    #f2b3c6 70%,
+    #ff9ad5 100%
   );
 
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-/* 星点闪烁层 */
+/* 星点层 */
 .page-title::after{
   content:"";
   position:absolute;
@@ -87,18 +87,18 @@ body{
   pointer-events:none;
 
   background:
-    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.9) 0px, transparent 3px),
-    radial-gradient(circle at 70% 40%, rgba(255,255,255,0.7) 0px, transparent 3px),
-    radial-gradient(circle at 50% 70%, rgba(255,255,255,0.6) 0px, transparent 4px),
-    radial-gradient(circle at 80% 20%, rgba(255,255,255,0.8) 0px, transparent 3px);
+    radial-gradient(circle at 25% 35%, rgba(255,255,255,0.9) 0px, transparent 3px),
+    radial-gradient(circle at 60% 40%, rgba(255,255,255,0.8) 0px, transparent 3px),
+    radial-gradient(circle at 45% 70%, rgba(255,255,255,0.7) 0px, transparent 4px),
+    radial-gradient(circle at 80% 25%, rgba(255,255,255,0.9) 0px, transparent 3px);
 
-  animation: sparkle 4s infinite ease-in-out;
+  animation: sparkle 3.5s infinite ease-in-out;
 }
 
 @keyframes sparkle{
-  0%{opacity:0.2;}
+  0%{opacity:0.3;}
   50%{opacity:1;}
-  100%{opacity:0.2;}
+  100%{opacity:0.3;}
 }
 
 /* 时间线 */
@@ -242,7 +242,6 @@ footer{
 </footer>
 
 <script>
-/* 读取 news.json */
 fetch('news.json')
   .then(res => res.json())
   .then(newsData => {
@@ -267,13 +266,11 @@ fetch('news.json')
     });
   });
 
-/* 粒子生成 */
 const particleContainer = document.getElementById("particles");
 
 for(let i=0;i<25;i++){
   const p = document.createElement("div");
   p.className="particle";
-
   const size = Math.random()*8+4;
   p.style.width=size+"px";
   p.style.height=size+"px";
@@ -281,7 +278,6 @@ for(let i=0;i<25;i++){
   p.style.background = Math.random()>0.5 ? "#ffffff" : "#ffd1ec";
   p.style.animationDuration = (Math.random()*15+10)+"s";
   p.style.animationDelay = Math.random()*10+"s";
-
   particleContainer.appendChild(p);
 }
 </script>
