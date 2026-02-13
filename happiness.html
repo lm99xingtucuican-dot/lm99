@@ -6,25 +6,54 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
 body{
 margin:0;
-font-family:-apple-system,BlinkMacSystemFont;
-background:linear-gradient(135deg,#89f7fe,#66a6ff,#ff9ad5);
-overflow:hidden;
+font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+min-height:100vh;
+overflow-x:hidden;
+
+/* 🌸 和 news.html 完全一致的渐变 */
+background:linear-gradient(
+  135deg,
+  #4ab7cc 0%,
+  #79cbd8 25%,
+  #b7dbe3 50%,
+  #e4cddc 75%,
+  #f2b3c6 100%
+);
+background-attachment:fixed;
 }
 
-/* 粒子层 */
-#particles{
+/* 🌸 粒子层（和 news 一样） */
+.particles{
 position:fixed;
+top:0;
+left:0;
 width:100%;
 height:100%;
+pointer-events:none;
+overflow:hidden;
 z-index:0;
+}
+
+.particle{
+position:absolute;
+border-radius:50%;
+opacity:0.4;
+animation:float linear infinite;
+}
+
+@keyframes float{
+from{transform:translateY(100vh) scale(1);}
+to{transform:translateY(-10vh) scale(1.2);}
 }
 
 /* 主布局 */
 .layout{
 position:relative;
-z-index:2;
+z-index:1;
 display:flex;
 height:100vh;
 }
@@ -33,7 +62,7 @@ height:100vh;
 .sidebar{
 width:240px;
 padding:20px;
-background:rgba(255,255,255,0.15);
+background:rgba(255,255,255,0.18);
 backdrop-filter:blur(12px);
 border-radius:20px;
 margin:20px;
@@ -51,7 +80,7 @@ transition:all 0.3s;
 }
 
 .sidebar div:hover{
-background:rgba(255,255,255,0.25);
+background:rgba(255,255,255,0.3);
 transform:translateX(4px);
 }
 
@@ -64,7 +93,7 @@ overflow-y:auto;
 
 /* 留言卡片 */
 .card{
-background:rgba(255,255,255,0.25);
+background:rgba(255,255,255,0.28);
 backdrop-filter:blur(15px);
 padding:20px;
 border-radius:20px;
@@ -90,13 +119,13 @@ opacity:0.8;
 font-size:13px;
 margin-bottom:6px;
 }
-
 </style>
 </head>
 
 <body>
 
-<canvas id="particles"></canvas>
+<!-- 🌸 粒子容器 -->
+<div class="particles" id="particles"></div>
 
 <div class="layout">
 
@@ -112,43 +141,23 @@ margin-bottom:6px;
 
 <script>
 
-/* 粒子背景 */
-const canvas=document.getElementById("particles")
-const ctx=canvas.getContext("2d")
+/* 🌸 生成和 news 一样的漂浮粒子 */
+const particleContainer = document.getElementById("particles");
 
-function resizeCanvas(){
-canvas.width=window.innerWidth
-canvas.height=window.innerHeight
-}
-resizeCanvas()
-window.addEventListener("resize",resizeCanvas)
+for(let i=0;i<25;i++){
+  const p = document.createElement("div");
+  p.className="particle";
 
-let particles=[]
-for(let i=0;i<80;i++){
-particles.push({
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-r:Math.random()*3+1,
-dx:(Math.random()-0.5)*0.4,
-dy:(Math.random()-0.5)*0.4
-})
-}
+  const size = Math.random()*8+4;
+  p.style.width=size+"px";
+  p.style.height=size+"px";
+  p.style.left=Math.random()*100+"%";
+  p.style.background = Math.random()>0.5 ? "#ffffff" : "#ffd1ec";
+  p.style.animationDuration = (Math.random()*15+10)+"s";
+  p.style.animationDelay = Math.random()*10+"s";
 
-function draw(){
-ctx.clearRect(0,0,canvas.width,canvas.height)
-particles.forEach(p=>{
-ctx.beginPath()
-ctx.arc(p.x,p.y,p.r,0,Math.PI*2)
-ctx.fillStyle="rgba(255,255,255,0.6)"
-ctx.fill()
-p.x+=p.dx
-p.y+=p.dy
-if(p.x<0||p.x>canvas.width)p.dx*=-1
-if(p.y<0||p.y>canvas.height)p.dy*=-1
-})
-requestAnimationFrame(draw)
+  particleContainer.appendChild(p);
 }
-draw()
 
 /* 读取 diary.json */
 async function loadDiary(){
@@ -251,9 +260,7 @@ card.innerHTML=`
 container.appendChild(card)
 }
 
-/* 自动刷新（30秒） */
 setInterval(loadDiary,30000)
-
 loadDiary()
 
 </script>
