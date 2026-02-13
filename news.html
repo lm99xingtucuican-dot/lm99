@@ -227,13 +227,13 @@ const title = document.getElementById("mainTitle");
 
 let particles=[];
 
-for(let i=0;i<100;i++){
+for(let i=0;i<110;i++){
   particles.push({
     x:Math.random()*canvas.width,
     y:Math.random()*canvas.height,
-    baseR:Math.random()*1.5+1.2,   // 🌸 更小粒子
-    speedY:Math.random()*0.25+0.1,
-    driftX:(Math.random()-0.5)*0.2,
+    baseR:Math.random()*1+0.8,   // 🌸 更小
+    speedY:Math.random()*0.08+0.03,  // 🌸 非常慢
+    driftX:(Math.random()-0.5)*0.05, // 🌸 几乎不横移
     phase:Math.random()*Math.PI*2,
     color:Math.random()>0.5?"blue":"pink"
   });
@@ -241,58 +241,57 @@ for(let i=0;i<100;i++){
 
 function draw(){
 
-  // 🌸 轻微拖尾（非常淡）
-  ctx.fillStyle="rgba(0,0,0,0.06)";
+  // 🌸 非常非常轻的拖尾
+  ctx.fillStyle="rgba(0,0,0,0.02)";
   ctx.globalCompositeOperation="destination-out";
   ctx.fillRect(0,0,canvas.width,canvas.height);
-  ctx.globalCompositeOperation="lighter";
+  ctx.globalCompositeOperation="source-over"; // 关键：不要用 lighter
 
   const rect = title.getBoundingClientRect();
 
   particles.forEach(p=>{
 
-    // 🌸 呼吸
-    p.phase+=0.03;
-    let breath = Math.sin(p.phase)*0.2+0.8;
+    // 🌸 很轻微呼吸
+    p.phase+=0.01;
+    let breath = Math.sin(p.phase)*0.08+0.92;
     let r = p.baseR * breath;
 
-    // 🌸 上升漂浮
+    // 🌸 极慢上升
     p.y -= p.speedY;
     p.x += p.driftX;
 
-    if(p.y < -10){
-      p.y = canvas.height + 10;
+    if(p.y < -5){
+      p.y = canvas.height + 5;
       p.x = Math.random()*canvas.width;
     }
 
-    if(p.x<0||p.x>canvas.width)p.driftX*=-1;
-
+    // 🌸 判断靠近标题
     let near =
-      p.x > rect.left-120 &&
-      p.x < rect.right+120 &&
-      p.y > rect.top-120 &&
-      p.y < rect.bottom+120;
+      p.x > rect.left-100 &&
+      p.x < rect.right+100 &&
+      p.y > rect.top-100 &&
+      p.y < rect.bottom+100;
 
-    let glowAlpha = near ? 0.9 : 0.6;
+    let glowAlpha = near ? 0.7 : 0.5;
 
-    // 🌸 外层光晕（蓝粉色，不是白）
+    // 🌸 蓝粉中心 + 柔光边缘
     const gradient = ctx.createRadialGradient(
       p.x,p.y,0,
-      p.x,p.y,r*4
+      p.x,p.y,r*3
     );
 
     if(p.color==="blue"){
-      gradient.addColorStop(0,"rgba(121,203,216,"+glowAlpha+")");   // 中心蓝
-      gradient.addColorStop(0.4,"rgba(121,203,216,0.4)");
+      gradient.addColorStop(0,"rgba(121,203,216,0.9)"); // 中心纯蓝
+      gradient.addColorStop(0.4,"rgba(121,203,216,"+glowAlpha+")");
       gradient.addColorStop(1,"rgba(121,203,216,0)");
     }else{
-      gradient.addColorStop(0,"rgba(242,179,198,"+glowAlpha+")");   // 中心粉
-      gradient.addColorStop(0.4,"rgba(242,179,198,0.4)");
+      gradient.addColorStop(0,"rgba(242,179,198,0.9)"); // 中心纯粉
+      gradient.addColorStop(0.4,"rgba(242,179,198,"+glowAlpha+")");
       gradient.addColorStop(1,"rgba(242,179,198,0)");
     }
 
     ctx.beginPath();
-    ctx.arc(p.x,p.y,r*4,0,Math.PI*2);
+    ctx.arc(p.x,p.y,r*3,0,Math.PI*2);
     ctx.fillStyle=gradient;
     ctx.fill();
 
