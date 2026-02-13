@@ -276,15 +276,15 @@ function draw(){
       p.x,p.y,r*4
     );
 
-    if(p.color==="blue"){
-      gradient.addColorStop(0,"rgba(121,203,216,1)"); // 中心纯蓝
-      gradient.addColorStop(0.3,"rgba(121,203,216,"+glowStrength+")");
-      gradient.addColorStop(1,"rgba(121,203,216,0)");
-    }else{
-      gradient.addColorStop(0,"rgba(242,179,198,1)"); // 中心纯粉
-      gradient.addColorStop(0.3,"rgba(242,179,198,"+glowStrength+")");
-      gradient.addColorStop(1,"rgba(242,179,198,0)");
-    }
+   if(p.color==="blue"){
+  gradient.addColorStop(0,"rgba(121,203,216,0.75)");   // 中心更透明
+  gradient.addColorStop(0.3,"rgba(121,203,216,"+(glowStrength*0.6)+")");
+  gradient.addColorStop(1,"rgba(121,203,216,0)");
+}else{
+  gradient.addColorStop(0,"rgba(242,179,198,0.75)");
+  gradient.addColorStop(0.3,"rgba(242,179,198,"+(glowStrength*0.6)+")");
+  gradient.addColorStop(1,"rgba(242,179,198,0)");
+}
 
     ctx.beginPath();
     ctx.arc(p.x,p.y,r*4,0,Math.PI*2);
