@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<title>幸福时刻</title>
+<title>🩵🩷幸福时刻🩷🩵</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -90,7 +90,7 @@ body{
   flex:1;
   padding:20px;
   overflow-y:auto;
-  min-width:0; /* 防止 flex overflow */
+  min-width:0;
 }
 
 /* 留言卡片 */
@@ -152,7 +152,6 @@ body{
 
 <body>
 
-<!-- 粒子容器 -->
 <div class="particles" id="particles"></div>
 
 <div class="layout">
@@ -176,7 +175,10 @@ for(let i=0;i<25;i++){
   p.style.width=size+"px";
   p.style.height=size+"px";
   p.style.left=Math.random()*100+"%";
-  p.style.background = Math.random()>0.5 ? "#ffffff" : "#ffd1ec";
+
+  /* 这里把白色改成蓝色 */
+  p.style.background = Math.random()>0.5 ? "#7ecbff" : "#ffd1ec";
+
   p.style.animationDuration = (Math.random()*15+10)+"s";
   p.style.animationDelay = Math.random()*10+"s";
   particleContainer.appendChild(p);
