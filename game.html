@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>🩵🩷星路无限 - 心动射击🩷🩵</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
 body{
   margin:0;
@@ -230,27 +229,18 @@ const finalScore = document.getElementById('finalScore');
 const finalLevel = document.getElementById('finalLevel');
 const gameArea = document.getElementById('gameArea');
 
-let particles=[], score=0, timeLeft=60, lastType=null, gameTimer, moveTimer, gameOver=false, finalMode=false;
+let particles=[], score=0, timeLeft=60, lastType=null, gameTimer, moveTimer, finalMode=false;
 
 // 获取屏幕宽高
-function getScreenSize(){
-  return {width:window.innerWidth,height:window.innerHeight};
-}
+function getScreenSize(){return {width:window.innerWidth,height:window.innerHeight};}
 
 // 创建粒子
 function createParticles(){
   const {width,height}=getScreenSize();
   particles=[];
   for(let i=0;i<60;i++){
-    let type=Math.random()>0.5?"star":"heart";
-    particles.push({
-      id:i,
-      type:type,
-      icon:type=="star"?"✦":"♡",
-      x:Math.random()*width,
-      y:Math.random()*height,
-      r:Math.random()*360
-    });
+    const type=Math.random()>0.5?"star":"heart";
+    particles.push({id:i,type,typeIcon:type==="star"?"✦":"♡",x:Math.random()*width,y:Math.random()*height,r:Math.random()*360});
   }
   renderParticles();
 }
@@ -258,14 +248,14 @@ function createParticles(){
 // 渲染粒子
 function renderParticles(){
   gameArea.innerHTML='';
-  particles.forEach(p=>{
+  particles.forEach((p,index)=>{
     const el=document.createElement('div');
     el.className=`particle ${p.type}`;
     el.style.left=p.x+'px';
     el.style.top=p.y+'px';
     el.style.transform=`rotate(${p.r}deg)`;
-    el.textContent=p.icon;
-    el.dataset.id=p.id;
+    el.textContent=p.typeIcon;
+    el.dataset.index=index;
     el.addEventListener('click',hitParticle);
     gameArea.appendChild(el);
   });
@@ -278,7 +268,7 @@ function moveParticles(){
     particles.forEach(p=>{
       p.y-=3;
       p.x+=Math.random()*4-2;
-      if(p.y<-20){p.y=height; p.x=Math.random()*width;}
+      if(p.y<-20){p.y=height;p.x=Math.random()*width;}
       if(p.x<0)p.x=width;
       if(p.x>width)p.x=0;
     });
@@ -288,20 +278,18 @@ function moveParticles(){
 
 // 点击粒子
 function hitParticle(e){
-  const id=parseInt(e.currentTarget.dataset.id);
-  const p=particles[id];
+  const index=parseInt(e.currentTarget.dataset.index);
+  const p=particles[index];
   if(!p)return;
 
   if(lastType===null){lastType=p.type; return;}
   if(lastType!==p.type){
-    score++;
-    scoreEl.textContent=score;
+    score++; scoreEl.textContent=score;
     lastType=p.type;
     showScore(p.x,p.y);
     checkSpecial(score);
   }
-  showRipple(p);
-  showEffect(p);
+  showRipple(p); showEffect(p);
 }
 
 // 分数飘字
@@ -397,7 +385,7 @@ startBtn.addEventListener('click',()=>{
   score=0; scoreEl.textContent=0;
   timeLeft=60; timeEl.textContent=60;
   lastType=null;
-  gameOver=false; finalMode=false;
+  finalMode=false;
   createParticles(); moveParticles();
   gameTimer=setInterval(()=>{
     timeLeft--;
@@ -410,7 +398,6 @@ startBtn.addEventListener('click',()=>{
 function endGame(){
   clearInterval(gameTimer);
   clearInterval(moveTimer);
-  gameOver=true;
   gameContainer.style.display='none';
   winScreen.style.display='flex';
   finalScore.textContent='最终得分: '+score;
