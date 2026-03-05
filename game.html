@@ -272,11 +272,9 @@ function createParticles(){
       type:type,
       icon:type=="star"?"✦":"♡",
       x:Math.random()*width,
-      y:Math.random()*height,
+      y:height+Math.random()*height, // 从下方随机起点
       r:Math.random()*360,
-      size:48,
-      vx:(Math.random()*2-1)*1.5, // 随机水平速度
-      vy:-(Math.random()*2 + 1)    // 随机向上速度
+      size:48
     });
   }
   renderParticles();
@@ -296,28 +294,22 @@ function renderParticles(){
   });
 }
 
-// 移动粒子（乱飘版）
+// 移动粒子（从下往上乱飘）
 function moveParticles(){
   const {width,height}=getScreenSize();
-  moveTimer = setInterval(()=>{
+  moveTimer=setInterval(()=>{
     particles.forEach(p=>{
-      p.x += p.vx;
-      p.y += p.vy;
-
-      if(p.y < -50){
-        p.y = height + Math.random()*50;
-        p.x = Math.random()*width;
-        p.vx = (Math.random()*2-1)*1.5;
-        p.vy = -(Math.random()*2 + 1);
-      }
-      if(p.x < -50) p.x = width + Math.random()*50;
-      if(p.x > width + 50) p.x = -50;
+      p.y-=2+Math.random()*3; // 上升速度随机
+      p.x+=Math.random()*4-2; // 横向飘动
+      if(p.y<-50)p.y=height+Math.random()*50; // 超出顶部重新从下方出现
+      if(p.x<0)p.x=width;
+      if(p.x>width)p.x=0;
     });
     renderParticles();
-  },50);
+  },80);
 }
 
-// 点击检测（增强版，半径碰撞）
+// 点击检测（兼容桌面和触控）
 function handleClick(x,y){
   particles.forEach(p=>{
     const dx = x - (p.x + p.size/2);
@@ -446,11 +438,19 @@ startBtn.addEventListener('click',()=>{
   },1000);
 });
 
-// 监听点击/触控
-document.addEventListener('click', e => handleClick(e.clientX, e.clientY));
-document.addEventListener('touchstart', e => {
+// 监听点击/触控（兼容桌面）
+gameArea.addEventListener('click', e => {
+  const rect = gameArea.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  handleClick(x, y);
+});
+gameArea.addEventListener('touchstart', e => {
   const t = e.touches[0];
-  handleClick(t.clientX, t.clientY);
+  const rect = gameArea.getBoundingClientRect();
+  const x = t.clientX - rect.left;
+  const y = t.clientY - rect.top;
+  handleClick(x, y);
 });
 
 // 游戏结束
