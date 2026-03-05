@@ -274,7 +274,9 @@ function createParticles(){
       x:Math.random()*width,
       y:Math.random()*height,
       r:Math.random()*360,
-      size:48
+      size:48,
+      vx:(Math.random()*2-1)*1.5, // 随机水平速度
+      vy:-(Math.random()*2 + 1)    // 随机向上速度
     });
   }
   renderParticles();
@@ -294,19 +296,25 @@ function renderParticles(){
   });
 }
 
-// 移动粒子
+// 移动粒子（乱飘版）
 function moveParticles(){
   const {width,height}=getScreenSize();
-  moveTimer=setInterval(()=>{
+  moveTimer = setInterval(()=>{
     particles.forEach(p=>{
-      p.y-=3;
-      p.x+=Math.random()*4-2;
-      if(p.y<-50)p.y=height;
-      if(p.x<0)p.x=width;
-      if(p.x>width)p.x=0;
+      p.x += p.vx;
+      p.y += p.vy;
+
+      if(p.y < -50){
+        p.y = height + Math.random()*50;
+        p.x = Math.random()*width;
+        p.vx = (Math.random()*2-1)*1.5;
+        p.vy = -(Math.random()*2 + 1);
+      }
+      if(p.x < -50) p.x = width + Math.random()*50;
+      if(p.x > width + 50) p.x = -50;
     });
     renderParticles();
-  },80);
+  },50);
 }
 
 // 点击检测（增强版，半径碰撞）
