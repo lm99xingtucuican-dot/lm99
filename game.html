@@ -74,12 +74,12 @@ body{
 .particle{
   position:absolute;
   display:block;
-  font-size:28px;
   transition:transform 0.1s linear;
   text-shadow:0 0 6px rgba(255,255,255,0.5),
               0 0 12px rgba(255,255,255,0.3),
               0 0 20px rgba(255,255,255,0.2);
   cursor:pointer;
+  user-select:none;
 }
 .star{
   color:#f2b3c6;
@@ -238,6 +238,7 @@ const gameArea = document.getElementById('gameArea');
 
 let particles=[], score=0, timeLeft=60, lastType=null, gameTimer, moveTimer, finalMode=false;
 
+// 屏幕尺寸
 function getScreenSize(){return {width:window.innerWidth,height:window.innerHeight};}
 
 // 创建粒子
@@ -249,10 +250,11 @@ function createParticles(){
     particles.push({
       id:i,
       type:type,
-      icon:type=="star"?"✦":"♡",
+      icon:type=="star"?"✦":"❤",  // ✅ 实心爱心
       x:Math.random()*width,
       y:Math.random()*height,
-      r:Math.random()*360
+      r:Math.random()*360,
+      size:28+Math.random()*12  // ✅ 随机大小，提高点击率
     });
   }
   renderParticles();
@@ -267,6 +269,7 @@ function renderParticles(){
     el.style.left=p.x+'px';
     el.style.top=p.y+'px';
     el.style.transform=`rotate(${p.r}deg)`;
+    el.style.fontSize=p.size+'px';
     el.textContent=p.icon;
     el.addEventListener('click',()=>hitParticle(p));
     gameArea.appendChild(el);
@@ -336,7 +339,7 @@ function showEffect(p){
   setTimeout(()=>e.remove(),500);
 }
 
-// 检查彩蛋
+// 彩蛋
 function checkSpecial(score){
   if(score==11){showMsg("🩵🩷紧张吗"); alert("🩵🩷紧张吗"); addScore(11);}
   if(score==27){showMsg("🩵🩷有点"); alert("🩵🩷有点"); addScore(27);}
@@ -388,7 +391,7 @@ function getLevel(score){
   return "星途璀璨";
 }
 
-// 游戏开始
+// 开始游戏
 startBtn.addEventListener('click',()=>{
   startScreen.style.display='none';
   gameContainer.style.display='block';
