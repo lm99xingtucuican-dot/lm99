@@ -268,15 +268,17 @@ function createParticles(){
   gameArea.innerHTML='';
   for(let i=0;i<60;i++){
     let type=Math.random()>0.5?"star":"heart";
-    const p = {
-      id:i,
-      type:type,
-      icon:type=="star"?"✦":"♡",
-      x:Math.random()*width,
-      y:height + Math.random()*height,
-      r:Math.random()*360,
-      size:48
-    };
+const p = {
+  id:i,
+  type:type,
+  icon:type=="star"?"✦":"♡",
+  x:Math.random()*width,
+  y:height + Math.random()*height,
+  r:Math.random()*360,
+  size:48,
+  vx: (Math.random()-0.5)*1,   // x方向漂浮速度，-0.5~0.5
+  vy: 1 + Math.random()*2       // 上升速度，1~3
+};
     particles.push(p);
 
     const el=document.createElement('div');
@@ -303,20 +305,19 @@ function moveParticles(){
   moveTimer=setInterval(()=>{
     particles.forEach(p=>{
       // 上升速度随机
-      p.y -= 1 + Math.random()*3;
-
-      // x 坐标随机漂浮，但不震动
-      p.x += (Math.random()-0.5) * 1.5; // 小幅度随机漂移
+p.x += p.vx;  // 持续漂浮
+p.y -= p.vy;  // 上升
 
       // 到顶部重生
-      if(p.y < -50) {
-        p.y = height + Math.random()*50;
-        p.x = Math.random()*width;
-      }
+if(p.y < -50){
+  p.y = height + Math.random()*50;
+  p.x = Math.random()*width;
+  p.vx = (Math.random()-0.5)*1;  // 新漂浮速度
+  p.vy = 1 + Math.random()*2;     // 新上升速度
+}
+if(p.x < 0) p.x = width;
+if(p.x > width) p.x = 0;
 
-      // 保证 x 不越界
-      if(p.x < 0) p.x = 0;
-      if(p.x > width) p.x = width;
     });
     renderParticles();
   },80);
