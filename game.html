@@ -384,7 +384,7 @@ function checkSpecial(score){
   if(score>=271199 && !finalMode){finalMode=true; showMsg("永恒之爱"); galaxyExplosion();}
 }
 
-// 彩蛋弹出：平滑放大并停留
+// 彩蛋弹出：占屏幕一半，平滑放大并停留
 function showMsg(t){
   const msg = document.createElement('div');
   msg.className = 'scorePop';
@@ -392,7 +392,7 @@ function showMsg(t){
   msg.style.left = '50%';
   msg.style.top = '50%';
   msg.style.transform = 'translate(-50%, -50%) scale(0.5)'; // 从小开始
-  msg.style.fontSize = '64px';
+  msg.style.fontSize = '48px'; // 调整基础字体
   msg.style.fontWeight = 'bold';
   msg.style.color = 'white';
   msg.style.textAlign = 'center';
@@ -401,12 +401,12 @@ function showMsg(t){
   msg.textContent = t;
   gameArea.appendChild(msg);
 
-  // 动画：平滑放大到大约满屏，然后停留，再慢慢消失
+  // 动画：平滑放大到占屏幕一半，然后停留，再慢慢消失
   msg.animate([
     { transform: 'translate(-50%, -50%) scale(0.5)', opacity: 0 },
-    { transform: 'translate(-50%, -50%) scale(10)', opacity: 1 },
-    { transform: 'translate(-50%, -50%) scale(10)', opacity: 1 },
-    { transform: 'translate(-50%, -50%) scale(10)', opacity: 0 }
+    { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
+    { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
+    { transform: 'translate(-50%, -50%) scale(1)', opacity: 0 }
   ], {
     duration: 3000,  // 总时长3秒
     easing: 'ease-out',
