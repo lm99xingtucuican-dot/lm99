@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>🩵🩷星路无限 - 心动射击🩷🩵</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
 body{
   margin:0;
@@ -12,23 +11,21 @@ body{
   background:linear-gradient(135deg,#f2b3c6,#4ab7cc);
   overflow:hidden;
   cursor:none;
+  user-select:none;
+  -webkit-user-select:none;
 }
 
 .galaxy{
   position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
+  top:0;left:0;
+  width:100%;height:100%;
   pointer-events:none;
   z-index:0;
 }
-.galaxy::before,
-.galaxy::after{
+.galaxy::before,.galaxy::after{
   content:"";
   position:absolute;
-  width:200%;
-  height:200%;
+  width:200%;height:200%;
   background-image:
     radial-gradient(#ffffff55 2px, transparent 2px),
     radial-gradient(#f2b3c655 2px, transparent 2px),
@@ -36,164 +33,89 @@ body{
   background-size:120px 120px;
   animation:galaxyMove 40s linear infinite;
 }
-.galaxy::after{
-  animation-duration:70s;
-  opacity:0.6;
-}
-@keyframes galaxyMove{
-  from{transform:translateY(0);}
-  to{transform:translateY(-800px);}
-}
+.galaxy::after{animation-duration:70s;opacity:0.6;}
+@keyframes galaxyMove{from{transform:translateY(0);}to{transform:translateY(-800px);}}
 
 .top{
-  display:flex;
-  justify-content:space-between;
-  padding:20px;
-  color:white;
-  font-size:24px;
-  position:relative;
-  z-index:1;
+  display:flex;justify-content:space-between;
+  padding:20px;color:white;font-size:24px;
+  position:relative;z-index:1;
 }
 
-.container{
-  width:100%;
-  height:100vh;
-  position:relative;
-}
-.game{
-  position:relative;
-  width:100%;
-  height:calc(100% - 60px);
-  z-index:1;
-}
+.container{width:100%;height:100vh;position:relative;}
+.game{position:relative;width:100%;height:calc(100% - 60px);z-index:1;}
 
 .particle{
   position:absolute;
-  display:block;
   font-size:48px;
   padding:10px;
-  text-shadow:0 0 6px rgba(255,255,255,0.5),
-              0 0 12px rgba(255,255,255,0.3),
-              0 0 20px rgba(255,255,255,0.2);
+  text-shadow:0 0 6px rgba(255,255,255,0.5),0 0 12px rgba(255,255,255,0.3);
   cursor:pointer;
-  user-select:none;
 }
 .star{
   color:#f2b3c6;
-  text-shadow:0 0 8px #4ab7cc,
-              0 0 16px #4ab7cc,
-              0 0 24px #4ab7cc;
+  text-shadow:0 0 8px #4ab7cc,0 0 16px #4ab7cc,0 0 24px #4ab7cc;
   filter:drop-shadow(0 0 10px #4ab7cc);
 }
 .heart{
   color:#4ab7cc;
-  text-shadow:0 0 8px #f2b3c6,
-              0 0 16px #f2b3c6,
-              0 0 24px #f2b3c6;
+  text-shadow:0 0 8px #f2b3c6,0 0 16px #f2b3c6,0 0 24px #f2b3c6;
   filter:drop-shadow(0 0 10px #f2b3c6);
 }
 
 .effect{
-  position:absolute;
-  font-size:24px;
+  position:absolute;font-size:24px;
   animation:boom 0.5s forwards;
 }
-@keyframes boom{
-  0%{transform:scale(0.5);opacity:1;}
-  100%{transform:scale(2);opacity:0;}
-}
+@keyframes boom{0%{transform:scale(0.5);opacity:1;}100%{transform:scale(2);opacity:0;}}
 
 .scorePop{
-  position:absolute;
-  font-size:24px;
-  font-weight:bold;
-  color:white;
+  position:absolute;font-size:24px;font-weight:bold;color:white;
   animation:scoreUp 0.9s forwards;
 }
-@keyframes scoreUp{
-  0%{transform:translateY(0);opacity:1;}
-  100%{transform:translateY(-50px);opacity:0;}
-}
+@keyframes scoreUp{0%{transform:translateY(0);opacity:1;}100%{transform:translateY(-50px);opacity:0;}}
 
 .ripple{
-  position:absolute;
-  width:50px;
-  height:50px;
-  border:3px solid;
-  border-radius:50%;
+  position:absolute;width:50px;height:50px;border:3px solid;border-radius:50%;
   animation:wave 0.6s forwards;
 }
-@keyframes wave{
-  0%{transform:scale(0.3);opacity:1;}
-  100%{transform:scale(2.2);opacity:0;}
-}
+@keyframes wave{0%{transform:scale(0.3);opacity:1;}100%{transform:scale(2.2);opacity:0;}}
 
 .start{
-  position:fixed;
-  width:100%;
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  color:white;
-  z-index:2;
+  position:fixed;width:100%;height:100%;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  color:white;z-index:2;
 }
 .title1{
-  font-size:48px;
-  margin-bottom:20px;
+  font-size:48px;margin-bottom:20px;
   background:linear-gradient(45deg,#f2b3c6,#4ab7cc);
-  -webkit-background-clip:text;
-  color:transparent;
+  -webkit-background-clip:text;color:transparent;
 }
 .title2{
-  font-size:36px;
-  margin-bottom:40px;
+  font-size:36px;margin-bottom:40px;
   background:linear-gradient(45deg,#4ab7cc,#f2b3c6);
-  -webkit-background-clip:text;
-  color:transparent;
+  -webkit-background-clip:text;color:transparent;
 }
 .startBtn{
-  font-size:24px;
-  padding:12px 36px;
-  border-radius:20px;
+  font-size:24px;padding:12px 36px;border-radius:20px;
   background:linear-gradient(45deg,#f2b3c6,#4ab7cc);
-  color:white;
-  cursor:pointer;
-  box-shadow:0 0 10px rgba(255,255,255,0.4);
+  color:white;cursor:pointer;box-shadow:0 0 10px rgba(255,255,255,0.4);
 }
 
 .win{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  background:rgba(0,0,0,0.6);
-  color:white;
-  font-size:24px;
-  z-index:3;
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  background:rgba(0,0,0,0.6);color:white;font-size:24px;z-index:3;
 }
 .winTitle{
-  font-size:48px;
-  margin-bottom:20px;
+  font-size:48px;margin-bottom:20px;
   background:linear-gradient(45deg,#f2b3c6,#4ab7cc);
-  -webkit-background-clip:text;
-  color:transparent;
+  -webkit-background-clip:text;color:transparent;
 }
-.winText{
-  margin-bottom:10px;
-}
+.winText{margin-bottom:10px;}
 
 #catCursor{
-  position:fixed;
-  font-size:64px;
-  pointer-events:none;
-  z-index:9999;
+  position:fixed;font-size:64px;pointer-events:none;z-index:9999;
   transform:translate(-50%,-50%);
 }
 </style>
@@ -235,7 +157,12 @@ const finalLevel = document.getElementById('finalLevel');
 const gameArea = document.getElementById('gameArea');
 const catCursor = document.getElementById('catCursor');
 
-let particles=[], score=0, timeLeft=60, gameTimer, moveTimer, finalMode=false;
+let particles = [];
+let score = 0;
+let timeLeft = 60;
+let gameTimer, moveTimer;
+let finalMode = false;
+let clickedIds = new Set();
 
 document.addEventListener('mousemove', e => {
   catCursor.style.left = e.clientX + 'px';
@@ -248,66 +175,77 @@ document.addEventListener('touchmove', e => {
 });
 
 function getScreenSize(){
-  return {width:window.innerWidth, height:window.innerHeight};
+  return { width: window.innerWidth, height: window.innerHeight };
 }
 
 function createParticles(){
-  const {width,height}=getScreenSize();
-  particles=[];
+  const {width,height} = getScreenSize();
+  particles = [];
   for(let i=0;i<60;i++){
-    let type=Math.random()>0.5?"star":"heart";
+    let type = Math.random()>0.5 ? "star" : "heart";
     particles.push({
-      id:i,
-      type:type,
-      icon:type=="star"?"✦":"♡",
-      x:Math.random()*width,
-      y:Math.random()*height,
-      r:Math.random()*360,
-      size:48
+      id: i,
+      type: type,
+      icon: type=="star" ? "✦" : "♡",
+      x: Math.random()*width,
+      y: Math.random()*height,
+      r: Math.random()*360,
+      size: 48
     });
   }
   renderParticles();
 }
 
 function renderParticles(){
-  gameArea.innerHTML='';
-  particles.forEach(p=>{
-    const el=document.createElement('div');
-    el.className=`particle ${p.type}`;
-    el.style.left=p.x+'px';
-    el.style.top=p.y+'px';
-    el.style.transform=`rotate(${p.r}deg)`;
-    el.textContent=p.icon;
+  gameArea.innerHTML = '';
+  particles.forEach(p => {
+    const el = document.createElement('div');
+    el.className = `particle ${p.type}`;
+    el.style.left = p.x + 'px';
+    el.style.top = p.y + 'px';
+    el.style.transform = `rotate(${p.r}deg)`;
+    el.textContent = p.icon;
     el.dataset.id = p.id;
     gameArea.appendChild(el);
   });
 }
 
 function moveParticles(){
-  const {width,height}=getScreenSize();
-  moveTimer=setInterval(()=>{
-    particles.forEach(p=>{
-      p.y-=3;
-      p.x+=Math.random()*4-2;
-      if(p.y<-50)p.y=height;
-      if(p.x<0)p.x=width;
-      if(p.x>width)p.x=0;
+  const {width,height} = getScreenSize();
+  moveTimer = setInterval(()=>{
+    particles.forEach(p => {
+      p.y -= 3;
+      p.x += Math.random()*4 - 2;
+      if(p.y < -50) p.y = height;
+      if(p.x < 0) p.x = width;
+      if(p.x > width) p.x = 0;
     });
     renderParticles();
-  },80);
+  }, 80);
 }
 
-function handleClick(x,y){
-  let hitFound = false;
-  particles.forEach(p=>{
-    const dx = x - (p.x + 24);
-    const dy = y - (p.y + 24);
-    const dist = Math.sqrt(dx*dx + dy*dy);
-    if(dist < 40){
-      hitParticle(p);
-      hitFound = true;
+document.addEventListener('click', e => {
+  checkHit(e.clientX, e.clientY);
+});
+document.addEventListener('touchstart', e => {
+  e.preventDefault();
+  const t = e.touches[0];
+  checkHit(t.clientX, t.clientY);
+}, { passive: false });
+
+function checkHit(x, y){
+  const elements = document.elementsFromPoint(x, y);
+  for(const el of elements){
+    if(el.classList.contains('particle')){
+      const id = parseInt(el.dataset.id);
+      if(!clickedIds.has(id)){
+        clickedIds.add(id);
+        const p = particles.find(item => item.id === id);
+        if(p) hitParticle(p);
+      }
+      break;
     }
-  });
+  }
 }
 
 function hitParticle(p){
@@ -315,40 +253,40 @@ function hitParticle(p){
   scoreEl.textContent = score;
   showScore(p.x, p.y);
   checkSpecial(score);
-
   showRipple(p);
   showEffect(p);
+  setTimeout(()=>clickedIds.delete(p.id), 300);
 }
 
 function showScore(x,y){
-  const s=document.createElement('div');
-  s.className='scorePop';
-  s.style.left=x+'px';
-  s.style.top=y+'px';
-  s.textContent='+1';
+  const s = document.createElement('div');
+  s.className = 'scorePop';
+  s.style.left = x + 'px';
+  s.style.top = y + 'px';
+  s.textContent = '+1';
   gameArea.appendChild(s);
-  setTimeout(()=>s.remove(),900);
+  setTimeout(()=>s.remove(), 900);
 }
 
 function showRipple(p){
-  const r=document.createElement('div');
-  r.className='ripple';
-  r.style.left=p.x+'px';
-  r.style.top=p.y+'px';
-  r.style.borderColor=p.type=="star"?"#f2b3c6":"#4ab7cc";
+  const r = document.createElement('div');
+  r.className = 'ripple';
+  r.style.left = p.x + 'px';
+  r.style.top = p.y + 'px';
+  r.style.borderColor = p.type=="star" ? "#f2b3c6" : "#4ab7cc";
   gameArea.appendChild(r);
-  setTimeout(()=>r.remove(),600);
+  setTimeout(()=>r.remove(), 600);
 }
 
 function showEffect(p){
-  const e=document.createElement('div');
-  e.className='effect';
-  e.style.left=p.x+'px';
-  e.style.top=p.y+'px';
-  e.style.color=p.type=="star"?"#4ab7cc":"#f2b3c6";
-  e.textContent='✦';
+  const e = document.createElement('div');
+  e.className = 'effect';
+  e.style.left = p.x + 'px';
+  e.style.top = p.y + 'px';
+  e.style.color = p.type=="star" ? "#4ab7cc" : "#f2b3c6";
+  e.textContent = '✦';
   gameArea.appendChild(e);
-  setTimeout(()=>e.remove(),500);
+  setTimeout(()=>e.remove(), 500);
 }
 
 function checkSpecial(score){
@@ -362,81 +300,77 @@ function checkSpecial(score){
 }
 
 function showMsg(t){
-  const msg=document.createElement('div');
-  msg.className='scorePop';
-  msg.style.left='50%';
-  msg.style.top='40%';
-  msg.style.transform='translate(-50%,-50%)';
-  msg.textContent=t;
+  const msg = document.createElement('div');
+  msg.className = 'scorePop';
+  msg.style.left = '50%';
+  msg.style.top = '40%';
+  msg.style.transform = 'translate(-50%,-50%)';
+  msg.textContent = t;
   gameArea.appendChild(msg);
-  setTimeout(()=>msg.remove(),1500);
+  setTimeout(()=>msg.remove(), 1500);
 }
 
 function addScore(v){
-  score+=v;
-  scoreEl.textContent=score;
+  score += v;
+  scoreEl.textContent = score;
 }
 
 function galaxyExplosion(){
-  const {width,height}=getScreenSize();
+  const {width,height} = getScreenSize();
   for(let i=0;i<60;i++){
-    const e=document.createElement('div');
-    e.className='effect';
-    e.style.left=Math.random()*width+'px';
-    e.style.top=Math.random()*height+'px';
-    e.style.color='#fff';
-    e.textContent='✦';
+    const e = document.createElement('div');
+    e.className = 'effect';
+    e.style.left = Math.random()*width + 'px';
+    e.style.top = Math.random()*height + 'px';
+    e.style.color = '#fff';
+    e.textContent = '✦';
     gameArea.appendChild(e);
-    setTimeout(()=>e.remove(),1000);
+    setTimeout(()=>e.remove(), 1000);
   }
 }
 
 function getLevel(score){
-  if(score<=11)return "初见";
-  if(score<=27)return "心动";
-  if(score<=108)return "牵手";
-  if(score<=1116)return "共振";
-  if(score<=2711)return "星途璀璨";
-  if(score>=271199)return "永恒之爱";
+  if(score<=11) return "初见";
+  if(score<=27) return "心动";
+  if(score<=108) return "牵手";
+  if(score<=1116) return "共振";
+  if(score<=2711) return "星途璀璨";
+  if(score>=271199) return "永恒之爱";
   return "星途璀璨";
 }
 
-startBtn.addEventListener('click',()=>{
-  startScreen.style.display='none';
-  gameContainer.style.display='block';
-  score=0; scoreEl.textContent=0;
-  timeLeft=60; timeEl.textContent=60;
-  finalMode=false;
+startBtn.addEventListener('click', ()=>{
+  startScreen.style.display = 'none';
+  gameContainer.style.display = 'block';
+  score = 0;
+  scoreEl.textContent = 0;
+  timeLeft = 60;
+  timeEl.textContent = 60;
+  finalMode = false;
+  clickedIds.clear();
   createParticles();
   moveParticles();
-  gameTimer=setInterval(()=>{
+  gameTimer = setInterval(()=>{
     timeLeft--;
-    timeEl.textContent=timeLeft;
-    if(timeLeft<=0) endGame();
-  },1000);
-});
-
-document.addEventListener('click', e => handleClick(e.clientX, e.clientY));
-document.addEventListener('touchstart', e => {
-  e.preventDefault();
-  const t = e.touches[0];
-  handleClick(t.clientX, t.clientY);
+    timeEl.textContent = timeLeft;
+    if(timeLeft <= 0) endGame();
+  }, 1000);
 });
 
 function endGame(){
   clearInterval(gameTimer);
   clearInterval(moveTimer);
-  gameContainer.style.display='none';
-  winScreen.style.display='flex';
-  finalScore.textContent='最终得分: '+score;
-  finalLevel.textContent='最终等级: '+getLevel(score);
+  gameContainer.style.display = 'none';
+  winScreen.style.display = 'flex';
+  finalScore.textContent = '最终得分: ' + score;
+  finalLevel.textContent = '最终等级: ' + getLevel(score);
 }
 
-window.addEventListener('resize',()=>{
-  const {width,height}=getScreenSize();
+window.addEventListener('resize', ()=>{
+  const {width,height} = getScreenSize();
   particles.forEach(p=>{
-    if(p.x>width)p.x=width;
-    if(p.y>height)p.y=height;
+    if(p.x>width) p.x=width;
+    if(p.y>height) p.y=height;
   });
 });
 </script>
