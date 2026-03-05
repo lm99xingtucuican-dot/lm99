@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>🩵🩷星路无限 - 心动射击🩷🩵</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
 body{
   margin:0;
@@ -74,12 +73,12 @@ body{
 .particle{
   position:absolute;
   display:block;
+  font-size:28px;
   transition:transform 0.1s linear;
   text-shadow:0 0 6px rgba(255,255,255,0.5),
               0 0 12px rgba(255,255,255,0.3),
               0 0 20px rgba(255,255,255,0.2);
   cursor:pointer;
-  user-select:none;
 }
 .star{
   color:#f2b3c6;
@@ -89,7 +88,7 @@ body{
   filter:drop-shadow(0 0 10px #4ab7cc);
 }
 .heart{
-  color:#4ab7cc;
+  color:#4ab7cc; /* 固定蓝色 */
   text-shadow:0 0 8px #f2b3c6,
               0 0 16px #f2b3c6,
               0 0 24px #f2b3c6;
@@ -238,7 +237,7 @@ const gameArea = document.getElementById('gameArea');
 
 let particles=[], score=0, timeLeft=60, lastType=null, gameTimer, moveTimer, finalMode=false;
 
-// 屏幕尺寸
+// 获取屏幕大小
 function getScreenSize(){return {width:window.innerWidth,height:window.innerHeight};}
 
 // 创建粒子
@@ -250,11 +249,10 @@ function createParticles(){
     particles.push({
       id:i,
       type:type,
-      icon:type=="star"?"✦":"❤",  // ✅ 实心爱心
+      icon:type=="star"?"✦":"❤", // 实心蓝色爱心
       x:Math.random()*width,
       y:Math.random()*height,
-      r:Math.random()*360,
-      size:28+Math.random()*12  // ✅ 随机大小，提高点击率
+      r:Math.random()*360
     });
   }
   renderParticles();
@@ -269,14 +267,13 @@ function renderParticles(){
     el.style.left=p.x+'px';
     el.style.top=p.y+'px';
     el.style.transform=`rotate(${p.r}deg)`;
-    el.style.fontSize=p.size+'px';
     el.textContent=p.icon;
     el.addEventListener('click',()=>hitParticle(p));
     gameArea.appendChild(el);
   });
 }
 
-// 粒子移动
+// 移动粒子
 function moveParticles(){
   const {width,height}=getScreenSize();
   moveTimer=setInterval(()=>{
@@ -339,7 +336,7 @@ function showEffect(p){
   setTimeout(()=>e.remove(),500);
 }
 
-// 彩蛋
+// 彩蛋和弹窗
 function checkSpecial(score){
   if(score==11){showMsg("🩵🩷紧张吗"); alert("🩵🩷紧张吗"); addScore(11);}
   if(score==27){showMsg("🩵🩷有点"); alert("🩵🩷有点"); addScore(27);}
@@ -350,7 +347,7 @@ function checkSpecial(score){
   if(score>=271199 && !finalMode){finalMode=true; showMsg("永恒之爱"); alert("永恒之爱"); galaxyExplosion();}
 }
 
-// 消息显示
+// 显示消息
 function showMsg(t){
   const msg=document.createElement('div');
   msg.className='scorePop';
@@ -391,7 +388,7 @@ function getLevel(score){
   return "星途璀璨";
 }
 
-// 开始游戏
+// 游戏开始
 startBtn.addEventListener('click',()=>{
   startScreen.style.display='none';
   gameContainer.style.display='block';
