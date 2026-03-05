@@ -298,17 +298,25 @@ function renderParticles(){
   });
 }
 
-// 移动粒子（乱飘上升）
 function moveParticles(){
   const {width,height}=getScreenSize();
   moveTimer=setInterval(()=>{
     particles.forEach(p=>{
-      p.y -= 2 + Math.random()*3;    // 上升
-      p.x += Math.random()*4 - 2;    // 横向随机漂
-      // 超出屏幕从底部重生
-      if(p.y < -50) p.y = height + Math.random()*50;
-      if(p.x < 0) p.x = width;
-      if(p.x > width) p.x = 0;
+      // 上升速度随机
+      p.y -= 1 + Math.random()*3;
+
+      // x 坐标随机漂浮，但不震动
+      p.x += (Math.random()-0.5) * 1.5; // 小幅度随机漂移
+
+      // 到顶部重生
+      if(p.y < -50) {
+        p.y = height + Math.random()*50;
+        p.x = Math.random()*width;
+      }
+
+      // 保证 x 不越界
+      if(p.x < 0) p.x = 0;
+      if(p.x > width) p.x = width;
     });
     renderParticles();
   },80);
